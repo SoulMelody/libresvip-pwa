@@ -1,0 +1,1 @@
+panel convert index.py --pwa --compiled

@@ -1,0 +1,1 @@
+panel serve index.py --autoreload
