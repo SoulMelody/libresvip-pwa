@@ -1,1 +1,1 @@
-panel convert index.py --pwa --compiled
+panel convert index.py --pwa --compiled --skip-embed

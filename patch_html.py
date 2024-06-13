@@ -7,8 +7,6 @@ import re
 
 MICROPIP_INSTALL_PATTERN = re.compile(r"\s*await micropip\.install\((.*)\);")
 PYODIDE_CDN_URL_PATTERN = re.compile(r"https://cdn\.jsdelivr\.net/pyodide/v([^/]+)/full/pyodide\.js")
-FILE_BROWSER_ROOT_PATTERN = re.compile(r'"align":"start","value":"([^"]*)"')
-FILE_BROWSER_LIST_PATTERN = re.compile(r'"align":"start","options":\[(.*?)\]')
 
 
 if __name__ == "__main__":
@@ -17,8 +15,6 @@ if __name__ == "__main__":
     whl_files = glob.glob("*.whl")
     origin_text = html_file.read_text(encoding="utf-8")
     origin_text = PYODIDE_CDN_URL_PATTERN.sub("pyodide/pyodide.js", origin_text)
-    origin_text = FILE_BROWSER_ROOT_PATTERN.sub('"align":"start","value":"/home/pyodide"', origin_text)
-    origin_text = FILE_BROWSER_LIST_PATTERN.sub('"align":"start","options":[]', origin_text)
     origin_lines = origin_text.splitlines()
     if line_num := next(
         (i for i, line in enumerate(origin_lines) if MICROPIP_INSTALL_PATTERN.search(line) is not None), None
