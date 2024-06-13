@@ -12,13 +12,15 @@ def download_wasm32_wheels() -> None:
 
     pyodide_dir = cwd / "pyodide"
     if not pyodide_dir.exists():
-        pyodide_version = "0.26.1"
-        bundle_url = (
-            f"https://github.com/pyodide/pyodide/releases/download/{pyodide_version}/pyodide-{pyodide_version}.tar.bz2"
-        )
-        with urllib.request.urlopen(bundle_url) as response:
-            (cwd / "pyodide.tar.bz2").write_bytes(response.read())
-        shutil.unpack_archive("pyodide.tar.bz2")
+        pyodide_bundle_file = cwd / "pyodide.tar.bz2"
+        if not pyodide_bundle_file.exists():
+            pyodide_version = "0.26.1"
+            bundle_url = (
+                f"https://github.com/pyodide/pyodide/releases/download/{pyodide_version}/pyodide-{pyodide_version}.tar.bz2"
+            )
+            with urllib.request.urlopen(bundle_url) as response:
+                pyodide_bundle_file.write_bytes(response.read())
+        shutil.unpack_archive(pyodide_bundle_file)
     lock_data = json.loads((pyodide_dir / "pyodide-lock.json").read_bytes())
 
     requirements_path = cwd / "requirements.txt"

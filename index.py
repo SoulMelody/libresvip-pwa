@@ -6,7 +6,6 @@ from typing import Optional, get_args, get_type_hints
 
 import panel as pn
 import param
-from panel.viewable import Viewer
 from param.parameterized import Event
 from pydantic import BaseModel
 from pydantic_core import PydanticUndefined
@@ -52,37 +51,38 @@ file_formats_grid[4:5, :] = progress_bar
 
 
 def start_conversion(event: Event) -> None:
-    if file_selector.value is not None:
-        total_values = len(file_selector.value)
-        input_plugin = plugin_manager.plugin_registry[input_select.value]
-        output_plugin = plugin_manager.plugin_registry[output_select.value]
-        if (input_option_cls := get_type_hints(input_plugin.plugin_object.load).get("options", None)):
-            input_option = input_option_cls.model_validate({x: getattr(input_options_param, x) for x in (input_options_param.param) if x != 'name'})
-        else:
-            return
-        if (output_option_cls := get_type_hints(output_plugin.plugin_object.dump).get("options", None)):
-            output_option = output_option_cls.model_validate({x: getattr(output_options_param, x) for x in (output_options_param.param) if x != 'name'})
-        else:
-            return
-        for i, value in enumerate(file_selector.value):
-            child_file = pathlib.Path(value)
-            target_file = child_file.with_suffix(f".{output_select.value}")
-            try:
-                project = input_plugin.plugin_object.load(child_file, input_option)
-                for middleware_index in middleware_options_accordion.active:
-                    middleware_param = middleware_params[middleware_index]
-                    middleware = middleware_manager.plugin_registry[middleware_param.name]
-                    if middleware_option_cls := get_type_hints(middleware.plugin_object.process).get(
-                        "options",
-                    ):
-                        middleware_option = middleware_option_cls.model_validate({x: getattr(middleware_param, x) for x in (middleware_param.param) if x != 'name'})
-                        project = middleware.process(project, middleware_option)
-                output_plugin.plugin_object.dump(target_file, project, output_option)
-            except Exception as e:
-                pn.state.notifications.error(f"Error converting {child_file}: {e}")
-            progress_bar.value = int((i + 1) / total_values * 100)
-        pn.state.notifications.info("Conversion finished")
-        file_selector._refresh()
+    if file_selector.value is None:
+        return
+    total_values = len(file_selector.value)
+    input_plugin = plugin_manager.plugin_registry[input_select.value]
+    output_plugin = plugin_manager.plugin_registry[output_select.value]
+    if (input_option_cls := get_type_hints(input_plugin.plugin_object.load).get("options", None)):
+        input_option = input_option_cls.model_validate({x: getattr(input_options_param, x) for x in (input_options_param.param) if x != 'name'})
+    else:
+        return
+    if (output_option_cls := get_type_hints(output_plugin.plugin_object.dump).get("options", None)):
+        output_option = output_option_cls.model_validate({x: getattr(output_options_param, x) for x in (output_options_param.param) if x != 'name'})
+    else:
+        return
+    for i, value in enumerate(file_selector.value):
+        child_file = pathlib.Path(value)
+        target_file = child_file.with_suffix(f".{output_select.value}")
+        try:
+            project = input_plugin.plugin_object.load(child_file, input_option)
+            for middleware_index in middleware_options_accordion.active:
+                middleware_param = middleware_params[middleware_index]
+                middleware = middleware_manager.plugin_registry[middleware_param.name]
+                if middleware_option_cls := get_type_hints(middleware.plugin_object.process).get(
+                    "options",
+                ):
+                    middleware_option = middleware_option_cls.model_validate({x: getattr(middleware_param, x) for x in (middleware_param.param) if x != 'name'})
+                    project = middleware.process(project, middleware_option)
+            output_plugin.plugin_object.dump(target_file, project, output_option)
+        except Exception as e:
+            pn.state.notifications.error(f"Error converting {child_file}: {e}")
+        progress_bar.value = int((i + 1) / total_values * 100)
+    pn.state.notifications.info("Conversion finished")
+    file_selector._refresh()
 
 convert_btn.on_click(start_conversion)
 gspec[0:1, 0:7] = file_formats_grid
@@ -182,13 +182,13 @@ def middleware_options_form():
 
 middleware_options_accordion = middleware_options_form()
 
-accordion = pn.Accordion(
+tabs = pn.Tabs(
     input_options_card,
     middleware_options_accordion,
     output_options_card
 )
-accordion.active = [0]
-gspec[:, 7:10] = accordion
+tabs.active = 0
+gspec[:, 7:10] = tabs
 
 file_input = pn.widgets.FileInput(multiple=True)
 upload_btn = pn.widgets.Button(name='Upload', button_type='primary')
