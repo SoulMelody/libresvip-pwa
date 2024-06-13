@@ -1,1 +1,2 @@
+panel
 pip-tools

@@ -31,13 +31,13 @@ def download_wasm32_wheels() -> None:
             continue
         if requirement.name in lock_data["packages"] and (
             wheel_name := lock_data['packages'][requirement.name]['file_name']
-        ) and not wheel_name.endswith("none-any.whl"):
+        ) and (requirement.name == "pydantic" or not wheel_name.endswith("none-any.whl")):
             shutil.copy2(pyodide_dir / wheel_name, wheel_name)
         elif (
-            requirement.marker is None or (requirement.marker.evaluate(
+            requirement.marker is None or requirement.marker.evaluate(
                 environment={"sys_platform": "emscripten"}
-            ) is True and requirement.name != "pymediainfo")
-        ):
+            ) is True
+        ) and requirement.name not in ["pymediainfo", "win32-setctime"]:
             try:
                 subprocess.check_call(["pip", "download", f"{requirement.name}{requirement.specifier}", "--no-deps", "--platform", "wasm32", "--only-binary", ":all:"])
             except subprocess.CalledProcessError:

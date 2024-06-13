@@ -1,16 +1,15 @@
 import pathlib
 
 import tornado.web
-from tornado.web import RequestHandler, StaticFileHandler
 
 
-class IndexHandler(RequestHandler):
+class IndexHandler(tornado.web.RequestHandler):
     def get(self) -> None:
         self.add_header("Content-Type", "text/html")
         self.write(pathlib.Path("index.html").read_bytes())
 
 
-class MyStaticFileHandler(StaticFileHandler):
+class MyStaticFileHandler(tornado.web.StaticFileHandler):
     def get_content_type(self) -> str:
         path_suffix = pathlib.Path(self.absolute_path).suffix
         if path_suffix == ".js":
