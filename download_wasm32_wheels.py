@@ -32,7 +32,8 @@ def download_wasm32_wheels() -> None:
         if requirement.name in lock_data["packages"] and (
             wheel_name := lock_data['packages'][requirement.name]['file_name']
         ) and (requirement.name == "pydantic" or not wheel_name.endswith("none-any.whl")):
-            shutil.copy2(pyodide_dir / wheel_name, wheel_name)
+            if requirement.name not in ["charset-normalizer", "pyyaml"]:
+                shutil.copy2(pyodide_dir / wheel_name, wheel_name)
         elif (
             requirement.marker is None or requirement.marker.evaluate(
                 environment={"sys_platform": "emscripten"}
