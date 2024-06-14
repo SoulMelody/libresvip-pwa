@@ -38,11 +38,11 @@ def download_wasm32_wheels() -> None:
             requirement.marker is None or requirement.marker.evaluate(
                 environment={"sys_platform": "emscripten"}
             ) is True
-        ) and requirement.name not in ["colorama", "pymediainfo", "win32-setctime"]:
+        ) and requirement.name not in ["colorama", "win32-setctime"]:
             try:
                 subprocess.check_call(["pip", "download", f"{requirement.name}{requirement.specifier}", "--no-deps", "--platform", "wasm32", "--only-binary", ":all:"])
             except subprocess.CalledProcessError:
-                subprocess.check_call(["pip", "wheel", f"{requirement.name}{requirement.specifier}"])
+                subprocess.check_call(["pip", "wheel", f"{requirement.name}{requirement.specifier}", "--no-binary", ":all:"])
 
 
 if __name__ == "__main__":
