@@ -13,6 +13,10 @@ from pydantic_extra_types.color import Color
 
 from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel
+from libresvip.utils import translation
+
+translation.singleton_translation = translation.get_translation()
+translation.singleton_translation.install()
 
 pn.extension(notifications=True)
 
@@ -64,6 +68,7 @@ def start_conversion(event: Event) -> None:
         output_option = output_option_cls.model_validate({x: getattr(output_options_param, x) for x in (output_options_param.param) if x != 'name'})
     else:
         return
+    has_error = False
     for i, value in enumerate(file_selector.value):
         child_file = pathlib.Path(value)
         target_file = child_file.with_suffix(f".{output_select.value}")
@@ -79,9 +84,13 @@ def start_conversion(event: Event) -> None:
                     project = middleware.process(project, middleware_option)
             output_plugin.plugin_object.dump(target_file, project, output_option)
         except Exception as e:
+            has_error = True
             pn.state.notifications.error(f"Error converting {child_file}: {e}")
         progress_bar.value = int((i + 1) / total_values * 100)
-    pn.state.notifications.info("Conversion finished")
+    if has_error:
+        pn.state.notifications.error("Conversion finished with errors")
+    else:
+        pn.state.notifications.info("Conversion finished")
     file_selector._refresh()
 
 convert_btn.on_click(start_conversion)
