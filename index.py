@@ -15,23 +15,25 @@ from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel
 from libresvip.utils import translation
 
-translation.singleton_translation = translation.get_translation()
-translation.singleton_translation.install()
 
-pn.extension(notifications=True)
+lang = pn.state.location.query_params.get("lang", "en_US")
+
+translation.singleton_translation = translation.get_translation(lang=lang)
+translation.singleton_translation.install()
+pn.extension(notifications=True, npm_cdn="https://unpkg.com")
 
 base_dir = pathlib.Path('~').expanduser()
 base_dir.mkdir(exist_ok=True, parents=True)
 
 format_options = {
-    f"{plugin.file_format} (*.{plugin.suffix})": identifier
+    f"{_(plugin.file_format)} (*.{plugin.suffix})": identifier
     for identifier, plugin in plugin_manager.plugin_registry.items()
 }
-input_select = pn.widgets.Select(name='Input format', options=format_options)
-swap_btn = pn.widgets.Button(name='Swap input/output', height=35)
-output_select = pn.widgets.Select(name='Output format', options=format_options)
-convert_btn = pn.widgets.Button(name='Convert', button_type='primary')
-progress_bar = pn.indicators.Progress(name='Conversion Progress', active=False, value=0)
+input_select = pn.widgets.Select(name=_('Input Format: '), options=format_options)
+swap_btn = pn.widgets.Button(name=_('Swap Input and Output'), height=35)
+output_select = pn.widgets.Select(name=_('Output Format: '), options=format_options)
+convert_btn = pn.widgets.Button(name=_('Convert'), button_type='primary')
+progress_bar = pn.indicators.Progress(active=False, value=0)
 
 def swap_selects(clicked: bool) -> None:
     if clicked:
@@ -42,7 +44,7 @@ pn.bind(swap_selects, swap_btn, watch=True)
 gspec = pn.GridSpec(sizing_mode="scale_both")
 
 file_formats_grid = pn.GridSpec(sizing_mode="scale_both")
-file_formats_grid[0:1, :] = pn.widgets.StaticText(value="File Formats", styles={"font-size": "20px"})
+file_formats_grid[0:1, :] = pn.widgets.StaticText(value=_("Select File Formats"), styles={"font-size": "20px"})
 file_formats_grid[1:2, :] = input_select
 file_formats_grid[2:3, :] = output_select
 file_formats_grid[3:4, :] = pn.Row(
@@ -55,7 +57,7 @@ file_formats_grid[4:5, :] = progress_bar
 
 
 def start_conversion(event: Event) -> None:
-    if file_selector.value is None:
+    if file_selector.value is None or pn.state.busy:
         return
     total_values = len(file_selector.value)
     input_plugin = plugin_manager.plugin_registry[input_select.value]
@@ -88,9 +90,9 @@ def start_conversion(event: Event) -> None:
             pn.state.notifications.error(f"Error converting {child_file}: {e}")
         progress_bar.value = int((i + 1) / total_values * 100)
     if has_error:
-        pn.state.notifications.error("Conversion finished with errors")
+        pn.state.notifications.error(_("Conversion finished with errors"))
     else:
-        pn.state.notifications.info("Conversion finished")
+        pn.state.notifications.info(_("Conversion finished"))
     file_selector._refresh()
 
 convert_btn.on_click(start_conversion)
@@ -104,7 +106,7 @@ def pydantic_params(name: str, option_class: BaseModel) -> param.Parameterized:
     for option_key, field_info in option_class.model_fields.items():
         default_value = None if field_info.default is PydanticUndefined else field_info.default
         if issubclass(field_info.annotation, bool):
-            attrs[option_key] = param.Boolean(default_value, label=field_info.title)
+            attrs[option_key] = param.Boolean(default_value, label=_(field_info.title))
         elif issubclass(field_info.annotation, enum.Enum):
             if default_value is not None:
                 default_value = default_value.value
@@ -114,21 +116,21 @@ def pydantic_params(name: str, option_class: BaseModel) -> param.Parameterized:
                 if enum_item.name in annotations:
                     annotated_args = list(get_args(annotations[enum_item.name]))
                     if len(annotated_args) >= 2:
-                        _, enum_field = annotated_args[:2]
+                        arg_0, enum_field = annotated_args[:2]
                     else:
                         continue
-                    choices[enum_field.title] = enum_item.value
-            attrs[option_key] = param.Selector(objects=choices, default=default_value, label=field_info.title)
+                    choices[_(enum_field.title)] = enum_item.value
+            attrs[option_key] = param.Selector(objects=choices, default=default_value, label=_(field_info.title))
         elif issubclass(field_info.annotation, int):
-            attrs[option_key] = param.Integer(default_value, label=field_info.title)
+            attrs[option_key] = param.Integer(default_value, label=_(field_info.title))
         elif issubclass(field_info.annotation, float):
-            attrs[option_key] = param.Number(default_value, label=field_info.title)
+            attrs[option_key] = param.Number(default_value, label=_(field_info.title))
         elif issubclass(field_info.annotation, Color):
-            attrs[option_key] = param.Color(default_value, label=field_info.title)
+            attrs[option_key] = param.Color(default_value, label=_(field_info.title))
         elif issubclass(field_info.annotation, (str, BaseComplexModel)):
             if issubclass(field_info.annotation, BaseComplexModel):
                 default_value = field_info.annotation.default_repr()
-            attrs[option_key] = param.String(default_value, label=field_info.title)
+            attrs[option_key] = param.String(default_value, label=_(field_info.title))
     return type(
         name,
         (param.Parameterized,),
@@ -138,10 +140,10 @@ def pydantic_params(name: str, option_class: BaseModel) -> param.Parameterized:
 def input_options_form(options: pn.widgets.Select):
     plugin = plugin_manager.plugin_registry[options.value]
     if option := get_type_hints(plugin.plugin_object.load).get("options", None):
-        return pydantic_params("Input options", option)()
+        return pydantic_params(_("Input Options"), option)()
     return param.Parameterized()
 
-input_options_card = pn.Column(name="Input options")
+input_options_card = pn.Column(name=_("Input Options"))
 input_options_param = input_options_form(options=input_select)
 input_options_card.append(pn.Param(input_options_param))
 
@@ -156,10 +158,10 @@ input_select.link(input_options_card, callbacks={"value": input_options_changed}
 def output_options_form(options: pn.widgets.Select):
     plugin = plugin_manager.plugin_registry[options.value]
     if option := get_type_hints(plugin.plugin_object.dump).get("options", None):
-        return pydantic_params("Output options", option)()
+        return pydantic_params(_("Output Options"), option)()
     return param.Parameterized()
 
-output_options_card = pn.Column(name="Ouput options")
+output_options_card = pn.Column(name=_("Output Options"))
 output_options_param = output_options_form(options=output_select)
 output_options_card.append(pn.Param(output_options_param))
 
@@ -186,8 +188,8 @@ def middleware_options_form():
                 )
             )
         ):
-            middleware_params.append(pydantic_params(middleware_abbr, middleware_option_class)(name=middleware_abbr))
-    return pn.Accordion(*middleware_params, name="Intermediate processing")
+            middleware_params.append(pydantic_params(middleware_abbr, middleware_option_class)(name=_(middleware.name)))
+    return pn.Accordion(*middleware_params, name=_("Intermediate Processing"))
 
 middleware_options_accordion = middleware_options_form()
 
@@ -200,7 +202,7 @@ tabs.active = 0
 gspec[:, 7:10] = tabs
 
 file_input = pn.widgets.FileInput(multiple=True)
-upload_btn = pn.widgets.Button(name='Upload', button_type='primary')
+upload_btn = pn.widgets.Button(name=_('Upload'), button_type='primary')
 
 def download(values: Optional[list[str]]) -> None:
     buffer = io.BytesIO()
@@ -231,7 +233,7 @@ def upload(clicked: bool) -> None:
 pn.bind(upload, upload_btn, watch=True)
 
 files_flex_box = pn.FlexBox(
-    pn.widgets.StaticText(value="Files operations", styles={"font-size": "20px"}),
+    pn.widgets.StaticText(value=_("Files operations"), styles={"font-size": "20px"}),
     file_input,
     pn.Row(
         upload_btn,
@@ -240,22 +242,30 @@ files_flex_box = pn.FlexBox(
     align_content="center", height=400
 )
 
-menu_items = [('Convert', 'convert'), None, ('Swap input/output', 'swap_input_output')]
-menu_btn = pn.widgets.MenuButton(name='Convert', items=menu_items, button_type='primary', width=150)
+convert_menu_items = [(_('Convert'), 'convert'), None, (_('Swap Input and Output'), 'swap_input_output')]
+convert_menu_btn = pn.widgets.MenuButton(name=_('Convert'), items=convert_menu_items, button_type='primary', width=150)
 
-def on_menu_click(event: Event) -> None:
+def on_convert_menu_click(event: Event) -> None:
     if event.new == "convert":
         start_conversion(event)
     elif event.new == "swap_input_output":
         swap_selects(True)
 
-menu_btn.on_click(on_menu_click)
+convert_menu_btn.on_click(on_convert_menu_click)
+
+language_selector = pn.pane.HTML(f"""
+<div>
+    <a href="{pn.state.location.pathname}?lang=zh_CN">简体中文</a>
+    |
+    <a href="{pn.state.location.pathname}?lang=en_US">English</a>
+</div>
+""", sizing_mode="stretch_width")
 
 
 template = pn.template.BootstrapTemplate(
     title='LibreSVIP',
-    sidebar=[files_flex_box],
-    header=menu_btn
+    sidebar=[language_selector, files_flex_box],
+    header=convert_menu_btn
 )
 template.main.append(gspec)
 
