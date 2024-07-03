@@ -11,15 +11,15 @@ from pydantic import BaseModel
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 
-from libresvip.extension.manager import middleware_manager, plugin_manager
+from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel
 from libresvip.utils import translation
 
 
 lang = pn.state.location.query_params.get("lang", "en_US")
 
-translation.singleton_translation = translation.get_translation(lang=lang)
-translation.singleton_translation.install()
+translation.singleton_translation = get_translation(lang=lang)
+_ = translation.pgettext_lazy
 pn.extension(notifications=True, npm_cdn="https://unpkg.com")
 
 base_dir = pathlib.Path('~').expanduser()
