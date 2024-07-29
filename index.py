@@ -19,7 +19,7 @@ from libresvip.utils import translation
 lang = pn.state.location.query_params.get("lang", "en_US")
 
 translation.singleton_translation = get_translation(lang=lang)
-_ = translation.pgettext_lazy
+_ = translation.gettext_lazy
 pn.extension(notifications=True, npm_cdn="https://unpkg.com")
 
 base_dir = pathlib.Path('~').expanduser()
