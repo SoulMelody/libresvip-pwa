@@ -1,1 +1,1 @@
-pip-compile requirements.in --no-emit-index-url
+uv pip compile requirements.in --universal

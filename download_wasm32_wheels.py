@@ -27,7 +27,7 @@ def download_wasm32_wheels() -> None:
     requirements_path = cwd / "requirements.txt"
     for requirement_str in ["panel", *requirements_path.read_text().splitlines()]:
         try:
-            requirement = Requirement(requirement_str)
+            requirement = Requirement(requirement_str.replace("platform_python_implementation == 'CPython' and", ''))
         except InvalidRequirement:
             continue
         if requirement.name in lock_data["packages"] and (
@@ -37,9 +37,12 @@ def download_wasm32_wheels() -> None:
                 shutil.copy2(pyodide_dir / wheel_name, wheel_name)
         elif (
             requirement.marker is None or requirement.marker.evaluate(
-                environment={"sys_platform": "emscripten"}
+                environment={
+                    "platform_system": "Emscripten",
+                    "sys_platform": "emscripten"
+                }
             ) is True
-        ) and requirement.name not in ["colorama", "win32-setctime"]:
+        ):
             try:
                 subprocess.check_call([sys.executable, "-m", "pip", "download", f"{requirement.name}{requirement.specifier}", "--no-deps", "--platform", "wasm32", "--only-binary", ":all:"])
             except subprocess.CalledProcessError:

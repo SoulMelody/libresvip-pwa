@@ -1,2 +1,2 @@
 panel
-pip-tools
+uv
