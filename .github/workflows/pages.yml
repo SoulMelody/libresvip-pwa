@@ -12,6 +12,7 @@ jobs:
       - run: |
           python -m pip install -r requirements-dev.txt --upgrade
           bash compile_requirements.sh
+          python -m pip install -r requirements.in
           bash pwa_build.sh
           python download_wasm32_wheels.py
           python patch_html.py
