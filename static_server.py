@@ -6,7 +6,7 @@ import tornado.web
 class IndexHandler(tornado.web.RequestHandler):
     def get(self) -> None:
         self.add_header("Content-Type", "text/html")
-        self.write(pathlib.Path("index.html").read_bytes())
+        self.write(pathlib.Path("dist/index.html").read_bytes())
 
 
 class MyStaticFileHandler(tornado.web.StaticFileHandler):
@@ -17,7 +17,7 @@ class MyStaticFileHandler(tornado.web.StaticFileHandler):
         return super().get_content_type()
 
 
-current_path = pathlib.Path(__file__).parent
+current_path = pathlib.Path(__file__).parent / "dist"
 app = tornado.web.Application(
     [
         (r'^/$', IndexHandler),
