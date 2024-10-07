@@ -57,7 +57,7 @@ def download_wasm32_wheels() -> None:
         pyodide_core_bundle_file.write_bytes(response.read())
     shutil.unpack_archive(pyodide_core_bundle_file)
     pyodide_core_bundle_file.unlink()
-    for micropip_dependency in [*pyodide_dir.glob("micropip-*.whl"), *pyodide_dir.glob("packaging-*.whl")]:
+    for micropip_dependency in [*pyodide_dir.glob("micropip-*.whl"), *pyodide_dir.glob("packaging-*.whl"), *pyodide_dir.glob("pyodide_http-*.whl")]:
         shutil.copy2(micropip_dependency, cwd / "dist" / "pyodide")
 
 
