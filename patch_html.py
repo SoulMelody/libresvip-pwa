@@ -24,8 +24,8 @@ if __name__ == "__main__":
         indent = line.partition("await micropip.install(")[0]
         install_args = ast.literal_eval(install_args_str)
         patched_lines = [
-            f"{indent}await micropip.install({install_args[:3]})",
-            f"{indent}micropip.add_mock_package('packaging', '24.0')",
+            f"{indent}await micropip.install({install_args[2:3]})",
+            f"{indent}micropip.add_mock_package('packaging', '24.1')",
             f"{indent}await micropip.install({whl_files}, deps=False)",
         ]
         patched_lines = origin_lines[:line_num] + patched_lines + origin_lines[line_num + 1:]
