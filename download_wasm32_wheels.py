@@ -10,13 +10,13 @@ from pip._vendor.packaging.requirements import InvalidRequirement, Requirement
 
 
 def download_wasm32_wheels() -> None:
+    pyodide_version = "0.26.2"
     cwd = pathlib.Path().resolve()
 
     pyodide_dir = cwd / "pyodide"
     if not pyodide_dir.exists():
         pyodide_bundle_file = cwd / "pyodide.tar.bz2"
         if not pyodide_bundle_file.exists():
-            pyodide_version = "0.26.2"
             bundle_url = (
                 f"https://github.com/pyodide/pyodide/releases/download/{pyodide_version}/pyodide-{pyodide_version}.tar.bz2"
             )
@@ -49,6 +49,13 @@ def download_wasm32_wheels() -> None:
                 subprocess.check_call([sys.executable, "-m", "pip", "download", f"{requirement.name}{requirement.specifier}", "--no-deps", "--platform", "wasm32", "--only-binary", ":all:"])
             except subprocess.CalledProcessError:
                 subprocess.check_call([sys.executable, "-m", "pip", "wheel", f"{requirement.name}{requirement.specifier}", "--no-binary", ":all:"])
+    pyodide_core_bundle_file = cwd / "dist" / "pyodide.tar.bz2"
+    bundle_url = (
+        f"https://github.com/pyodide/pyodide/releases/download/{pyodide_version}/pyodide-core-{pyodide_version}.tar.bz2"
+    )
+    with urllib.request.urlopen(bundle_url) as response:
+        pyodide_core_bundle_file.write_bytes(response.read())
+    shutil.unpack_archive(pyodide_core_bundle_file)
 
 
 if __name__ == "__main__":
