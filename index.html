@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <title>LibreSVIP</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.holoviz.org/panel/1.5.2/dist/images/apple-touch-icon.png">
+        <link rel="icon" href="https://cdn.holoviz.org/panel/1.5.2/dist/images/favicon.ico" type="">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="name" content="LibreSVIP">
+    <link rel="manifest" href="">
+
+    <!-- Template JS -->
+    <script src="https://cdn.holoviz.org/panel/1.5.2/dist/bundled/bootstrap5/js/bootstrap.bundle.min.js"></script>
+    <style>
+      html, body {
+	display: flow-root;
+        box-sizing: border-box;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/bundled/notificationarea/notyf@3/notyf.min.css?v=1.5.2" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/bundled/font-awesome/css/all.min.css?v=1.5.2" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/css/notifications.css?v=1.5.2" type="text/css" />
+
+<style type="text/css">
+
+:host(.pn-loading):before, .pn-loading:before {
+  background-color: #c3c3c3;
+  mask-size: auto calc(min(50%, 400px));
+  -webkit-mask-size: auto calc(min(50%, 400px));
+}
+.py-error { display: none; }</style><script src="pyodide/pyodide.js"></script>
+
+<script type="text/javascript">
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./serviceWorker.js').then(reg => {
+    reg.onupdatefound = () => {
+      const installingWorker = reg.installing;
+      installingWorker.onstatechange = () => {
+        if (installingWorker.state === 'installed' &&
+            navigator.serviceWorker.controller) {
+          // Reload page if service worker is replaced
+          location.reload();
+        }
+      }
+    }
+  })
+}
+</script>
+
+<script type="esms-options">{"shimMode": true}</script>
+
+<script type="text/javascript" src="https://cdn.holoviz.org/panel/1.5.2/dist/bundled/reactiveesm/es-module-shims@^1.10.0/dist/es-module-shims.min.js"></script>
+<script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.holoviz.org/panel/1.5.2/dist/bundled/notificationarea/notyf@3/notyf.min.js"></script>
+<script type="text/javascript" src="https://cdn.holoviz.org/panel/1.5.2/dist/panel.min.js"></script>
+
+<script type="text/javascript">
+  Bokeh.set_log_level("info");
+</script>    <!-- Template CSS -->
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/css/loadingspinner.css">
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/css/listpanel.css">
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/css/button.css">
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/css/gridspec.css">
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/css/select.css">
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/css/progress.css">
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/css/divider.css">
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/css/markdown.css">
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/css/loading.css?v=1.5.2">
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/bundled/bootstrap5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/bundled/theme/default.css?v=1.5.2">
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/bundled/theme/bootstrap_default.css?v=1.5.2">
+    <link rel="stylesheet" href="https://cdn.holoviz.org/panel/1.5.2/dist/bundled/bootstraptemplate/bootstrap.css?v=1.5.2">
+    <style type="text/css">
+    
+:host(.pn-loading):before, .pn-loading:before {
+  background-color: #c3c3c3;
+  mask-size: auto calc(min(50%, 400px));
+  -webkit-mask-size: auto calc(min(50%, 400px));
+}
+    </style>
+
+    <style>
+      :root {
+	--header-background: var(--design-primary-color, var(--panel-primary-color));
+	--header-color: var(--design-primary-text-color, var(--panel-on-primary-color));
+	--sidebar-width: 350px;
+      }
+      #header, #header :host {
+	--bs-body-bg: var(--header-background);
+	--bs-body-color: var(--header-color);
+	--design-background-text-color: var(--header-color);
+	--design-background-color: var(--header-background);
+	background-color: var(--header-background);
+	color: var(--header-color);
+      }
+      #sidebar {
+	max-width: var(--sidebar-width) !important;
+	width: var(--sidebar-width);
+      }
+    </style>
+  </head>
+  <body class="pn-loading pn-arc">
+<div class="container-fluid d-flex flex-column vh-100 overflow-hidden" id="container">
+  <nav class="navbar navbar-expand-md sticky-top shadow" id="header">
+    <button type="button" id="sidebar-toggle" class="navbar-toggle" data-bs-toggle="collapse" data-bs-target="#sidebar" aria-expanded="true" aria-label="Toggle sidebar" aria-controls="sidebar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="app-header">
+<a class="title" href="" >&nbsp;LibreSVIP</a>    </div>
+    <div id="header-items">
+    <div id="479b574c-3825-47b4-839b-9a7d32e4bffe" data-root-id="p1032" style="display: contents;"></div>
+    </div>
+    <div class="pn-busy-container">
+      <div id="1614e555-92b5-43b0-b15f-14291621ff61" data-root-id="p1021" style="display: contents;"></div>
+    </div>
+  </nav>
+
+  <div class="row overflow-hidden" id="content">
+    <div class="sidenav collapse-horizontal show" id="sidebar">
+      <ul class="nav flex-column">
+        <div id="eb748812-0ac0-458d-8fc2-7b00bf84b781" data-root-id="p1022" style="display: contents;"></div>
+        <div id="8f81a05b-e48a-4a4d-9025-62d54b5ee41b" data-root-id="p1024" style="display: contents;"></div>
+      </ul>
+    </div>
+
+    <div class="col mh-100 float-left" id="main">
+          <div id="e0bdc6d5-b90c-4c99-94be-69ab88a2edb8" data-root-id="p1033" style="display: contents;"></div>
+    </div>
+  </div>
+
+  <div id="pn-Modal" class="modal fade pn-modal" role="dialog" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content pn-modal-content">
+	<button type="button" id="pn-closeModal" class="btn-close pn-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	<div class="modal-body">
+	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="01116119-7476-4ca8-924d-6232921adc4c" data-root-id="p1008" style="display: contents;"></div>
+<div id="92f941a0-a9a2-416a-91db-c597992c1ad8" data-root-id="p1010" style="display: contents;"></div>
+<div id="3e43954d-67ee-4da6-9c5c-b99b019c8648" data-root-id="p1002" style="display: contents;"></div>
+<div id="2fc3af5f-3fb7-4e76-a96e-b3740a72c10a" data-root-id="p1018" style="display: contents;"></div>
+<div id="cbe391b3-f9e3-470f-b184-147614e60722" data-root-id="p1019" style="display: contents;"></div>
+
+
+  
+    <script type="text/javascript">
+    async function main() {
+      let pyodide = await loadPyodide();
+      await pyodide.loadPackage("micropip");
+      await pyodide.runPythonAsync(`
+        import micropip
+        await micropip.install(['pyodide-http==0.2.1'])
+        micropip.add_mock_package('packaging', '24.1')
+        await micropip.install(['mido_fix-1.2.12-py2.py3-none-any.whl', 'pysubs2-1.7.3-py3-none-any.whl', 'uc_micro_py-1.0.3-py3-none-any.whl', 'typer_slim-0.12.5-py3-none-any.whl', 'mdit_py_plugins-0.4.2-py3-none-any.whl', 'pygments-2.18.0-py3-none-any.whl', 'pillow-10.2.0-cp312-cp312-pyodide_2024_0_wasm32.whl', 'markdown_it_py-3.0.0-py3-none-any.whl', 'packaging-24.1-py3-none-any.whl', 'construct_typing-0.6.2-py3-none-any.whl', 'regex-2024.4.16-cp312-cp312-pyodide_2024_0_wasm32.whl', 'annotated_types-0.7.0-py3-none-any.whl', 'mdurl-0.1.2-py3-none-any.whl', 'pandas-2.2.0-cp312-cp312-pyodide_2024_0_wasm32.whl', 'bokeh-3.6.0-py3-none-any.whl', 'six-1.16.0-py2.py3-none-any.whl', 'xyzservices-2024.9.0-py3-none-any.whl', 'pyviz_comms-3.0.3-py3-none-any.whl', 'proto_plus-1.24.0-py3-none-any.whl', 'numpy-1.26.4-cp312-cp312-pyodide_2024_0_wasm32.whl', 'construct-2.10.68-py3-none-any.whl', 'zhon-2.0.2-py3-none-any.whl', 'omegaconf-2.3.0-py3-none-any.whl', 'pytz-2024.2-py2.py3-none-any.whl', 'bleach-6.1.0-py3-none-any.whl', 'more_itertools-10.5.0-py3-none-any.whl', 'python_dateutil-2.9.0.post0-py2.py3-none-any.whl', 'sortedcontainers-2.4.0-py2.py3-none-any.whl', 'urllib3-2.2.3-py3-none-any.whl', 'loguru-0.7.2-py3-none-any.whl', 'rich-13.9.2-py3-none-any.whl', 'pypinyin-0.53.0-py2.py3-none-any.whl', 'lxml-5.2.1-cp312-cp312-pyodide_2024_0_wasm32.whl', 'bidict-0.23.1-py3-none-any.whl', 'pydantic_extra_types-2.9.0-py3-none-any.whl', 'drawsvg-2.4.0-py3-none-any.whl', 'pydantic-2.7.0-py3-none-any.whl', 'jinja2-3.1.4-py3-none-any.whl', 'antlr4_python3_runtime-4.9.3-py3-none-any.whl', 'wanakana_python-1.2.2-py3-none-any.whl', 'certifi-2024.8.30-py3-none-any.whl', 'linkify_it_py-2.0.3-py3-none-any.whl', 'bokeh_sampledata-2024.2-py3-none-any.whl', 'panel-1.5.2-py3-none-any.whl', 'webencodings-0.5.1-py2.py3-none-any.whl', 'tqdm-4.66.5-py3-none-any.whl', 'icalendar-6.0.0-py3-none-any.whl', 'xsdata_pydantic-24.5-py3-none-any.whl', 'libresvip-1.3.3-py3-none-any.whl', 'parsimonious-0.10.0-py3-none-any.whl', 'charset_normalizer-3.3.2-py3-none-any.whl', 'param-2.1.1-py3-none-any.whl', 'Markdown-3.7-py3-none-any.whl', 'requests-2.32.3-py3-none-any.whl', 'zstandard-0.22.0-cp312-cp312-pyodide_2024_0_wasm32.whl', 'portion-2.5.0-py3-none-any.whl', 'contourpy-1.2.1-cp312-cp312-pyodide_2024_0_wasm32.whl', 'protobuf-4.24.4-cp312-cp312-pyodide_2024_0_wasm32.whl', 'click-8.1.7-py3-none-any.whl', 'MarkupSafe-2.1.5-cp312-cp312-pyodide_2024_0_wasm32.whl', 'platformdirs-4.3.6-py3-none-any.whl', 'idna-3.10-py3-none-any.whl', 'xsdata-24.9-py3-none-any.whl', 'tzdata-2024.2-py2.py3-none-any.whl', 'pydantic_core-2.18.1-cp312-cp312-pyodide_2024_0_wasm32.whl', 'typing_extensions-4.12.2-py3-none-any.whl', 'retrie-0.3.1-py2.py3-none-any.whl'], deps=False)
+      `);
+      code = `\nimport asyncio\n\nfrom panel.io.pyodide import init_doc, write_doc\n\ninit_doc()\n\nimport enum\nimport io\nimport pathlib\nimport zipfile\nfrom typing import Optional, get_args, get_type_hints\n\nimport panel as pn\nimport param\nfrom param.parameterized import Event\nfrom pydantic import BaseModel\nfrom pydantic_core import PydanticUndefined\nfrom pydantic_extra_types.color import Color\n\nfrom libresvip.extension.manager import get_translation, middleware_manager, plugin_manager\nfrom libresvip.model.base import BaseComplexModel\nfrom libresvip.utils import translation\n\n\nlang = pn.state.location.query_params.get("lang", "en_US")\n\ntranslation.singleton_translation = get_translation(lang=lang)\n_ = translation.gettext_lazy\npn.extension(notifications=True, npm_cdn="https://unpkg.com")\n\nbase_dir = pathlib.Path('~').expanduser()\nbase_dir.mkdir(exist_ok=True, parents=True)\n\nformat_options = {\n    f"{_(plugin.file_format)} (*.{plugin.suffix})": identifier\n    for identifier, plugin in plugin_manager.plugin_registry.items()\n}\ninput_select = pn.widgets.Select(name=_('Input Format: '), options=format_options)\nswap_btn = pn.widgets.Button(name=_('Swap Input and Output'), height=35)\noutput_select = pn.widgets.Select(name=_('Output Format: '), options=format_options)\nconvert_btn = pn.widgets.Button(name=_('Convert'), button_type='primary')\nprogress_bar = pn.indicators.Progress(active=False, value=0)\n\ndef swap_selects(clicked: bool) -> None:\n    if clicked:\n        input_select.value, output_select.value = output_select.value, input_select.value\n\npn.bind(swap_selects, swap_btn, watch=True)\n\ngspec = pn.GridSpec(sizing_mode="scale_both")\n\nfile_formats_grid = pn.GridSpec(sizing_mode="scale_both")\nfile_formats_grid[0:1, :] = pn.widgets.StaticText(value=_("Select File Formats"), styles={"font-size": "20px"})\nfile_formats_grid[1:2, :] = input_select\nfile_formats_grid[2:3, :] = output_select\nfile_formats_grid[3:4, :] = pn.Row(\n    # pn.widgets.StaticText(value="Conversion mode:", styles={"font-size": "20px"}),\n    # pn.widgets.RadioButtonGroup(name='Conversion mode', options={'Direct': 'direct', 'Merge': 'merge', 'Split': 'split'}, button_type='default'),\n    swap_btn,\n    convert_btn\n)\nfile_formats_grid[4:5, :] = progress_bar\n\n\ndef start_conversion(event: Event) -> None:\n    if file_selector.value is None or pn.state.busy:\n        return\n    total_values = len(file_selector.value)\n    input_plugin = plugin_manager.plugin_registry[input_select.value]\n    output_plugin = plugin_manager.plugin_registry[output_select.value]\n    if (input_option_cls := get_type_hints(input_plugin.plugin_object.load).get("options", None)):\n        input_option = input_option_cls.model_validate({x: getattr(input_options_param, x) for x in (input_options_param.param) if x != 'name'})\n    else:\n        return\n    if (output_option_cls := get_type_hints(output_plugin.plugin_object.dump).get("options", None)):\n        output_option = output_option_cls.model_validate({x: getattr(output_options_param, x) for x in (output_options_param.param) if x != 'name'})\n    else:\n        return\n    has_error = False\n    for i, value in enumerate(file_selector.value):\n        child_file = pathlib.Path(value)\n        target_file = child_file.with_suffix(f".{output_select.value}")\n        try:\n            project = input_plugin.plugin_object.load(child_file, input_option)\n            for middleware_index in middleware_options_accordion.active:\n                middleware_param = middleware_params[middleware_index]\n                middleware = middleware_manager.plugin_registry[middleware_param.name]\n                if middleware_option_cls := get_type_hints(middleware.plugin_object.process).get(\n                    "options",\n                ):\n                    middleware_option = middleware_option_cls.model_validate({x: getattr(middleware_param, x) for x in (middleware_param.param) if x != 'name'})\n                    project = middleware.process(project, middleware_option)\n            output_plugin.plugin_object.dump(target_file, project, output_option)\n        except Exception as e:\n            has_error = True\n            pn.state.notifications.error(f"Error converting {child_file}: {e}")\n        progress_bar.value = int((i + 1) / total_values * 100)\n    if has_error:\n        pn.state.notifications.error(_("Conversion finished with errors"))\n    else:\n        pn.state.notifications.info(_("Conversion finished"))\n    file_selector._refresh()\n\nconvert_btn.on_click(start_conversion)\ngspec[0:1, 0:7] = file_formats_grid\n\nfile_selector = pn.widgets.FileSelector(base_dir, only_files=True)\ngspec[1:2, 0:7] = file_selector\n\ndef pydantic_params(name: str, option_class: BaseModel) -> param.Parameterized:\n    attrs = {}\n    for option_key, field_info in option_class.model_fields.items():\n        default_value = None if field_info.default is PydanticUndefined else field_info.default\n        if issubclass(field_info.annotation, bool):\n            attrs[option_key] = param.Boolean(default_value, label=_(field_info.title))\n        elif issubclass(field_info.annotation, enum.Enum):\n            if default_value is not None:\n                default_value = default_value.value\n            annotations = get_type_hints(field_info.annotation, include_extras=True)\n            choices = {}\n            for enum_item in field_info.annotation:\n                if enum_item.name in annotations:\n                    annotated_args = list(get_args(annotations[enum_item.name]))\n                    if len(annotated_args) >= 2:\n                        arg_0, enum_field = annotated_args[:2]\n                    else:\n                        continue\n                    choices[_(enum_field.title)] = enum_item.value\n            attrs[option_key] = param.Selector(objects=choices, default=default_value, label=_(field_info.title))\n        elif issubclass(field_info.annotation, int):\n            attrs[option_key] = param.Integer(default_value, label=_(field_info.title))\n        elif issubclass(field_info.annotation, float):\n            attrs[option_key] = param.Number(default_value, label=_(field_info.title))\n        elif issubclass(field_info.annotation, Color):\n            attrs[option_key] = param.Color(default_value, label=_(field_info.title))\n        elif issubclass(field_info.annotation, (str, BaseComplexModel)):\n            if issubclass(field_info.annotation, BaseComplexModel):\n                default_value = field_info.annotation.default_repr()\n            attrs[option_key] = param.String(default_value, label=_(field_info.title))\n    return type(\n        name,\n        (param.Parameterized,),\n        attrs\n    )\n\ndef input_options_form(options: pn.widgets.Select):\n    plugin = plugin_manager.plugin_registry[options.value]\n    if option := get_type_hints(plugin.plugin_object.load).get("options", None):\n        return pydantic_params(_("Input Options"), option)()\n    return param.Parameterized()\n\ninput_options_card = pn.Column(name=_("Input Options"))\ninput_options_param = input_options_form(options=input_select)\ninput_options_card.append(pn.Param(input_options_param))\n\ndef input_options_changed(target, event) -> None:\n    global input_options_param\n    input_options_param = input_options_form(options=input_select)\n    input_options_card[0] = pn.Param(input_options_param)\n\ninput_select.link(input_options_card, callbacks={"value": input_options_changed})\n\n\ndef output_options_form(options: pn.widgets.Select):\n    plugin = plugin_manager.plugin_registry[options.value]\n    if option := get_type_hints(plugin.plugin_object.dump).get("options", None):\n        return pydantic_params(_("Output Options"), option)()\n    return param.Parameterized()\n\noutput_options_card = pn.Column(name=_("Output Options"))\noutput_options_param = output_options_form(options=output_select)\noutput_options_card.append(pn.Param(output_options_param))\n\ndef output_options_changed(target, event) -> None:\n    global output_options_param\n    output_options_param = output_options_form(options=output_select)\n    output_options_card[0] = pn.Param(output_options_param)\n\noutput_select.link(output_options_card, callbacks={"value": output_options_changed})\n\n\nmiddleware_params = []\n\ndef middleware_options_form():\n    for middleware_abbr, middleware in middleware_manager.plugin_registry.items():\n        if (\n            middleware.plugin_object is not None\n            and hasattr(middleware.plugin_object, "process")\n            and (\n                middleware_option_class := get_type_hints(\n                    middleware.plugin_object.process\n                ).get(\n                    "options",\n                )\n            )\n        ):\n            middleware_params.append(pydantic_params(middleware_abbr, middleware_option_class)(name=_(middleware.name)))\n    return pn.Accordion(*middleware_params, name=_("Intermediate Processing"))\n\nmiddleware_options_accordion = middleware_options_form()\n\ntabs = pn.Tabs(\n    input_options_card,\n    middleware_options_accordion,\n    output_options_card\n)\ntabs.active = 0\ngspec[:, 7:10] = tabs\n\nfile_input = pn.widgets.FileInput(multiple=True)\nupload_btn = pn.widgets.Button(name=_('Upload'), button_type='primary')\n\ndef download(values: Optional[list[str]]) -> None:\n    buffer = io.BytesIO()\n    if values:\n        with zipfile.ZipFile(buffer, "w") as zip_file:\n            for value in values:\n                child_file = pathlib.Path(value)\n                zip_file.writestr(\n                    child_file.name,\n                    child_file.read_bytes(),\n                )\n        buffer.seek(0)\n    return buffer\n\ndownload_btn = pn.widgets.FileDownload(\n    callback=pn.bind(download, file_selector), filename='export.zip', icon="download"\n)\n\ndef upload(clicked: bool) -> None:\n    if clicked and file_input.value is not None:\n        file_input.save([\n            str(base_dir / filename)\n            for filename in\n            file_input.filename\n        ])\n        file_selector._refresh()\n\npn.bind(upload, upload_btn, watch=True)\n\nfiles_flex_box = pn.FlexBox(\n    pn.widgets.StaticText(value=_("Files operations"), styles={"font-size": "20px"}),\n    file_input,\n    pn.Row(\n        upload_btn,\n        download_btn,\n    ),\n    align_content="center", height=400\n)\n\nconvert_menu_items = [(_('Convert'), 'convert'), None, (_('Swap Input and Output'), 'swap_input_output')]\nconvert_menu_btn = pn.widgets.MenuButton(name=_('Convert'), items=convert_menu_items, button_type='primary', width=150)\n\ndef on_convert_menu_click(event: Event) -> None:\n    if event.new == "convert":\n        start_conversion(event)\n    elif event.new == "swap_input_output":\n        swap_selects(True)\n\nconvert_menu_btn.on_click(on_convert_menu_click)\n\nlanguage_selector = pn.pane.HTML(f"""\n<div>\n    <a href="{pn.state.location.pathname}?lang=zh_CN">\u7b80\u4f53\u4e2d\u6587</a>\n    |\n    <a href="{pn.state.location.pathname}?lang=en_US">English</a>\n</div>\n""", sizing_mode="stretch_width")\n\n\ntemplate = pn.template.BootstrapTemplate(\n    title='LibreSVIP',\n    sidebar=[language_selector, files_flex_box],\n    header=convert_menu_btn\n)\ntemplate.main.append(gspec)\n\ntemplate.servable()\n\n\nawait write_doc()`
+      await pyodide.runPythonAsync(code);
+    }
+    main();
+    </script>
+  </body>
+</html>
