@@ -11,7 +11,6 @@ from pip._vendor.packaging.requirements import InvalidRequirement, Requirement
 
 def download_wasm32_wheels() -> None:
     cwd = pathlib.Path().resolve()
-    os.chdir("dist")
 
     pyodide_dir = cwd / "pyodide"
     if not pyodide_dir.exists():
@@ -26,6 +25,7 @@ def download_wasm32_wheels() -> None:
         shutil.unpack_archive(pyodide_bundle_file)
     lock_data = json.loads((pyodide_dir / "pyodide-lock.json").read_bytes())
 
+    os.chdir("dist")
     requirements_path = cwd / "requirements.txt"
     for requirement_str in ["panel", *requirements_path.read_text().splitlines()]:
         try:
