@@ -2,6 +2,7 @@ import json
 import pathlib
 import shutil
 import subprocess
+import os
 import sys
 import urllib.request
 
@@ -9,7 +10,8 @@ from pip._vendor.packaging.requirements import InvalidRequirement, Requirement
 
 
 def download_wasm32_wheels() -> None:
-    cwd = pathlib.Path()
+    cwd = pathlib.Path().resolve()
+    os.chdir("dist")
 
     pyodide_dir = cwd / "pyodide"
     if not pyodide_dir.exists():

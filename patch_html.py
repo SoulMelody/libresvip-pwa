@@ -11,6 +11,7 @@ PYODIDE_CDN_URL_PATTERN = re.compile(r"https://cdn\.jsdelivr\.net/pyodide/v([^/]
 
 if __name__ == "__main__":
     pyodide_version = "0.26.1"
+    os.chdir("dist")
     html_file = pathlib.Path("index.html")
     whl_files = glob.glob("*.whl")
     origin_text = html_file.read_text(encoding="utf-8")
