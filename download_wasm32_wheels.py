@@ -26,6 +26,7 @@ def download_wasm32_wheels() -> None:
     lock_data = json.loads((pyodide_dir / "pyodide-lock.json").read_bytes())
 
     os.chdir("dist")
+    dist_dir = cwd / "dist"
     requirements_path = cwd / "requirements.txt"
     for requirement_str in ["panel", *requirements_path.read_text().splitlines()]:
         try:
@@ -35,8 +36,7 @@ def download_wasm32_wheels() -> None:
         if requirement.name in lock_data["packages"] and (
             wheel_name := lock_data['packages'][requirement.name]['file_name']
         ) and (requirement.name == "pydantic" or not wheel_name.endswith("none-any.whl")):
-            if requirement.name not in ["charset-normalizer", "pyyaml"]:
-                shutil.copy2(pyodide_dir / wheel_name, wheel_name)
+            shutil.copy2(pyodide_dir / wheel_name, dist_dir)
         elif (
             requirement.marker is None or requirement.marker.evaluate(
                 environment={
@@ -49,7 +49,7 @@ def download_wasm32_wheels() -> None:
                 subprocess.check_call([sys.executable, "-m", "pip", "download", f"{requirement.name}{requirement.specifier}", "--no-deps", "--platform", "wasm32", "--only-binary", ":all:"])
             except subprocess.CalledProcessError:
                 subprocess.check_call([sys.executable, "-m", "pip", "wheel", f"{requirement.name}{requirement.specifier}", "--no-binary", ":all:"])
-    pyodide_core_bundle_file = cwd / "dist" / "pyodide.tar.bz2"
+    pyodide_core_bundle_file = dist_dir / "pyodide.tar.bz2"
     bundle_url = (
         f"https://github.com/pyodide/pyodide/releases/download/{pyodide_version}/pyodide-core-{pyodide_version}.tar.bz2"
     )
@@ -58,7 +58,7 @@ def download_wasm32_wheels() -> None:
     shutil.unpack_archive(pyodide_core_bundle_file)
     pyodide_core_bundle_file.unlink()
     for micropip_dependency in [*pyodide_dir.glob("micropip-*.whl"), *pyodide_dir.glob("packaging-*.whl"), *pyodide_dir.glob("pyodide_http-*.whl")]:
-        shutil.copy2(micropip_dependency, cwd / "dist" / "pyodide")
+        shutil.copy2(micropip_dependency, dist_dir/ "pyodide")
 
 
 if __name__ == "__main__":
