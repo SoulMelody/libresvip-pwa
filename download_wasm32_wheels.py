@@ -10,7 +10,7 @@ from pip._vendor.packaging.requirements import InvalidRequirement, Requirement
 
 
 def download_wasm32_wheels() -> None:
-    pyodide_version = "0.26.2"
+    pyodide_version = "0.26.3"
     cwd = pathlib.Path().resolve()
 
     pyodide_dir = cwd / "pyodide"
