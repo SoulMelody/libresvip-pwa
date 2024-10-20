@@ -23,10 +23,21 @@ def download_wasm32_wheels() -> None:
             with urllib.request.urlopen(bundle_url) as response:
                 pyodide_bundle_file.write_bytes(response.read())
         shutil.unpack_archive(pyodide_bundle_file)
+
+    dist_dir = cwd / "dist"
+    pyodide_dist_dir = dist_dir / "pyodide"
+    os.chdir("dist")
+    if not pyodide_dist_dir.exists():
+        pyodide_core_bundle_file = dist_dir / "pyodide.tar.bz2"
+        bundle_url = (
+            f"https://github.com/pyodide/pyodide/releases/download/{pyodide_version}/pyodide-core-{pyodide_version}.tar.bz2"
+        )
+        with urllib.request.urlopen(bundle_url) as response:
+            pyodide_core_bundle_file.write_bytes(response.read())
+        shutil.unpack_archive(pyodide_core_bundle_file)
+        pyodide_core_bundle_file.unlink()
     lock_data = json.loads((pyodide_dir / "pyodide-lock.json").read_bytes())
 
-    os.chdir("dist")
-    dist_dir = cwd / "dist"
     requirements_path = cwd / "requirements.txt"
     for requirement_str in ["panel", *requirements_path.read_text().splitlines()]:
         try:
@@ -49,16 +60,9 @@ def download_wasm32_wheels() -> None:
                 subprocess.check_call([sys.executable, "-m", "pip", "download", f"{requirement.name}{requirement.specifier}", "--no-deps", "--platform", "wasm32", "--only-binary", ":all:"])
             except subprocess.CalledProcessError:
                 subprocess.check_call([sys.executable, "-m", "pip", "wheel", f"{requirement.name}{requirement.specifier}", "--no-binary", ":all:"])
-    pyodide_core_bundle_file = dist_dir / "pyodide.tar.bz2"
-    bundle_url = (
-        f"https://github.com/pyodide/pyodide/releases/download/{pyodide_version}/pyodide-core-{pyodide_version}.tar.bz2"
-    )
-    with urllib.request.urlopen(bundle_url) as response:
-        pyodide_core_bundle_file.write_bytes(response.read())
-    shutil.unpack_archive(pyodide_core_bundle_file)
-    pyodide_core_bundle_file.unlink()
+
     for micropip_dependency in [*pyodide_dir.glob("micropip-*.whl"), *pyodide_dir.glob("packaging-*.whl"), *pyodide_dir.glob("pyodide_http-*.whl")]:
-        shutil.copy2(micropip_dependency, dist_dir/ "pyodide")
+        shutil.copy2(micropip_dependency, pyodide_dist_dir)
 
 
 if __name__ == "__main__":
