@@ -1,3 +1,4 @@
 panel
 pyodide-lock
+pyodide-py; python_version >= '3.12'
 uv
