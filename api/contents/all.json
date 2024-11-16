@@ -1,0 +1,57 @@
+{
+  "content": [
+    {
+      "content": null,
+      "created": "2024-11-16T03:27:55.207988Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2024-11-16T03:27:46.975970Z",
+      "mimetype": "text/plain",
+      "name": "requirements.txt",
+      "path": "requirements.txt",
+      "size": 694,
+      "type": "file",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2024-11-16T03:27:55.207988Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2024-11-16T03:27:46.975970Z",
+      "mimetype": null,
+      "name": "vjsf.vue",
+      "path": "vjsf.vue",
+      "size": 1345,
+      "type": "file",
+      "writable": true
+    },
+    {
+      "content": null,
+      "created": "2024-11-16T03:27:55.207988Z",
+      "format": null,
+      "hash": null,
+      "hash_algorithm": null,
+      "last_modified": "2024-11-16T03:27:46.975970Z",
+      "mimetype": null,
+      "name": "libresvip.ipynb",
+      "path": "libresvip.ipynb",
+      "size": 14778,
+      "type": "notebook",
+      "writable": true
+    }
+  ],
+  "created": "2024-11-16T03:27:55.207988Z",
+  "format": "json",
+  "hash": null,
+  "hash_algorithm": null,
+  "last_modified": "2024-11-16T03:27:55.207988Z",
+  "mimetype": null,
+  "name": "",
+  "path": "",
+  "size": null,
+  "type": "directory",
+  "writable": true
+}

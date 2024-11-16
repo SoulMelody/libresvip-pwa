@@ -1,0 +1,106 @@
+{
+  "antlr4-python3-runtime": {
+    "releases": {
+      "4.9.3": [
+        {
+          "comment_text": "",
+          "digests": {
+            "md5": "ce7ce87ea21e04a97434b0021fe01dbe",
+            "sha256": "2018016c4f1782b4601bc37a9540a83df71caa7b75518a10f6dbb5ded0ac8dad"
+          },
+          "downloads": -1,
+          "filename": "antlr4_python3_runtime-4.9.3-py3-none-any.whl",
+          "has_sig": false,
+          "md5_digest": "ce7ce87ea21e04a97434b0021fe01dbe",
+          "packagetype": "bdist_wheel",
+          "python_version": "py3",
+          "requires_python": null,
+          "size": 144554,
+          "upload_time": "2024-11-16T03:27:46.975970Z",
+          "upload_time_iso_8601": "2024-11-16T03:27:46.975970Z",
+          "url": "./antlr4_python3_runtime-4.9.3-py3-none-any.whl",
+          "yanked": false,
+          "yanked_reason": null
+        }
+      ]
+    }
+  },
+  "construct": {
+    "releases": {
+      "2.10.68": [
+        {
+          "comment_text": "",
+          "digests": {
+            "md5": "d52636ee9172d90e3cab863b9165ee17",
+            "sha256": "611f43add14d9e4be4b0222a98faa2f8a074978f63b9715c4093e09dec01e4dc"
+          },
+          "downloads": -1,
+          "filename": "construct-2.10.68-py3-none-any.whl",
+          "has_sig": false,
+          "md5_digest": "d52636ee9172d90e3cab863b9165ee17",
+          "packagetype": "bdist_wheel",
+          "python_version": "py3",
+          "requires_python": ">=3.6",
+          "size": 59224,
+          "upload_time": "2024-11-16T03:27:46.979970Z",
+          "upload_time_iso_8601": "2024-11-16T03:27:46.979970Z",
+          "url": "./construct-2.10.68-py3-none-any.whl",
+          "yanked": false,
+          "yanked_reason": null
+        }
+      ]
+    }
+  },
+  "mido-fix": {
+    "releases": {
+      "1.2.12": [
+        {
+          "comment_text": "",
+          "digests": {
+            "md5": "6fa047c951f00227572ec86ace48a929",
+            "sha256": "d4cb67dd181d2b22230048455b8ff3f53f85b5f012a8ce080fcf0a63a4b116e9"
+          },
+          "downloads": -1,
+          "filename": "mido_fix-1.2.12-py2.py3-none-any.whl",
+          "has_sig": false,
+          "md5_digest": "6fa047c951f00227572ec86ace48a929",
+          "packagetype": "bdist_wheel",
+          "python_version": "py3",
+          "requires_python": null,
+          "size": 52006,
+          "upload_time": "2024-11-16T03:27:46.979970Z",
+          "upload_time_iso_8601": "2024-11-16T03:27:46.979970Z",
+          "url": "./mido_fix-1.2.12-py2.py3-none-any.whl",
+          "yanked": false,
+          "yanked_reason": null
+        }
+      ]
+    }
+  },
+  "wanakana-python": {
+    "releases": {
+      "1.2.2": [
+        {
+          "comment_text": "",
+          "digests": {
+            "md5": "9423e6e5ed9533d86bbe4814a2b08cee",
+            "sha256": "60b3606cea73568e3c4a3dacfc047f8e8f0a8374b1fc448d9edee1a583a9eb67"
+          },
+          "downloads": -1,
+          "filename": "wanakana_python-1.2.2-py3-none-any.whl",
+          "has_sig": false,
+          "md5_digest": "9423e6e5ed9533d86bbe4814a2b08cee",
+          "packagetype": "bdist_wheel",
+          "python_version": "py3",
+          "requires_python": null,
+          "size": 18911,
+          "upload_time": "2024-11-16T03:27:46.979970Z",
+          "upload_time_iso_8601": "2024-11-16T03:27:46.979970Z",
+          "url": "./wanakana_python-1.2.2-py3-none-any.whl",
+          "yanked": false,
+          "yanked_reason": null
+        }
+      ]
+    }
+  }
+}
