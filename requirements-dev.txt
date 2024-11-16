@@ -1,4 +1,22 @@
-panel
-pyodide-lock
-pyodide-py; python_version >= '3.12'
-uv
+# Core modules (mandatory)
+jupyterlite-core
+jupyterlab
+notebook
+
+
+# Python kernel (optional)
+jupyterlite-pyodide-kernel
+
+# Language support (optional)
+jupyterlab-language-pack-zh-CN
+
+# JupyterLab: dark theme
+jupyterlab-night
+# JupyterLab: Miami nights theme (optional)
+jupyterlab_miami_nights
+
+ipywidgets
+ipyvuetify
+
+jupyterlab-filesystem-access
+jupyterlab-open-url-parameter

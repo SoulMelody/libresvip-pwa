@@ -162,5 +162,5 @@ cython_debug/
 #.idea/
 
 pyodide/
-*.whl
+.jupyterlite.doit.db
 uv.toml
