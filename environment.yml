@@ -6,7 +6,6 @@ dependencies:
   - xeus-python
   - bidict
   - charset-normalizer
-  - construct-typing
   - drawsvg
   - jinja2
   - lxml
@@ -24,6 +23,7 @@ dependencies:
   - ipyvuetify
   - pip:
     - libresvip
+    - construct-typing
     - loguru
     - mido-fix
     - pydantic-extra-types
