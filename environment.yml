@@ -26,7 +26,6 @@ dependencies:
     - construct-typing
     - loguru
     - mido-fix
-    - protobuf
     - proto-plus
     - pydantic-extra-types
     - pysubs2
@@ -35,3 +34,4 @@ dependencies:
     - xsdata-pydantic
     - wanakana-python
     - zhon
+    - ./pypi/protobuf-5.29.0-py3-none-any.whl
