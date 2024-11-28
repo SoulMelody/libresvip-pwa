@@ -17,7 +17,6 @@ dependencies:
   - packaging
   - platformdirs
   - portion
-  - proto-plus
   - pydantic==2.8.2
   - pypinyin
   - reacton
@@ -27,6 +26,8 @@ dependencies:
     - construct-typing
     - loguru
     - mido-fix
+    - protobuf
+    - proto-plus
     - pydantic-extra-types
     - pysubs2
     - retrie
