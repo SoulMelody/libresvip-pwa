@@ -20,7 +20,6 @@ dependencies:
   - proto-plus
   - pydantic==2.8.2
   - pypinyin
-  - xsdata
   - reacton
   - ipyvuetify
   - pip:
@@ -30,6 +29,7 @@ dependencies:
     - pydantic-extra-types
     - pysubs2
     - retrie
+    - xsdata
     - xsdata-pydantic
     - wanakana-python
     - zhon
