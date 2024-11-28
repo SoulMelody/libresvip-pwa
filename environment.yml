@@ -6,6 +6,7 @@ dependencies:
   - xeus-python
   - bidict
   - charset-normalizer
+  - construct
   - drawsvg
   - jinja2
   - lxml
