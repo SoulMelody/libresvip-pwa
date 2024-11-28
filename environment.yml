@@ -1,0 +1,35 @@
+channels:
+  - https://repo.mamba.pm/emscripten-forge
+  - conda-forge
+
+dependencies:
+  - xeus-python
+  - bidict
+  - charset-normalizer
+  - construct-typing
+  - drawsvg
+  - jinja2
+  - lxml
+  - numcodecs
+  - more-itertools
+  - omegaconf
+  - parsimonious
+  - packaging
+  - platformdirs
+  - portion
+  - proto-plus
+  - pydantic==2.8.2
+  - pypinyin
+  - xsdata
+  - reacton
+  - ipyvuetify
+  - pip:
+    - libresvip
+    - loguru
+    - mido-fix
+    - pydantic-extra-types
+    - pysubs2
+    - retrie
+    - xsdata-pydantic
+    - wanakana-python
+    - zhon
