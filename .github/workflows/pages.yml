@@ -6,14 +6,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up uv
-        uses: astral-sh/setup-uv@v3
+      - uses: mamba-org/setup-micromamba@v2
         with:
-          version: "latest"
-      - run: |
-          uv venv --python 3.12
-          uv pip install -r requirements-dev.txt
-          uv run jupyter lite build
+          environment-file: build-environment.yml
+          init-shell: >-
+            bash
+          cache-environment: true
+          post-cleanup: 'all'
+      - name: Build
+        shell: bash -el {0}
+        run: |
+          jupyter lite build
       - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
