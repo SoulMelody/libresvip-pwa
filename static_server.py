@@ -1,3 +1,4 @@
+import mimetypes
 import pathlib
 
 import tornado.web
@@ -8,20 +9,12 @@ class IndexHandler(tornado.web.RequestHandler):
         self.add_header("Content-Type", "text/html")
         self.write(pathlib.Path("dist/index.html").read_bytes())
 
-
-class MyStaticFileHandler(tornado.web.StaticFileHandler):
-    def get_content_type(self) -> str:
-        path_suffix = pathlib.Path(self.absolute_path).suffix
-        if path_suffix == ".js":
-            return "application/javascript"
-        return super().get_content_type()
-
-
+mimetypes.add_type("application/javascript", ".js")
 current_path = pathlib.Path(__file__).parent / "dist"
 app = tornado.web.Application(
     [
         (r'^/$', IndexHandler),
-        (r'^/(.+)$', MyStaticFileHandler, {"path": current_path}),
+        (r'^/(.+)$', tornado.web.StaticFileHandler, {"path": current_path}),
     ],
     static_path=current_path,
 )
