@@ -2,18 +2,11 @@
   "jupyter-config-data": {
     "appName": "JupyterLite",
     "appUrl": "./lab",
-    "appVersion": "0.4.4",
+    "appVersion": "0.4.5",
     "baseUrl": "./",
     "defaultKernelName": "python",
     "faviconUrl": "./lab/favicon.ico",
     "federated_extensions": [
-      {
-        "extension": "./extension",
-        "liteExtension": false,
-        "load": "static/remoteEntry.f2d2e79c8a92fd2ec840.js",
-        "name": "@jupyter-notebook/lab-extension",
-        "style": "./style"
-      },
       {
         "extension": "./extension",
         "liteExtension": false,
@@ -23,8 +16,9 @@
       {
         "extension": "./extension",
         "liteExtension": true,
-        "load": "static/remoteEntry.1e551929fc8124706d3a.js",
-        "name": "@jupyterlite/pyodide-kernel-extension"
+        "load": "static/remoteEntry.a16830c0a812f3178830.js",
+        "name": "@jupyterlite/xeus",
+        "style": "./style"
       },
       {
         "extension": "./extension",
@@ -56,13 +50,6 @@
         "liteExtension": false,
         "load": "static/remoteEntry.6a37df5d4590b29196a3.js",
         "name": "jupyterlab-night"
-      },
-      {
-        "extension": "./extension",
-        "liteExtension": false,
-        "load": "static/remoteEntry.c7a31b7a4c60a21a3aa0.js",
-        "name": "jupyterlab-open-url-parameter",
-        "style": "./style"
       },
       {
         "extension": "./extension",
@@ -347,16 +334,7 @@
     },
     "fullLabextensionsUrl": "./extensions",
     "fullStaticUrl": "./build",
-    "licensesUrl": "./lab/api/licenses",
-    "litePluginSettings": {
-      "@jupyterlite/pyodide-kernel-extension:kernel": {
-        "pipliteUrls": [
-          "./pypi/all.json?sha256=c4f3c0fbb0e5dc694258f20df5b207340fd7c65681d34d5d5534f489748f70aa",
-          "./extensions/@jupyterlite/pyodide-kernel-extension/static/pypi/all.json?sha256=1e758ca5f33a53f30afd5b0049a42eeabae5daac8e62c57aa9f08a09bfc04484"
-        ],
-        "pyodideUrl": "https://fastly.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"
-      }
-    }
+    "licensesUrl": "./lab/api/licenses"
   },
   "jupyter-lite-schema-version": 0
 }
