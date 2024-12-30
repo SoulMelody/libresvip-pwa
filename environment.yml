@@ -12,12 +12,13 @@ dependencies:
   - lxml
   - numcodecs
   - more-itertools
-  - omegaconf
   - parsimonious
   - packaging
   - platformdirs
   - portion
   - pydantic==2.8.2
+  - pydantic-extra-types
+  - pydantic-settings
   - pypinyin
   - reacton
   - ipyvuetify
@@ -27,7 +28,6 @@ dependencies:
     - loguru
     - mido-fix
     - proto-plus
-    - pydantic-extra-types
     - pysubs2
     - retrie
     - xsdata
