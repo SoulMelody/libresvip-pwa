@@ -20,6 +20,7 @@ dependencies:
   - pydantic-extra-types
   - pydantic-settings
   - pypinyin
+  - pyyaml
   - reacton
   - ipyvuetify
   - pip:
