@@ -2,32 +2,25 @@
     "prefix": "/",
     "packages": [
         {
+            "name": "pip",
+            "version": "24.3.1",
+            "build": "pyh8b19718_2",
+            "filename_stem": "pip-24.3.1-pyh8b19718_2",
+            "filename": "pip-24.3.1-pyh8b19718_2.tar.gz"
+        },
+        {
+            "name": "pydantic-extra-types",
+            "version": "2.10.1",
+            "build": "pyh3cfb1c2_0",
+            "filename_stem": "pydantic-extra-types-2.10.1-pyh3cfb1c2_0",
+            "filename": "pydantic-extra-types-2.10.1-pyh3cfb1c2_0.tar.gz"
+        },
+        {
             "name": "setuptools",
             "version": "75.6.0",
             "build": "pyhff2d567_1",
             "filename_stem": "setuptools-75.6.0-pyhff2d567_1",
             "filename": "setuptools-75.6.0-pyhff2d567_1.tar.gz"
-        },
-        {
-            "name": "xsdata",
-            "version": "24.11",
-            "build": "pip",
-            "filename_stem": "xsdata-24.11-pip",
-            "filename": "xsdata-24.11-pip.tar.gz"
-        },
-        {
-            "name": "libyaml",
-            "version": "0.2.5",
-            "build": "hc712e09_1",
-            "filename_stem": "libyaml-0.2.5-hc712e09_1",
-            "filename": "libyaml-0.2.5-hc712e09_1.tar.gz"
-        },
-        {
-            "name": "pysubs2",
-            "version": "1.7.3",
-            "build": "pip",
-            "filename_stem": "pysubs2-1.7.3-pip",
-            "filename": "pysubs2-1.7.3-pip.tar.gz"
         },
         {
             "name": "ipyvuetify",
@@ -72,6 +65,13 @@
             "filename": "proto_plus-1.25.0-pip.tar.gz"
         },
         {
+            "name": "pypinyin",
+            "version": "0.53.0",
+            "build": "pyhd8ed1ab_1",
+            "filename_stem": "pypinyin-0.53.0-pyhd8ed1ab_1",
+            "filename": "pypinyin-0.53.0-pyhd8ed1ab_1.tar.gz"
+        },
+        {
             "name": "emscripten-abi",
             "version": "3.1.45",
             "build": "h267e887_30",
@@ -84,6 +84,13 @@
             "build": "h8d0f04b_0",
             "filename_stem": "numcodecs-0.9.1-h8d0f04b_0",
             "filename": "numcodecs-0.9.1-h8d0f04b_0.tar.gz"
+        },
+        {
+            "name": "jinja2",
+            "version": "3.1.5",
+            "build": "pyhd8ed1ab_0",
+            "filename_stem": "jinja2-3.1.5-pyhd8ed1ab_0",
+            "filename": "jinja2-3.1.5-pyhd8ed1ab_0.tar.gz"
         },
         {
             "name": "pyjs",
@@ -100,13 +107,6 @@
             "filename": "xeus-python-shell-0.6.3-pyhff2d567_1.tar.gz"
         },
         {
-            "name": "jinja2",
-            "version": "3.1.4",
-            "build": "pyhd8ed1ab_1",
-            "filename_stem": "jinja2-3.1.4-pyhd8ed1ab_1",
-            "filename": "jinja2-3.1.4-pyhd8ed1ab_1.tar.gz"
-        },
-        {
             "name": "jupyterlab_widgets",
             "version": "3.0.13",
             "build": "pyhd8ed1ab_1",
@@ -121,25 +121,25 @@
             "filename": "widgetsnbextension-4.0.13-pyhd8ed1ab_1.tar.gz"
         },
         {
-            "name": "antlr-python-runtime",
-            "version": "4.9.3",
-            "build": "pyhd8ed1ab_1",
-            "filename_stem": "antlr-python-runtime-4.9.3-pyhd8ed1ab_1",
-            "filename": "antlr-python-runtime-4.9.3-pyhd8ed1ab_1.tar.gz"
-        },
-        {
-            "name": "bidict",
-            "version": "0.23.1",
-            "build": "pyhd8ed1ab_0",
-            "filename_stem": "bidict-0.23.1-pyhd8ed1ab_0",
-            "filename": "bidict-0.23.1-pyhd8ed1ab_0.tar.gz"
-        },
-        {
             "name": "pickleshare",
             "version": "0.7.5",
             "build": "pyhd8ed1ab_1004",
             "filename_stem": "pickleshare-0.7.5-pyhd8ed1ab_1004",
             "filename": "pickleshare-0.7.5-pyhd8ed1ab_1004.tar.gz"
+        },
+        {
+            "name": "reacton",
+            "version": "1.9.0",
+            "build": "pyhd8ed1ab_0",
+            "filename_stem": "reacton-1.9.0-pyhd8ed1ab_0",
+            "filename": "reacton-1.9.0-pyhd8ed1ab_0.tar.gz"
+        },
+        {
+            "name": "python-dotenv",
+            "version": "1.0.1",
+            "build": "pyhd8ed1ab_1",
+            "filename_stem": "python-dotenv-1.0.1-pyhd8ed1ab_1",
+            "filename": "python-dotenv-1.0.1-pyhd8ed1ab_1.tar.gz"
         },
         {
             "name": "parso",
@@ -212,18 +212,18 @@
             "filename": "typing-extensions-4.12.2-hd8ed1ab_1.tar.gz"
         },
         {
+            "name": "bidict",
+            "version": "0.23.1",
+            "build": "pyhd8ed1ab_1",
+            "filename_stem": "bidict-0.23.1-pyhd8ed1ab_1",
+            "filename": "bidict-0.23.1-pyhd8ed1ab_1.tar.gz"
+        },
+        {
             "name": "pygments",
             "version": "2.18.0",
             "build": "pyhd8ed1ab_1",
             "filename_stem": "pygments-2.18.0-pyhd8ed1ab_1",
             "filename": "pygments-2.18.0-pyhd8ed1ab_1.tar.gz"
-        },
-        {
-            "name": "pydantic_extra_types",
-            "version": "2.10.1",
-            "build": "pip",
-            "filename_stem": "pydantic_extra_types-2.10.1-pip",
-            "filename": "pydantic_extra_types-2.10.1-pip.tar.gz"
         },
         {
             "name": "cffi",
@@ -254,6 +254,13 @@
             "filename": "regex-2022.1.18-py311h8d0f04b_8.tar.gz"
         },
         {
+            "name": "libresvip",
+            "version": "1.6.0",
+            "build": "pip",
+            "filename_stem": "libresvip-1.6.0-pip",
+            "filename": "libresvip-1.6.0-pip.tar.gz"
+        },
+        {
             "name": "python",
             "version": "3.11.3",
             "build": "h_bbba66e_25_cpython",
@@ -270,9 +277,9 @@
         {
             "name": "parsimonious",
             "version": "0.10.0",
-            "build": "pyhd8ed1ab_0",
-            "filename_stem": "parsimonious-0.10.0-pyhd8ed1ab_0",
-            "filename": "parsimonious-0.10.0-pyhd8ed1ab_0.tar.gz"
+            "build": "pyhd8ed1ab_1",
+            "filename_stem": "parsimonious-0.10.0-pyhd8ed1ab_1",
+            "filename": "parsimonious-0.10.0-pyhd8ed1ab_1.tar.gz"
         },
         {
             "name": "jedi",
@@ -324,13 +331,6 @@
             "filename": "asttokens-3.0.0-pyhd8ed1ab_1.tar.gz"
         },
         {
-            "name": "pypinyin",
-            "version": "0.53.0",
-            "build": "pyhd8ed1ab_0",
-            "filename_stem": "pypinyin-0.53.0-pyhd8ed1ab_0",
-            "filename": "pypinyin-0.53.0-pyhd8ed1ab_0.tar.gz"
-        },
-        {
             "name": "ipyvue",
             "version": "1.11.2",
             "build": "pyhd8ed1ab_0",
@@ -359,18 +359,18 @@
             "filename": "msgpack-1.0.8-py311h04e829c_0.tar.gz"
         },
         {
+            "name": "pydantic-settings",
+            "version": "2.7.0",
+            "build": "pyh3cfb1c2_0",
+            "filename_stem": "pydantic-settings-2.7.0-pyh3cfb1c2_0",
+            "filename": "pydantic-settings-2.7.0-pyh3cfb1c2_0.tar.gz"
+        },
+        {
             "name": "markupsafe",
             "version": "2.1.5",
             "build": "py311he9a3d86_0",
             "filename_stem": "markupsafe-2.1.5-py311he9a3d86_0",
             "filename": "markupsafe-2.1.5-py311he9a3d86_0.tar.gz"
-        },
-        {
-            "name": "reacton",
-            "version": "1.8.3",
-            "build": "pyhd8ed1ab_0",
-            "filename_stem": "reacton-1.8.3-pyhd8ed1ab_0",
-            "filename": "reacton-1.8.3-pyhd8ed1ab_0.tar.gz"
         },
         {
             "name": "executing",
@@ -387,18 +387,18 @@
             "filename": "wanakana_python-1.2.2-pip.tar.gz"
         },
         {
+            "name": "xsdata",
+            "version": "24.12",
+            "build": "pip",
+            "filename_stem": "xsdata-24.12-pip",
+            "filename": "xsdata-24.12-pip.tar.gz"
+        },
+        {
             "name": "construct_typing",
             "version": "0.6.2",
             "build": "pip",
             "filename_stem": "construct_typing-0.6.2-pip",
             "filename": "construct_typing-0.6.2-pip.tar.gz"
-        },
-        {
-            "name": "numpy",
-            "version": "2.2.0",
-            "build": "py311hc8e14bb_0",
-            "filename_stem": "numpy-2.2.0-py311hc8e14bb_0",
-            "filename": "numpy-2.2.0-py311hc8e14bb_0.tar.gz"
         },
         {
             "name": "wcwidth",
@@ -420,13 +420,6 @@
             "build": "pyhd8ed1ab_1",
             "filename_stem": "matplotlib-inline-0.1.7-pyhd8ed1ab_1",
             "filename": "matplotlib-inline-0.1.7-pyhd8ed1ab_1.tar.gz"
-        },
-        {
-            "name": "pip",
-            "version": "24.3.1",
-            "build": "pyh8b19718_0",
-            "filename_stem": "pip-24.3.1-pyh8b19718_0",
-            "filename": "pip-24.3.1-pyh8b19718_0.tar.gz"
         },
         {
             "name": "ipywidgets",
@@ -457,13 +450,6 @@
             "filename": "packaging-24.2-pyhd8ed1ab_2.tar.gz"
         },
         {
-            "name": "pyyaml",
-            "version": "6.0",
-            "build": "hd490730_0",
-            "filename_stem": "pyyaml-6.0-hd490730_0",
-            "filename": "pyyaml-6.0-hd490730_0.tar.gz"
-        },
-        {
             "name": "pydantic-core",
             "version": "2.20.1",
             "build": "py311h1562a1a_0",
@@ -485,18 +471,18 @@
             "filename": "annotated-types-0.7.0-pyhd8ed1ab_1.tar.gz"
         },
         {
+            "name": "numpy",
+            "version": "2.2.1",
+            "build": "py311hc8e14bb_0",
+            "filename_stem": "numpy-2.2.1-py311hc8e14bb_0",
+            "filename": "numpy-2.2.1-py311hc8e14bb_0.tar.gz"
+        },
+        {
             "name": "prompt-toolkit",
             "version": "3.0.48",
             "build": "pyha770c72_1",
             "filename_stem": "prompt-toolkit-3.0.48-pyha770c72_1",
             "filename": "prompt-toolkit-3.0.48-pyha770c72_1.tar.gz"
-        },
-        {
-            "name": "omegaconf",
-            "version": "2.3.0",
-            "build": "pyhd8ed1ab_0",
-            "filename_stem": "omegaconf-2.3.0-pyhd8ed1ab_0",
-            "filename": "omegaconf-2.3.0-pyhd8ed1ab_0.tar.gz"
         },
         {
             "name": "pydantic",
@@ -506,18 +492,18 @@
             "filename": "pydantic-2.8.2-pyhd8ed1ab_0.tar.gz"
         },
         {
-            "name": "libresvip",
-            "version": "1.5.2",
-            "build": "pip",
-            "filename_stem": "libresvip-1.5.2-pip",
-            "filename": "libresvip-1.5.2-pip.tar.gz"
-        },
-        {
             "name": "stack_data",
             "version": "0.6.3",
             "build": "pyhd8ed1ab_1",
             "filename_stem": "stack_data-0.6.3-pyhd8ed1ab_1",
             "filename": "stack_data-0.6.3-pyhd8ed1ab_1.tar.gz"
+        },
+        {
+            "name": "pysubs2",
+            "version": "1.8.0",
+            "build": "pip",
+            "filename_stem": "pysubs2-1.8.0-pip",
+            "filename": "pysubs2-1.8.0-pip.tar.gz"
         }
     ]
 }
