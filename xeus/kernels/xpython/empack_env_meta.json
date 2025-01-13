@@ -2,6 +2,13 @@
     "prefix": "/",
     "packages": [
         {
+            "name": "libresvip",
+            "version": "1.7.0",
+            "build": "pip",
+            "filename_stem": "libresvip-1.7.0-pip",
+            "filename": "libresvip-1.7.0-pip.tar.gz"
+        },
+        {
             "name": "pip",
             "version": "24.3.1",
             "build": "pyh8b19718_2",
@@ -16,13 +23,6 @@
             "filename": "pydantic-extra-types-2.10.1-pyh3cfb1c2_0.tar.gz"
         },
         {
-            "name": "setuptools",
-            "version": "75.6.0",
-            "build": "pyhff2d567_1",
-            "filename_stem": "setuptools-75.6.0-pyhff2d567_1",
-            "filename": "setuptools-75.6.0-pyhff2d567_1.tar.gz"
-        },
-        {
             "name": "libyaml",
             "version": "0.2.5",
             "build": "hc712e09_1",
@@ -35,6 +35,13 @@
             "build": "pyhd8ed1ab_0",
             "filename_stem": "ipyvuetify-1.10.0-pyhd8ed1ab_0",
             "filename": "ipyvuetify-1.10.0-pyhd8ed1ab_0.tar.gz"
+        },
+        {
+            "name": "charset-normalizer",
+            "version": "3.4.1",
+            "build": "pyhd8ed1ab_0",
+            "filename_stem": "charset-normalizer-3.4.1-pyhd8ed1ab_0",
+            "filename": "charset-normalizer-3.4.1-pyhd8ed1ab_0.tar.gz"
         },
         {
             "name": "lxml",
@@ -65,6 +72,13 @@
             "filename": "mido_fix-1.2.12-pip.tar.gz"
         },
         {
+            "name": "emscripten-abi",
+            "version": "3.1.45",
+            "build": "h267e887_31",
+            "filename_stem": "emscripten-abi-3.1.45-h267e887_31",
+            "filename": "emscripten-abi-3.1.45-h267e887_31.tar.gz"
+        },
+        {
             "name": "proto_plus",
             "version": "1.25.0",
             "build": "pip",
@@ -79,13 +93,6 @@
             "filename": "pypinyin-0.53.0-pyhd8ed1ab_1.tar.gz"
         },
         {
-            "name": "emscripten-abi",
-            "version": "3.1.45",
-            "build": "h267e887_30",
-            "filename_stem": "emscripten-abi-3.1.45-h267e887_30",
-            "filename": "emscripten-abi-3.1.45-h267e887_30.tar.gz"
-        },
-        {
             "name": "numcodecs",
             "version": "0.9.1",
             "build": "h8d0f04b_0",
@@ -98,13 +105,6 @@
             "build": "pyhd8ed1ab_0",
             "filename_stem": "jinja2-3.1.5-pyhd8ed1ab_0",
             "filename": "jinja2-3.1.5-pyhd8ed1ab_0.tar.gz"
-        },
-        {
-            "name": "pyjs",
-            "version": "2.4.0",
-            "build": "py311h8a68b20_0",
-            "filename_stem": "pyjs-2.4.0-py311h8a68b20_0",
-            "filename": "pyjs-2.4.0-py311h8a68b20_0.tar.gz"
         },
         {
             "name": "xeus-python-shell",
@@ -156,6 +156,13 @@
             "filename": "parso-0.8.4-pyhd8ed1ab_1.tar.gz"
         },
         {
+            "name": "pygments",
+            "version": "2.19.1",
+            "build": "pyhd8ed1ab_0",
+            "filename_stem": "pygments-2.19.1-pyhd8ed1ab_0",
+            "filename": "pygments-2.19.1-pyhd8ed1ab_0.tar.gz"
+        },
+        {
             "name": "construct",
             "version": "2.10.70",
             "build": "pyhd8ed1ab_0",
@@ -177,18 +184,11 @@
             "filename": "loguru-0.7.3-pip.tar.gz"
         },
         {
-            "name": "charset-normalizer",
-            "version": "3.4.0",
-            "build": "pyhd8ed1ab_1",
-            "filename_stem": "charset-normalizer-3.4.0-pyhd8ed1ab_1",
-            "filename": "charset-normalizer-3.4.0-pyhd8ed1ab_1.tar.gz"
-        },
-        {
-            "name": "drawsvg",
-            "version": "2.4.0",
-            "build": "pyhd8ed1ab_0",
-            "filename_stem": "drawsvg-2.4.0-pyhd8ed1ab_0",
-            "filename": "drawsvg-2.4.0-pyhd8ed1ab_0.tar.gz"
+            "name": "pyjs",
+            "version": "2.4.1",
+            "build": "py311h8a68b20_0",
+            "filename_stem": "pyjs-2.4.1-py311h8a68b20_0",
+            "filename": "pyjs-2.4.1-py311h8a68b20_0.tar.gz"
         },
         {
             "name": "typing_extensions",
@@ -226,11 +226,11 @@
             "filename": "bidict-0.23.1-pyhd8ed1ab_1.tar.gz"
         },
         {
-            "name": "pygments",
-            "version": "2.18.0",
-            "build": "pyhd8ed1ab_1",
-            "filename_stem": "pygments-2.18.0-pyhd8ed1ab_1",
-            "filename": "pygments-2.18.0-pyhd8ed1ab_1.tar.gz"
+            "name": "markupsafe",
+            "version": "3.0.2",
+            "build": "py311hc8e14bb_0",
+            "filename_stem": "markupsafe-3.0.2-py311hc8e14bb_0",
+            "filename": "markupsafe-3.0.2-py311hc8e14bb_0.tar.gz"
         },
         {
             "name": "cffi",
@@ -238,6 +238,13 @@
             "build": "h8d97ea7_2",
             "filename_stem": "cffi-1.15.1-h8d97ea7_2",
             "filename": "cffi-1.15.1-h8d97ea7_2.tar.gz"
+        },
+        {
+            "name": "wheel",
+            "version": "0.45.1",
+            "build": "py311h9bd5ed5_0",
+            "filename_stem": "wheel-0.45.1-py311h9bd5ed5_0",
+            "filename": "wheel-0.45.1-py311h9bd5ed5_0.tar.gz"
         },
         {
             "name": "zhon",
@@ -259,13 +266,6 @@
             "build": "py311h8d0f04b_8",
             "filename_stem": "regex-2022.1.18-py311h8d0f04b_8",
             "filename": "regex-2022.1.18-py311h8d0f04b_8.tar.gz"
-        },
-        {
-            "name": "libresvip",
-            "version": "1.6.0",
-            "build": "pip",
-            "filename_stem": "libresvip-1.6.0-pip",
-            "filename": "libresvip-1.6.0-pip.tar.gz"
         },
         {
             "name": "python",
@@ -317,13 +317,6 @@
             "filename": "pexpect-4.9.0-pyhd8ed1ab_1.tar.gz"
         },
         {
-            "name": "wheel",
-            "version": "0.45.1",
-            "build": "pyhd8ed1ab_1",
-            "filename_stem": "wheel-0.45.1-pyhd8ed1ab_1",
-            "filename": "wheel-0.45.1-pyhd8ed1ab_1.tar.gz"
-        },
-        {
             "name": "xsdata_pydantic",
             "version": "24.5",
             "build": "pip",
@@ -359,25 +352,18 @@
             "filename": "xeus-python-shell-raw-0.6.3-pyhd8ed1ab_1.tar.gz"
         },
         {
+            "name": "setuptools",
+            "version": "75.8.0",
+            "build": "pyhff2d567_0",
+            "filename_stem": "setuptools-75.8.0-pyhff2d567_0",
+            "filename": "setuptools-75.8.0-pyhff2d567_0.tar.gz"
+        },
+        {
             "name": "msgpack",
             "version": "1.0.8",
             "build": "py311h04e829c_0",
             "filename_stem": "msgpack-1.0.8-py311h04e829c_0",
             "filename": "msgpack-1.0.8-py311h04e829c_0.tar.gz"
-        },
-        {
-            "name": "pydantic-settings",
-            "version": "2.7.0",
-            "build": "pyh3cfb1c2_0",
-            "filename_stem": "pydantic-settings-2.7.0-pyh3cfb1c2_0",
-            "filename": "pydantic-settings-2.7.0-pyh3cfb1c2_0.tar.gz"
-        },
-        {
-            "name": "markupsafe",
-            "version": "2.1.5",
-            "build": "py311he9a3d86_0",
-            "filename_stem": "markupsafe-2.1.5-py311he9a3d86_0",
-            "filename": "markupsafe-2.1.5-py311he9a3d86_0.tar.gz"
         },
         {
             "name": "executing",
@@ -399,6 +385,13 @@
             "build": "pip",
             "filename_stem": "xsdata-24.12-pip",
             "filename": "xsdata-24.12-pip.tar.gz"
+        },
+        {
+            "name": "drawsvg",
+            "version": "2.4.0",
+            "build": "pyhd8ed1ab_1",
+            "filename_stem": "drawsvg-2.4.0-pyhd8ed1ab_1",
+            "filename": "drawsvg-2.4.0-pyhd8ed1ab_1.tar.gz"
         },
         {
             "name": "construct_typing",
@@ -497,6 +490,13 @@
             "build": "pyha770c72_1",
             "filename_stem": "prompt-toolkit-3.0.48-pyha770c72_1",
             "filename": "prompt-toolkit-3.0.48-pyha770c72_1.tar.gz"
+        },
+        {
+            "name": "pydantic-settings",
+            "version": "2.7.1",
+            "build": "pyh3cfb1c2_0",
+            "filename_stem": "pydantic-settings-2.7.1-pyh3cfb1c2_0",
+            "filename": "pydantic-settings-2.7.1-pyh3cfb1c2_0.tar.gz"
         },
         {
             "name": "pydantic",
