@@ -2,7 +2,7 @@
   "jupyter-config-data": {
     "appName": "JupyterLite",
     "appUrl": "./lab",
-    "appVersion": "0.4.5",
+    "appVersion": "0.5.1",
     "baseUrl": "./",
     "defaultKernelName": "python",
     "faviconUrl": "./lab/favicon.ico",
@@ -16,9 +16,8 @@
       {
         "extension": "./extension",
         "liteExtension": true,
-        "load": "static/remoteEntry.a16830c0a812f3178830.js",
-        "name": "@jupyterlite/xeus",
-        "style": "./style"
+        "load": "static/remoteEntry.d587347e1969ea060272.js",
+        "name": "@jupyterlite/xeus-extension"
       },
       {
         "extension": "./extension",
@@ -35,7 +34,7 @@
       {
         "extension": "./extension",
         "liteExtension": false,
-        "load": "static/remoteEntry.cba680c7ed013f0591de.js",
+        "load": "static/remoteEntry.6935bd6c9ebe675e090a.js",
         "name": "jupyter-vuetify"
       },
       {
