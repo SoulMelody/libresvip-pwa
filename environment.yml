@@ -26,6 +26,7 @@ dependencies:
   - pip:
     - libresvip
     - construct-typing
+    - ko-pron
     - loguru
     - mido-fix
     - proto-plus
@@ -35,4 +36,4 @@ dependencies:
     - xsdata-pydantic
     - wanakana-python
     - zhon
-    - ./pypi/protobuf-5.29.0-py3-none-any.whl
+    - ./pypi/protobuf-6.30.1-py3-none-any.whl
