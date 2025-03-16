@@ -167,7 +167,12 @@ def _(language_select, mo):
         input_format_select,
         output_format_select
     ])
-    return input_format_select, output_format_select, plugin_manager
+    return (
+        format_choices,
+        input_format_select,
+        output_format_select,
+        plugin_manager,
+    )
 
 
 @app.cell
@@ -236,6 +241,8 @@ def _(
 ):
     import pathlib
     import tempfile
+
+    from libresvip.utils.translation import gettext_lazy as _
 
     mo.stop(f.contents(0) is None or btn.value is False, mo.md(""))
 
