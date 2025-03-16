@@ -41,7 +41,6 @@ def _():
 
 @app.cell
 def _(mo):
-    from libresvip.plugins.acep.ace_studio_converter import ACEStudioConverter
     from libresvip.core.config import Language, settings
     from libresvip.extension.manager import get_translation
     from libresvip.utils import translation
@@ -93,13 +92,20 @@ def _(mo):
                     label=_(field_info.title),
                 )
             elif issubclass(field_info.annotation, enum.Enum):
-                if default_value is not None:
-                    default_value = default_value.name
                 annotations = get_type_hints(field_info.annotation, include_extras=True)
-                choices = []
+                choices = {}
                 for enum_item in field_info.annotation:
                     if enum_item.name in annotations:
-                        choices.append(enum_item.name)
+                        annotated_args = list(
+                            get_args(annotations[enum_item.name]),
+                        )
+                        if len(annotated_args) >= 2:
+                            enum_field = annotated_args[1]
+                        else:
+                            continue
+                        choices[_(enum_field.title)] = enum_item.value
+                        if isinstance(default_value, enum.Enum) and default_value.name == enum_item.name:
+                            default_value = _(enum_field.title)
                 option_dict[option_key] = mo.ui.dropdown(
                     choices,
                     value=default_value,
@@ -144,12 +150,16 @@ def _(language_select, mo):
 
     mo.stop(language_select.value is None, mo.md(""))
 
+    format_choices = {
+        _(plugin.file_format or "") + f" (*.{plugin.suffix})": identifier
+        for identifier, plugin in plugin_manager.plugin_registry.items()
+    }
     input_format_select = mo.ui.dropdown(
-        list(plugin_manager.plugin_registry),
+        format_choices,
         label=_("Import format"),
     )
     output_format_select = mo.ui.dropdown(
-        list(plugin_manager.plugin_registry),
+        format_choices,
         label=_("Export format"),
     )
 
@@ -203,7 +213,7 @@ def _(input_format_select, language_select, mo, output_format_select):
     mo.stop(language_select.value is None or input_format_select.value is None or output_format_select.value is None, mo.md(""))
 
     f = mo.ui.file(label=_("Drag and drop files here or click to upload"), kind="area")
-    btn = mo.ui.run_button()
+    btn = mo.ui.run_button(label=_("Start Conversion"))
     mo.vstack([
         f,
         btn,
@@ -249,6 +259,7 @@ def _(
         data=target_file.read_bytes(),
         filename=target_file.name,
         mimetype="application/octet-stream",
+        label=_("Export"),
     )
     return (
         child_file,
