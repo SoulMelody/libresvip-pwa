@@ -684,6 +684,9 @@
       "Autostart?": [
         "\u81ea\u52a8\u542f\u52a8\uff1f"
       ],
+      "Bottom Panel": [
+        "\u5e95\u90e8\u9762\u677f"
+      ],
       "Brainfuck": [
         "Brainfuck"
       ],
@@ -2232,6 +2235,9 @@
       ],
       "Main Area": [
         "\u4e3b\u5de5\u4f5c\u533a"
+      ],
+      "Main Content": [
+        "\u4e3b\u8981\u5185\u5bb9"
       ],
       "MariaDB SQL": [
         "MariaDB SQL"
@@ -3996,6 +4002,9 @@
       ],
       "Toolbar customization has changed. You will need to reload JupyterLab to see the changes.": [
         "\u5de5\u5177\u680f\u81ea\u5b9a\u4e49\u5df2\u66f4\u6539\u3002\u60a8\u9700\u8981\u91cd\u65b0\u8f7d\u5165 JupyterLab \u6765\u67e5\u770b\u6539\u52a8\u3002"
+      ],
+      "Top Bar": [
+        "\u9876\u680f"
       ],
       "Tree View": [
         "\u6811\u72b6\u89c6\u56fe"
@@ -9051,9 +9060,6 @@
       ],
       "Files": [
         "\u6587\u4ef6"
-      ],
-      "Filter files by name": [
-        "\u6309\u540d\u5b57\u7b5b\u9009\u6587\u4ef6"
       ],
       "Handle Local Link": [
         "\u5904\u7406\u672c\u5730\u94fe\u63a5"

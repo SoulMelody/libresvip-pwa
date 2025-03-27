@@ -9,13 +9,6 @@
             "filename": "pure_eval-0.2.3-pyhd8ed1ab_1.tar.gz"
         },
         {
-            "name": "ipython",
-            "version": "8.33.0",
-            "build": "py311hf215df6_0",
-            "filename_stem": "ipython-8.33.0-py311hf215df6_0",
-            "filename": "ipython-8.33.0-py311hf215df6_0.tar.gz"
-        },
-        {
             "name": "pydantic",
             "version": "2.8.2",
             "build": "pyhd8ed1ab_0",
@@ -35,6 +28,20 @@
             "build": "py311h04e829c_0",
             "filename_stem": "msgpack-1.0.8-py311h04e829c_0",
             "filename": "msgpack-1.0.8-py311h04e829c_0.tar.gz"
+        },
+        {
+            "name": "platformdirs",
+            "version": "4.3.7",
+            "build": "pyh29332c3_0",
+            "filename_stem": "platformdirs-4.3.7-pyh29332c3_0",
+            "filename": "platformdirs-4.3.7-pyh29332c3_0.tar.gz"
+        },
+        {
+            "name": "jyutping",
+            "version": "0.3.4",
+            "build": "pip",
+            "filename_stem": "jyutping-0.3.4-pip",
+            "filename": "jyutping-0.3.4-pip.tar.gz"
         },
         {
             "name": "ipyvue",
@@ -70,6 +77,13 @@
             "build": "pyhd8ed1ab_1",
             "filename_stem": "parsimonious-0.10.0-pyhd8ed1ab_1",
             "filename": "parsimonious-0.10.0-pyhd8ed1ab_1.tar.gz"
+        },
+        {
+            "name": "ipython",
+            "version": "9.0.2",
+            "build": "py311hf215df6_0",
+            "filename_stem": "ipython-9.0.2-py311hf215df6_0",
+            "filename": "ipython-9.0.2-py311hf215df6_0.tar.gz"
         },
         {
             "name": "xeus-python",
@@ -128,11 +142,25 @@
             "filename": "parso-0.8.4-pyhd8ed1ab_1.tar.gz"
         },
         {
+            "name": "ko_pron",
+            "version": "1.3",
+            "build": "pip",
+            "filename_stem": "ko_pron-1.3-pip",
+            "filename": "ko_pron-1.3-pip.tar.gz"
+        },
+        {
             "name": "more-itertools",
             "version": "10.6.0",
             "build": "pyhd8ed1ab_0",
             "filename_stem": "more-itertools-10.6.0-pyhd8ed1ab_0",
             "filename": "more-itertools-10.6.0-pyhd8ed1ab_0.tar.gz"
+        },
+        {
+            "name": "numpy",
+            "version": "2.2.4",
+            "build": "py311h876eb57_0",
+            "filename_stem": "numpy-2.2.4-py311h876eb57_0",
+            "filename": "numpy-2.2.4-py311h876eb57_0.tar.gz"
         },
         {
             "name": "wcwidth",
@@ -156,13 +184,6 @@
             "filename": "matplotlib-inline-0.1.7-pyhd8ed1ab_1.tar.gz"
         },
         {
-            "name": "xeus-python-shell",
-            "version": "0.6.3",
-            "build": "pyhff2d567_1",
-            "filename_stem": "xeus-python-shell-0.6.3-pyhff2d567_1",
-            "filename": "xeus-python-shell-0.6.3-pyhff2d567_1.tar.gz"
-        },
-        {
             "name": "ptyprocess",
             "version": "0.7.0",
             "build": "pyhd8ed1ab_1",
@@ -182,6 +203,13 @@
             "build": "pyhd8ed1ab_1",
             "filename_stem": "traitlets-5.14.3-pyhd8ed1ab_1",
             "filename": "traitlets-5.14.3-pyhd8ed1ab_1.tar.gz"
+        },
+        {
+            "name": "protobuf",
+            "version": "6.30.1",
+            "build": "pip",
+            "filename_stem": "protobuf-6.30.1-pip",
+            "filename": "protobuf-6.30.1-pip.tar.gz"
         },
         {
             "name": "charset-normalizer",
@@ -219,11 +247,25 @@
             "filename": "prompt-toolkit-3.0.50-pyha770c72_0.tar.gz"
         },
         {
-            "name": "pyjs",
-            "version": "2.7.2",
-            "build": "py311hfb11635_0",
-            "filename_stem": "pyjs-2.7.2-py311hfb11635_0",
-            "filename": "pyjs-2.7.2-py311hfb11635_0.tar.gz"
+            "name": "python-dotenv",
+            "version": "1.1.0",
+            "build": "pyh29332c3_1",
+            "filename_stem": "python-dotenv-1.1.0-pyh29332c3_1",
+            "filename": "python-dotenv-1.1.0-pyh29332c3_1.tar.gz"
+        },
+        {
+            "name": "xeus-python-shell-raw",
+            "version": "0.6.4",
+            "build": "pyhd8ed1ab_0",
+            "filename_stem": "xeus-python-shell-raw-0.6.4-pyhd8ed1ab_0",
+            "filename": "xeus-python-shell-raw-0.6.4-pyhd8ed1ab_0.tar.gz"
+        },
+        {
+            "name": "libresvip",
+            "version": "1.10.0.post0",
+            "build": "pip",
+            "filename_stem": "libresvip-1.10.0.post0-pip",
+            "filename": "libresvip-1.10.0.post0-pip.tar.gz"
         },
         {
             "name": "pexpect",
@@ -231,20 +273,6 @@
             "build": "pyhd8ed1ab_1",
             "filename_stem": "pexpect-4.9.0-pyhd8ed1ab_1",
             "filename": "pexpect-4.9.0-pyhd8ed1ab_1.tar.gz"
-        },
-        {
-            "name": "xeus-python-shell-raw",
-            "version": "0.6.3",
-            "build": "pyhd8ed1ab_1",
-            "filename_stem": "xeus-python-shell-raw-0.6.3-pyhd8ed1ab_1",
-            "filename": "xeus-python-shell-raw-0.6.3-pyhd8ed1ab_1.tar.gz"
-        },
-        {
-            "name": "protobuf",
-            "version": "5.29.0",
-            "build": "pip",
-            "filename_stem": "protobuf-5.29.0-pip",
-            "filename": "protobuf-5.29.0-pip.tar.gz"
         },
         {
             "name": "lxml",
@@ -259,13 +287,6 @@
             "build": "pyhd8ed1ab_1",
             "filename_stem": "reacton-1.9.1-pyhd8ed1ab_1",
             "filename": "reacton-1.9.1-pyhd8ed1ab_1.tar.gz"
-        },
-        {
-            "name": "libresvip",
-            "version": "1.9.1",
-            "build": "pip",
-            "filename_stem": "libresvip-1.9.1-pip",
-            "filename": "libresvip-1.9.1-pip.tar.gz"
         },
         {
             "name": "pysubs2",
@@ -324,18 +345,18 @@
             "filename": "jedi-0.19.2-pyhd8ed1ab_1.tar.gz"
         },
         {
-            "name": "platformdirs",
-            "version": "4.3.6",
-            "build": "pyhd8ed1ab_1",
-            "filename_stem": "platformdirs-4.3.6-pyhd8ed1ab_1",
-            "filename": "platformdirs-4.3.6-pyhd8ed1ab_1.tar.gz"
-        },
-        {
             "name": "pygments",
             "version": "2.19.1",
             "build": "pyhd8ed1ab_0",
             "filename_stem": "pygments-2.19.1-pyhd8ed1ab_0",
             "filename": "pygments-2.19.1-pyhd8ed1ab_0.tar.gz"
+        },
+        {
+            "name": "xeus-python-shell",
+            "version": "0.6.4",
+            "build": "pyhff2d567_0",
+            "filename_stem": "xeus-python-shell-0.6.4-pyhff2d567_0",
+            "filename": "xeus-python-shell-0.6.4-pyhff2d567_0.tar.gz"
         },
         {
             "name": "sortedcontainers",
@@ -357,6 +378,13 @@
             "build": "pyhd8ed1ab_1",
             "filename_stem": "ipywidgets-8.1.5-pyhd8ed1ab_1",
             "filename": "ipywidgets-8.1.5-pyhd8ed1ab_1.tar.gz"
+        },
+        {
+            "name": "pyjs",
+            "version": "2.7.3",
+            "build": "py311hfb11635_0",
+            "filename_stem": "pyjs-2.7.3-py311hfb11635_0",
+            "filename": "pyjs-2.7.3-py311hfb11635_0.tar.gz"
         },
         {
             "name": "libyaml",
@@ -406,13 +434,6 @@
             "build": "pip",
             "filename_stem": "xsdata-24.12-pip",
             "filename": "xsdata-24.12-pip.tar.gz"
-        },
-        {
-            "name": "python-dotenv",
-            "version": "1.0.1",
-            "build": "pyhd8ed1ab_1",
-            "filename_stem": "python-dotenv-1.0.1-pyhd8ed1ab_1",
-            "filename": "python-dotenv-1.0.1-pyhd8ed1ab_1.tar.gz"
         },
         {
             "name": "pickleshare",
@@ -476,13 +497,6 @@
             "build": "pyh8b19718_0",
             "filename_stem": "pip-25.0.1-pyh8b19718_0",
             "filename": "pip-25.0.1-pyh8b19718_0.tar.gz"
-        },
-        {
-            "name": "numpy",
-            "version": "2.2.3",
-            "build": "py311h876eb57_0",
-            "filename_stem": "numpy-2.2.3-py311h876eb57_0",
-            "filename": "numpy-2.2.3-py311h876eb57_0.tar.gz"
         },
         {
             "name": "pydantic-core",
