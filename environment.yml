@@ -26,6 +26,7 @@ dependencies:
   - pip:
     - libresvip
     - construct-typing
+    - jyutping
     - ko-pron
     - loguru
     - mido-fix
