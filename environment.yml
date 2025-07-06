@@ -1,3 +1,4 @@
+name: libresvip-pwa
 channels:
   - https://repo.mamba.pm/emscripten-forge
   - conda-forge
