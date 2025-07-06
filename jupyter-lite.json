@@ -2,57 +2,50 @@
   "jupyter-config-data": {
     "appName": "JupyterLite",
     "appUrl": "./lab",
-    "appVersion": "0.5.1",
+    "appVersion": "0.6.3",
     "baseUrl": "./",
     "defaultKernelName": "python",
     "faviconUrl": "./lab/favicon.ico",
     "federated_extensions": [
       {
         "extension": "./extension",
-        "liteExtension": false,
-        "load": "static/remoteEntry.e4ff09401a2f575928c0.js",
+        "load": "static/remoteEntry.35b6c65bd99dab37b910.js",
         "name": "@jupyter-widgets/jupyterlab-manager"
       },
       {
         "extension": "./extension",
-        "liteExtension": true,
-        "load": "static/remoteEntry.d587347e1969ea060272.js",
-        "name": "@jupyterlite/xeus-extension"
+        "load": "static/remoteEntry.34d85833e6f4e142fc64.js",
+        "name": "@jupyterlite/xeus-extension",
+        "style": "./style"
       },
       {
         "extension": "./extension",
-        "liteExtension": false,
         "load": "static/remoteEntry.382ac9f028a244bc2d44.js",
         "name": "@timkpaine/jupyterlab_miami_nights"
       },
       {
         "extension": "./extension",
-        "liteExtension": false,
         "load": "static/remoteEntry.fe4d92c68cf0954e2b54.js",
         "name": "jupyter-vue"
       },
       {
         "extension": "./extension",
-        "liteExtension": false,
-        "load": "static/remoteEntry.6935bd6c9ebe675e090a.js",
+        "load": "static/remoteEntry.ec119e7976641f6ba2ec.js",
         "name": "jupyter-vuetify"
       },
       {
         "extension": "./extension",
-        "liteExtension": false,
         "load": "static/remoteEntry.ffa5f565ff781bbfab6e.js",
         "name": "jupyterlab-filesystem-access",
         "style": "./style"
       },
       {
         "extension": "./extension",
-        "liteExtension": false,
-        "load": "static/remoteEntry.6a37df5d4590b29196a3.js",
+        "load": "static/remoteEntry.2105cdd7da221c68dcd3.js",
         "name": "jupyterlab-night"
       },
       {
         "extension": "./extension",
-        "liteExtension": false,
         "load": "static/remoteEntry.5cbb9d2323598fbda535.js",
         "name": "jupyterlab_pygments",
         "style": "./style"
