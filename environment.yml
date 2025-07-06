@@ -12,7 +12,6 @@ dependencies:
   - lxml
   - numcodecs
   - more-itertools
-  - parsimonious
   - packaging
   - platformdirs
   - portion
@@ -33,8 +32,9 @@ dependencies:
     - proto-plus
     - pysubs2
     - retrie
+    - tatsu-lts
     - xsdata
     - xsdata-pydantic
     - wanakana-python
     - zhon
-    - ./pypi/protobuf-6.30.1-py3-none-any.whl
+    - ./pypi/protobuf-6.31.1-py3-none-any.whl
