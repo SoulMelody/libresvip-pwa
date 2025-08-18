@@ -8,10 +8,10 @@ dependencies:
   - bidict
   - charset-normalizer
   - construct
+  - cramjam
   - drawsvg
   - jinja2
   - lxml
-  - numcodecs
   - more-itertools
   - packaging
   - platformdirs
@@ -38,4 +38,4 @@ dependencies:
     - xsdata-pydantic
     - wanakana-python
     - zhon
-    - ./pypi/protobuf-6.31.1-py3-none-any.whl
+    - ./pypi/protobuf-6.32.0-py3-none-any.whl
