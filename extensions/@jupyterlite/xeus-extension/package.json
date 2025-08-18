@@ -1,6 +1,6 @@
 {
   "name": "@jupyterlite/xeus-extension",
-  "version": "4.0.5",
+  "version": "4.1.2",
   "description": "JupyterLite loader for Xeus kernels",
   "keywords": [
     "jupyter",
@@ -48,7 +48,7 @@
     "@jupyterlite/contents": "^0.6.0",
     "@jupyterlite/kernel": "^0.6.0",
     "@jupyterlite/server": "^0.6.0",
-    "@jupyterlite/xeus": "^4.0.5",
+    "@jupyterlite/xeus": "^4.1.2",
     "@lumino/coreutils": "^2"
   },
   "devDependencies": {
@@ -93,7 +93,7 @@
       }
     },
     "_build": {
-      "load": "static/remoteEntry.34d85833e6f4e142fc64.js",
+      "load": "static/remoteEntry.4827dded36758d561ea1.js",
       "extension": "./extension",
       "style": "./style"
     }

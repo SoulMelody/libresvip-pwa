@@ -2,7 +2,7 @@
   "jupyter-config-data": {
     "appName": "JupyterLite",
     "appUrl": "./lab",
-    "appVersion": "0.6.3",
+    "appVersion": "0.6.4",
     "baseUrl": "./",
     "defaultKernelName": "python",
     "faviconUrl": "./lab/favicon.ico",
@@ -14,7 +14,7 @@
       },
       {
         "extension": "./extension",
-        "load": "static/remoteEntry.34d85833e6f4e142fc64.js",
+        "load": "static/remoteEntry.4827dded36758d561ea1.js",
         "name": "@jupyterlite/xeus-extension",
         "style": "./style"
       },

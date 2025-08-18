@@ -2,25 +2,25 @@
   "packages": [
     {
       "name": "@emscripten-forge/mambajs",
-      "versionInfo": "0.13.1",
+      "versionInfo": "0.15.7",
       "licenseId": "MIT",
       "extractedText": ""
     },
     {
       "name": "@emscripten-forge/mambajs-core",
-      "versionInfo": "0.13.0",
+      "versionInfo": "0.15.7",
       "licenseId": "MIT",
       "extractedText": ""
     },
     {
       "name": "@jupyterlite/xeus",
-      "versionInfo": "4.0.5",
+      "versionInfo": "4.1.2",
       "licenseId": "BSD-3-Clause",
       "extractedText": ""
     },
     {
       "name": "@jupyterlite/xeus-core",
-      "versionInfo": "4.0.5",
+      "versionInfo": "4.1.2",
       "licenseId": "BSD-3-Clause",
       "extractedText": ""
     },
