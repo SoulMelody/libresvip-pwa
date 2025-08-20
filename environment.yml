@@ -1,3 +1,4 @@
+name: libresvip-pwa
 channels:
   - https://repo.mamba.pm/emscripten-forge
   - conda-forge
@@ -7,31 +8,34 @@ dependencies:
   - bidict
   - charset-normalizer
   - construct
+  - cramjam
   - drawsvg
   - jinja2
   - lxml
-  - numcodecs
   - more-itertools
-  - omegaconf
-  - parsimonious
   - packaging
   - platformdirs
   - portion
   - pydantic==2.8.2
+  - pydantic-extra-types
+  - pydantic-settings
   - pypinyin
+  - pyyaml
   - reacton
   - ipyvuetify
   - pip:
     - libresvip
     - construct-typing
+    - jyutping
+    - ko-pron
     - loguru
     - mido-fix
     - proto-plus
-    - pydantic-extra-types
     - pysubs2
     - retrie
+    - tatsu-lts
     - xsdata
     - xsdata-pydantic
     - wanakana-python
     - zhon
-    - ./pypi/protobuf-5.29.0-py3-none-any.whl
+    - ./pypi/protobuf-6.32.0-py3-none-any.whl
