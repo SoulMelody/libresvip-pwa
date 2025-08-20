@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   assetsInclude: ["**/*.whl"],  // `*.whl` files should be handled as assets
+  base: "/libresvip-pwa/",
   build: {
     rollupOptions: {
       output: {
