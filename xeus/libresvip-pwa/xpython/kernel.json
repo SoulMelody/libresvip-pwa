@@ -1,1 +1,0 @@
-{"display_name": "Python 3.11 (XPython)", "argv": ["xeus/libresvip-pwa/bin/xpython.js", "-f", "{connection_file}"], "language": "python", "metadata": {"debugger": true}, "resources": {"logo-32x32": "xeus/libresvip-pwa/xpython/logo-32x32.png", "logo-64x64": "xeus/libresvip-pwa/xpython/logo-64x64.png", "logo-svg": "xeus/libresvip-pwa/xpython/logo-svg.svg"}}
