@@ -1,6 +1,6 @@
 import { mount } from "@stlite/browser";
 import stliteLibWheel from "@stlite/browser/wheels/stlite_lib-0.1.0-py3-none-any.whl";
-import streamlitWheel from "@stlite/browser/wheels/streamlit-1.41.0-cp312-none-any.whl";
+import streamlitWheel from "@stlite/browser/wheels/streamlit-1.48.0-cp312-none-any.whl";
 import libresvipWheel from "./assets/libresvip-1.11.3-py3-none-any.whl";
 import constructWheel from "./assets/construct-2.10.68-py3-none-any.whl";
 import midofixWheel from "./assets/mido_fix-1.2.12-py2.py3-none-any.whl";
@@ -52,27 +52,27 @@ class GettextGenerateJsonSchema(GenerateJsonSchema):
 def main():
     step = sac.steps(
         [
-            sac.StepsItem(title=_("Upload")),
-            sac.StepsItem(title=_("Formats")),
-            sac.StepsItem(title=_("Options")),
-            sac.StepsItem(title=_("Download")),
+            sac.StepsItem(title=_("Import project")),
+            sac.StepsItem(title=_("Export format")),
+            sac.StepsItem(title=_("Advanced Settings")),
+            sac.StepsItem(title=_("Export")),
         ],
         size="sm",
         return_index=True,
     )
     plugin_options = list(plugin_manager.plugin_registry)
     if step == 0:
-        CONVERSION_MODE = st.selectbox(_("Conversion mode"), options=["Direct", "Split", "Merge"])
-        if CONVERSION_MODE == "Split":
+        CONVERSION_MODE = st.selectbox(_("Conversion mode"), options=[_("Direct"), _("Split"), _("Merge")])
+        if CONVERSION_MODE == _("Split"):
             max_track_count = st.number_input(_("Max track count"), min_value=1, max_value=100, value=1)
         col1, col2 = st.columns([0.9, 0.1])
         with col1:
             prev_input_format = st.session_state.get("input_format", None)
-            st.session_state["input_format"] = st.selectbox("Select input format", options=plugin_options, index=plugin_options.index(prev_input_format) if prev_input_format in plugin_options else 0)
+            st.session_state["input_format"] = st.selectbox(_("Import format"), options=plugin_options, index=plugin_options.index(prev_input_format) if prev_input_format in plugin_options else 0)
         with col2:
             with st.popover("", icon="ℹ"):
-                st.write(_("The input file will be split into multiple tracks."))
-        uploaded_file = st.file_uploader("Upload a file", accept_multiple_files=False)
+                st.write("")
+        uploaded_file = st.file_uploader(_("Add task"), accept_multiple_files=False)
         if uploaded_file is not None:
             st.session_state["uploaded_content"] = uploaded_file.read()
             st.session_state["uploaded_file_name"] = uploaded_file.name
@@ -81,17 +81,17 @@ def main():
         with col1:
             prev_output_format = st.session_state.get("output_format", None)
             st.session_state["output_format"] = st.selectbox(
-                "Select output format", options=plugin_options,
+                _("Export format"), options=plugin_options,
                 index=plugin_options.index(prev_output_format) if prev_output_format in plugin_options else 0
             )
         with col2:
             with st.popover("", icon="ℹ"):
-                st.write(_("The output file will be split into multiple tracks."))
+                st.write("")
     elif step == 2:
         TAB_SELECT = sac.tabs([
-            sac.TabsItem("Input Options"),
-            sac.TabsItem("Output Options"),
-            sac.TabsItem("Middleware Options"),
+            sac.TabsItem(_("Input Options")),
+            sac.TabsItem(_("Output Options")),
+            sac.TabsItem(_("Intermediate Processing")),
         ], return_index=True)
         if TAB_SELECT == 0:
             plugin_info = plugin_manager.plugin_registry[st.session_state["input_format"]]
@@ -131,8 +131,8 @@ def main():
             output_file = memfs / output_name
             plugin_manager.plugin_registry[output_format].plugin_object.dump(output_file, project, output_options)
 
-            sac.result("Conversion Result", status="success")
-            st.download_button("Download", data=output_file.read_bytes(), file_name=output_name, mime="application/octet-stream")
+            sac.result(_("File successfully converted"), status="success")
+            st.download_button(_("Download"), data=output_file.read_bytes(), file_name=output_name, mime="application/octet-stream")
         except Exception:
             sac.result(traceback.format_exc(), status="error")
 
