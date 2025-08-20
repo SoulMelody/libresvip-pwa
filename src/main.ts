@@ -1,6 +1,6 @@
 import { mount } from "@stlite/browser";
 import stliteLibWheel from "@stlite/browser/wheels/stlite_lib-0.1.0-py3-none-any.whl";
-import streamlitWheel from "@stlite/browser/wheels/streamlit-1.41.0-cp312-none-any.whl";
+import streamlitWheel from "@stlite/browser/wheels/streamlit-1.48.0-cp312-none-any.whl";
 import libresvipWheel from "./assets/libresvip-1.11.3-py3-none-any.whl";
 import constructWheel from "./assets/construct-2.10.68-py3-none-any.whl";
 import midofixWheel from "./assets/mido_fix-1.2.12-py2.py3-none-any.whl";
