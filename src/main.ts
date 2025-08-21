@@ -10,13 +10,14 @@ mount(
   {
     entrypoint: "app.py",
     files: {
-      "app.py": `import gettext
+      "app.py": `import enum
+import gettext
 import traceback
-from typing import get_type_hints, override
+from typing import get_args, get_type_hints, override
 
 import streamlit as st
 import streamlit_antd_components as sac
-import streamlit_react_jsonschema as srj
+import streamlit_rjsf as srj
 from pydantic._internal._core_utils import CoreSchemaOrField
 from pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue
 from upath import UPath
@@ -62,9 +63,6 @@ def main():
     )
     plugin_options = list(plugin_manager.plugin_registry)
     if step == 0:
-        CONVERSION_MODE = st.selectbox(_("Conversion mode"), options=[_("Direct"), _("Split"), _("Merge")])
-        if CONVERSION_MODE == _("Split"):
-            max_track_count = st.number_input(_("Max track count"), min_value=1, max_value=100, value=1)
         col1, col2 = st.columns([0.9, 0.1])
         with col1:
             prev_input_format = st.session_state.get("input_format", None)
@@ -91,29 +89,94 @@ def main():
         TAB_SELECT = sac.tabs([
             sac.TabsItem(_("Input Options")),
             sac.TabsItem(_("Output Options")),
-            sac.TabsItem(_("Intermediate Processing")),
         ], return_index=True)
         if TAB_SELECT == 0:
             plugin_info = plugin_manager.plugin_registry[st.session_state["input_format"]]
             option_cls = get_type_hints(plugin_info.plugin_object.load)["options"]
-            options, changed = srj.jsonschema_form(
-                key="input_options_form",
-                schema=option_cls.model_json_schema(
-                    schema_generator=GettextGenerateJsonSchema,
-                ),
+            option_json_schema = option_cls.model_json_schema(
+                schema_generator=GettextGenerateJsonSchema,
             )
-            if changed:
+            option_json_schema.pop("title", None)
+            option_json_schema["required"] = list(
+                option_json_schema["properties"].keys()
+            )
+            ui_schema = {
+                "ui:submitButtonOptions": {
+                    "submitText": _("OK"),
+                }
+            }
+            for field_name, field_info in option_cls.model_fields.items():
+                if issubclass(field_info.annotation, enum.Enum):
+                    type_hints = get_type_hints(field_info.annotation, include_extras=True)
+                    annotations = None
+                    if "_value_" in type_hints:
+                        value_args = get_args(type_hints["_value_"])
+                        if len(value_args) >= 2:
+                            model = value_args[1]
+                            if hasattr(model, "model_fields"):
+                                annotations = model.model_fields
+                    if annotations is None:
+                        continue
+                    enum_names = []
+                    for enum_item in field_info.annotation:
+                        if enum_item.name in annotations:
+                            enum_field = annotations[enum_item.name]
+                            enum_names.append(_(enum_field.title))
+                    ui_schema[field_name] = {
+                        "ui:enumNames": enum_names
+                    }
+            prev_options = st.session_state.get("input_options", {})
+            options = srj.raw_jsonform(
+                key="input_options_form",
+                schema=option_json_schema,
+                user_data=prev_options,
+                ui_schema=ui_schema
+            )
+            if options:
                 st.session_state["input_options"] = options
         elif TAB_SELECT == 1:
             plugin_info = plugin_manager.plugin_registry[st.session_state["output_format"]]
             option_cls = get_type_hints(plugin_info.plugin_object.dump)["options"]
-            options, changed = srj.jsonschema_form(
-                key="output_options_form",
-                schema=option_cls.model_json_schema(
-                    schema_generator=GettextGenerateJsonSchema,
-                ),
+            option_json_schema = option_cls.model_json_schema(
+                schema_generator=GettextGenerateJsonSchema,
             )
-            if changed:
+            option_json_schema.pop("title", None)
+            option_json_schema["required"] = list(
+                option_json_schema["properties"].keys()
+            )
+            ui_schema = {
+                "ui:submitButtonOptions": {
+                    "submitText": _("OK"),
+                }
+            }
+            for field_name, field_info in option_cls.model_fields.items():
+                if issubclass(field_info.annotation, enum.Enum):
+                    type_hints = get_type_hints(field_info.annotation, include_extras=True)
+                    annotations = None
+                    if "_value_" in type_hints:
+                        value_args = get_args(type_hints["_value_"])
+                        if len(value_args) >= 2:
+                            model = value_args[1]
+                            if hasattr(model, "model_fields"):
+                                annotations = model.model_fields
+                    if annotations is None:
+                        continue
+                    enum_names = []
+                    for enum_item in field_info.annotation:
+                        if enum_item.name in annotations:
+                            enum_field = annotations[enum_item.name]
+                            enum_names.append(_(enum_field.title))
+                    ui_schema[field_name] = {
+                        "ui:enumNames": enum_names
+                    }
+            prev_options = st.session_state.get("output_options", {})
+            options = srj.raw_jsonform(
+                key="output_options_form",
+                schema=option_json_schema,
+                user_data=prev_options,
+                ui_schema=ui_schema
+            )
+            if options:
                 st.session_state["output_options"] = options
     elif step == 3:
         try:
@@ -142,7 +205,7 @@ if __name__ == "__main__":
     requirements: [
       "lxml",
       "streamlit-antd-components",
-      "streamlit-react-jsonschema",
+      "streamlit-rjsf",
       "ruamel.yaml",
       "ujson",
       "universal-pathlib",
