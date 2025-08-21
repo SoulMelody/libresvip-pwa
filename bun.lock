@@ -4,7 +4,7 @@
     "": {
       "name": "libresvip-pwa",
       "dependencies": {
-        "@stlite/browser": "^0.88.1",
+        "@stlite/browser": "^0.89.0",
       },
       "devDependencies": {
         "@types/node": "^24.3.0",
@@ -106,7 +106,7 @@
 
     "@rollup/rollup-win32-x64-msvc": ["@rollup/rollup-win32-x64-msvc@4.46.4", "https://registry.npmmirror.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.46.4.tgz", { "os": "win32", "cpu": "x64" }, "sha512-IKL9mewGZ5UuuX4NQlwOmxPyqielvkAPUS2s1cl6yWjjQvyN3h5JTdVFGD5Jr5xMjRC8setOfGQDVgX8V+dkjg=="],
 
-    "@stlite/browser": ["@stlite/browser@0.88.1", "https://registry.npmmirror.com/@stlite/browser/-/browser-0.88.1.tgz", {}, "sha512-VtJHOiiCqPsgdDDsN/U9mAE9bYjPRPeVoUC6Ker3tJ5b4I1V0Uq5Im4ldVhyra/bG3HI0bWyJSCtt/bG/fhd9Q=="],
+    "@stlite/browser": ["@stlite/browser@0.89.0", "https://registry.npmmirror.com/@stlite/browser/-/browser-0.89.0.tgz", {}, "sha512-j+8JCFxN8ON49ku/axpgXv02KFI6/uH9LSCN9KUT0XPQV3vfe+d338n/60yScZhrDV1n0Y3NHjgpeee8+VkeAg=="],
 
     "@types/estree": ["@types/estree@1.0.8", "https://registry.npmmirror.com/@types/estree/-/estree-1.0.8.tgz", {}, "sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w=="],
 
