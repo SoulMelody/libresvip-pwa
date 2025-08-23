@@ -122,9 +122,7 @@ def main():
                         if enum_item.name in annotations:
                             enum_field = annotations[enum_item.name]
                             enum_names.append(_(enum_field.title))
-                    ui_schema[field_name] = {
-                        "ui:enumNames": enum_names
-                    }
+                    option_json_schema["properties"][field_name]["enumNames"] = enum_names
             prev_options = st.session_state.get("input_options", {})
             options = srj.raw_jsonform(
                 key="input_options_form",
@@ -166,9 +164,7 @@ def main():
                         if enum_item.name in annotations:
                             enum_field = annotations[enum_item.name]
                             enum_names.append(_(enum_field.title))
-                    ui_schema[field_name] = {
-                        "ui:enumNames": enum_names
-                    }
+                    option_json_schema["properties"][field_name]["enumNames"] = enum_names
             prev_options = st.session_state.get("output_options", {})
             options = srj.raw_jsonform(
                 key="output_options_form",
