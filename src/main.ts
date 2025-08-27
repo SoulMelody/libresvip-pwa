@@ -194,7 +194,7 @@ def main():
             st.download_button(_("Download"), data=output_file.read_bytes(), file_name=output_name, mime="application/octet-stream")
         except Exception:
             sac.result(traceback.format_exc(), status="error")
-        if st.button("", icon=":material/refresh-alt:"):
+        if st.button("", icon=":material/restart_alt:"):
             st.session_state.clear()
             st.experimental_rerun()
 
