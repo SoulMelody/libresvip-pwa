@@ -196,7 +196,7 @@ def main():
             sac.result(traceback.format_exc(), status="error")
         if st.button("", icon=":material/restart_alt:"):
             st.session_state.clear()
-            st.experimental_rerun()
+            st.rerun()
 
 if __name__ == "__main__":
     main()`,
