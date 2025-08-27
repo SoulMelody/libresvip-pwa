@@ -68,7 +68,7 @@ def main():
             prev_input_format = st.session_state.get("input_format", None)
             st.session_state["input_format"] = st.selectbox(_("Import format"), options=plugin_options, index=plugin_options.index(prev_input_format) if prev_input_format in plugin_options else 0)
         with col2:
-            with st.popover("", icon="ℹ"):
+            with st.popover("", icon=":material/info:"):
                 st.write("")
         uploaded_file = st.file_uploader(_("Add task"), accept_multiple_files=False)
         if uploaded_file is not None:
@@ -83,7 +83,7 @@ def main():
                 index=plugin_options.index(prev_output_format) if prev_output_format in plugin_options else 0
             )
         with col2:
-            with st.popover("", icon="ℹ"):
+            with st.popover("", icon=":material/info:"):
                 st.write("")
     elif step == 2:
         TAB_SELECT = sac.tabs([
@@ -194,6 +194,9 @@ def main():
             st.download_button(_("Download"), data=output_file.read_bytes(), file_name=output_name, mime="application/octet-stream")
         except Exception:
             sac.result(traceback.format_exc(), status="error")
+        if st.button("", icon=":material/refresh-alt:"):
+            st.session_state.clear()
+            st.experimental_rerun()
 
 if __name__ == "__main__":
     main()`,
