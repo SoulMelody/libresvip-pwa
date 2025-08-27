@@ -10,8 +10,10 @@ mount(
   {
     entrypoint: "app.py",
     files: {
-      "app.py": `import enum
+      "app.py": `import base64
+import enum
 import gettext
+import io
 import traceback
 from typing import get_args, get_type_hints, override
 
@@ -67,24 +69,47 @@ def main():
         default=0,
     )
     plugin_options = list(plugin_manager.plugin_registry)
+    def format_plugin_option(plugin_id: str):
+        plugin_info = plugin_manager.plugin_registry[plugin_id]
+        return f"{_(plugin_info.file_format)} (*.{plugin_info.suffix})"
     if "uploaded_file_name" not in st.session_state:
         col1, col2 = st.columns([0.9, 0.1])
         with col1:
             prev_input_format = st.session_state.get("input_format", None)
-            st.session_state["input_format"] = st.selectbox(_("Import format"), options=plugin_options, index=plugin_options.index(prev_input_format) if prev_input_format in plugin_options else 0)
+            st.session_state["input_format"] = st.selectbox(
+                _("Import format"), options=plugin_options,
+                index=plugin_options.index(prev_input_format) if prev_input_format in plugin_options else 0,
+                format_func=format_plugin_option,
+            )
         with col2:
             with st.popover("", icon=":material/info:"):
-                st.write("")
+                plugin_info = plugin_manager.plugin_registry[st.session_state["input_format"]]
+                if plugin_info.icon_base64:
+                    st.image(io.BytesIO(base64.b64decode(plugin_info.icon_base64)), width=100)
+                st.subheader(plugin_info.name)
+                st.badge(str(plugin_info.version), icon=":material/bookmark:")
+                st.link_button(_(plugin_info.author), plugin_info.website or "#", icon=":material/person:")
+                if plugin_info.description:
+                    st.write(_(plugin_info.description))
         col3, col4 = st.columns([0.9, 0.1])
         with col3:
             prev_output_format = st.session_state.get("output_format", None)
             st.session_state["output_format"] = st.selectbox(
                 _("Export format"), options=plugin_options,
-                index=plugin_options.index(prev_output_format) if prev_output_format in plugin_options else 0
+                index=plugin_options.index(prev_output_format) if prev_output_format in plugin_options else 0,
+                format_func=format_plugin_option,
             )
         with col4:
             with st.popover("", icon=":material/info:"):
-                st.write("")
+                plugin_info = plugin_manager.plugin_registry[st.session_state["output_format"]]
+                if plugin_info.icon_base64:
+                    st.image(io.BytesIO(base64.b64decode(plugin_info.icon_base64)), width=100)
+                st.subheader(plugin_info.name)
+                st.badge(str(plugin_info.version), icon=":material/bookmark:")
+                st.link_button(_(plugin_info.author), plugin_info.website or "#", icon=":material/person:")
+                if plugin_info.description:
+                    st.write(_(plugin_info.description))
+        st.divider()
         uploaded_file = st.file_uploader(_("Add task"), accept_multiple_files=False)
         if uploaded_file is not None:
             st.session_state["uploaded_file_name"] = uploaded_file.name
