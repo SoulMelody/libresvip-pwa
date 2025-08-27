@@ -4,6 +4,7 @@ import streamlitWheel from "@stlite/browser/wheels/streamlit-1.48.0-cp313-none-a
 import libresvipWheel from "./assets/libresvip-1.11.3-py3-none-any.whl";
 import constructWheel from "./assets/construct-2.10.68-py3-none-any.whl";
 import midofixWheel from "./assets/mido_fix-1.2.12-py2.py3-none-any.whl";
+import pycryptodomexWheel from "./assets/pycryptodomex-3.21.0-cp36-abi3-pyodide_2025_0_wasm32.whl";
 import wanakanaWheel from "./assets/wanakana_python-1.2.2-py3-none-any.whl";
 
 mount(
@@ -195,6 +196,7 @@ if __name__ == "__main__":
     requirements: [
       "extra-streamlit-components",
       "lxml",
+      "pyzipper",
       "st-pydantic",
       "ruamel.yaml",
       "ujson",
@@ -205,6 +207,7 @@ if __name__ == "__main__":
     prebuiltPackageNames: [
       new URL(constructWheel, import.meta.url).href,
       new URL(midofixWheel, import.meta.url).href,
+      new URL(pycryptodomexWheel, import.meta.url).href,
       new URL(wanakanaWheel, import.meta.url).href,
     ],
     pyodideUrl: "https://testingcf.jsdelivr.net/pyodide/v0.28.2/full/pyodide.mjs",
