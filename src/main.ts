@@ -15,14 +15,16 @@ import gettext
 import traceback
 from typing import get_args, get_type_hints, override
 
+import extra_streamlit_components as stx
 import streamlit as st
-import streamlit_antd_components as sac
 import streamlit_rjsf as srj
 from pydantic._internal._core_utils import CoreSchemaOrField
 from pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue
 from upath import UPath
 
+from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import get_translation, plugin_manager
+from libresvip.utils import translation
 
 st.set_page_config(layout="wide")
 language = st.sidebar.selectbox('Language/语言', options=[
@@ -34,6 +36,7 @@ language = st.sidebar.selectbox('Language/语言', options=[
 }[x])
 try:
     localizator = get_translation(language)
+    translation.singleton_translation = localizator
     _ = localizator.gettext 
 except Exception:
     _ = gettext.gettext
@@ -49,20 +52,22 @@ class GettextGenerateJsonSchema(GenerateJsonSchema):
             json_schema["description"] = _(json_schema["description"])
         return json_schema
 
+@st.cache_resource
+def load_memfs():
+    return UPath("memory:/")
+
 
 def main():
-    step = sac.steps(
-        [
-            sac.StepsItem(title=_("Import project")),
-            sac.StepsItem(title=_("Export format")),
-            sac.StepsItem(title=_("Advanced Settings")),
-            sac.StepsItem(title=_("Export")),
+    step = stx.stepper_bar(
+        steps=[
+            _("Select File Formats"),
+            _("Advanced Settings"),
+            _("Export"),
         ],
-        size="sm",
-        return_index=True,
+        default=0,
     )
     plugin_options = list(plugin_manager.plugin_registry)
-    if step == 0:
+    if "uploaded_file_name" not in st.session_state:
         col1, col2 = st.columns([0.9, 0.1])
         with col1:
             prev_input_format = st.session_state.get("input_format", None)
@@ -70,27 +75,25 @@ def main():
         with col2:
             with st.popover("", icon=":material/info:"):
                 st.write("")
-        uploaded_file = st.file_uploader(_("Add task"), accept_multiple_files=False)
-        if uploaded_file is not None:
-            st.session_state["uploaded_content"] = uploaded_file.read()
-            st.session_state["uploaded_file_name"] = uploaded_file.name
-    elif step == 1:
-        col1, col2 = st.columns([0.9, 0.1])
-        with col1:
+        col3, col4 = st.columns([0.9, 0.1])
+        with col3:
             prev_output_format = st.session_state.get("output_format", None)
             st.session_state["output_format"] = st.selectbox(
                 _("Export format"), options=plugin_options,
                 index=plugin_options.index(prev_output_format) if prev_output_format in plugin_options else 0
             )
-        with col2:
+        with col4:
             with st.popover("", icon=":material/info:"):
                 st.write("")
-    elif step == 2:
-        TAB_SELECT = sac.tabs([
-            sac.TabsItem(_("Input Options")),
-            sac.TabsItem(_("Output Options")),
-        ], return_index=True)
-        if TAB_SELECT == 0:
+        uploaded_file = st.file_uploader(_("Add task"), accept_multiple_files=False)
+        if uploaded_file is not None:
+            st.session_state["uploaded_file_name"] = uploaded_file.name
+            memfs = load_memfs()
+            input_file = memfs / uploaded_file.name
+            input_file.write_bytes(uploaded_file.read())
+    elif step == 1 and "uploaded_file_name" in st.session_state:
+        input_options_tab, output_options_tab = st.tabs([_("Input Options"), _("Output Options")])
+        with input_options_tab:
             plugin_info = plugin_manager.plugin_registry[st.session_state["input_format"]]
             option_cls = get_type_hints(plugin_info.plugin_object.load)["options"]
             option_json_schema = option_cls.model_json_schema(
@@ -132,7 +135,7 @@ def main():
             )
             if options:
                 st.session_state["input_options"] = options
-        elif TAB_SELECT == 1:
+        with output_options_tab:
             plugin_info = plugin_manager.plugin_registry[st.session_state["output_format"]]
             option_cls = get_type_hints(plugin_info.plugin_object.dump)["options"]
             option_json_schema = option_cls.model_json_schema(
@@ -174,26 +177,39 @@ def main():
             )
             if options:
                 st.session_state["output_options"] = options
-    elif step == 3:
-        try:
-            input_format = st.session_state["input_format"]
-            output_format = st.session_state["output_format"]
-            input_option_cls = get_type_hints(plugin_manager.plugin_registry[input_format].plugin_object.load)["options"]
-            input_options = input_option_cls(**st.session_state.get("input_options", {}))
-            memfs = UPath("memory:/")
-            input_file = memfs / st.session_state["uploaded_file_name"]
-            input_file.write_bytes(st.session_state["uploaded_content"])
-            project = plugin_manager.plugin_registry[input_format].plugin_object.load(input_file, input_options)
-            output_option_cls = get_type_hints(plugin_manager.plugin_registry[output_format].plugin_object.dump)["options"]
-            output_options = output_option_cls(**st.session_state.get("output_options", {}))
-            output_name = f"export.{output_format}"
-            output_file = memfs / output_name
-            plugin_manager.plugin_registry[output_format].plugin_object.dump(output_file, project, output_options)
+    elif step == 2 and "uploaded_file_name" in st.session_state:
+        click_callback = None
+        with st.status(_("Converting ..."), expanded=True) as status:
+            try:
+                
+                with CatchWarnings() as w:
+                    input_format = st.session_state["input_format"]
+                    output_format = st.session_state["output_format"]
+                    input_option_cls = get_type_hints(plugin_manager.plugin_registry[input_format].plugin_object.load)["options"]
+                    input_options = input_option_cls(**st.session_state.get("input_options", {}))
+                    memfs = load_memfs()
+                    input_file = memfs / st.session_state["uploaded_file_name"]
+                    project = plugin_manager.plugin_registry[input_format].plugin_object.load(input_file, input_options)
+                    output_option_cls = get_type_hints(plugin_manager.plugin_registry[output_format].plugin_object.dump)["options"]
+                    output_options = output_option_cls(**st.session_state.get("output_options", {}))
+                    output_name = f"export.{output_format}"
+                    output_file = memfs / output_name
+                    plugin_manager.plugin_registry[output_format].plugin_object.dump(output_file, project, output_options)
 
-            sac.result(_("File successfully converted"), status="success")
-            st.download_button(_("Download"), data=output_file.read_bytes(), file_name=output_name, mime="application/octet-stream")
-        except Exception:
-            sac.result(traceback.format_exc(), status="error")
+                    def click_callback():
+                        input_file.unlink()
+                        output_file.unlink()
+
+                status.update(label=_("Conversion Successful"), state="complete")
+                if w.output:
+                    st.warning(w.output, icon=":material/warning:")
+                success = True
+            except Exception as e:
+                status.update(label=_("Conversion Failed"), state="error")
+                st.exception(e)
+                success = False
+        if success:
+            st.download_button(_("Download"), data=output_file.read_bytes(), file_name=output_name, mime="application/octet-stream", on_click=click_callback)
         if st.button("", icon=":material/restart_alt:"):
             st.session_state.clear()
             st.rerun()
@@ -202,8 +218,8 @@ if __name__ == "__main__":
     main()`,
     },
     requirements: [
+      "extra-streamlit-components",
       "lxml",
-      "streamlit-antd-components",
       "streamlit-rjsf",
       "ruamel.yaml",
       "ujson",
