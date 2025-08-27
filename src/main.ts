@@ -14,6 +14,7 @@ mount(
 import gettext
 import io
 from functools import partial
+from importlib.resources import as_file
 from typing import get_type_hints, override
 
 import extra_streamlit_components as stx
@@ -23,18 +24,23 @@ from pydantic._internal._core_utils import CoreSchemaOrField
 from pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue
 from upath import UPath
 
+import libresvip
+from libresvip.core.constants import res_dir
 from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import get_translation, plugin_manager
 from libresvip.utils import translation
 
 st.set_page_config(layout="wide")
-language = st.sidebar.selectbox('Language/语言', options=[
-    "en_US", "zh_CN", "de_DE"
-], format_func=lambda x: {
-    "en_US": "English",
-    "zh_CN": "简体中文",
-    "de_DE": "Deutsch",
-}[x])
+with st.sidebar:
+    with as_file(res_dir / "libresvip.ico") as icon_path:
+        st.logo(io.BytesIO(icon_path.read_bytes()))
+    language = st.selectbox('Language/语言', options=[
+        "en_US", "zh_CN", "de_DE"
+    ], format_func=lambda x: {
+        "en_US": "English",
+        "zh_CN": "简体中文",
+        "de_DE": "Deutsch",
+    }[x])
 try:
     localizator = get_translation(language)
     translation.singleton_translation = localizator
@@ -58,6 +64,16 @@ def load_memfs():
     return UPath("memory:/")
 
 
+def about():
+    st.title(_("About"))
+    st.write(_("Version: ") + libresvip.__version__)
+    st.write(_("Author: SoulMelody"))
+    st.link_button(_("Author's Profile"), "https://space.bilibili.com/175862486", icon=":material/live_tv:")
+    st.link_button(_("Repo URL"), "https://github.com/SoulMelody/LibreSVIP", icon=":material/logo_dev:")
+    st.write(_("LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."))
+    st.write(_("All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."))
+
+
 def main():
     step = stx.stepper_bar(
         steps=[
@@ -71,7 +87,7 @@ def main():
     def format_plugin_option(plugin_id: str):
         plugin_info = plugin_manager.plugin_registry[plugin_id]
         return f"{_(plugin_info.file_format)} (*.{plugin_info.suffix})"
-    if "uploaded_file_name" not in st.session_state:
+    if step == 0 or "uploaded_file_name" not in st.session_state:
         col1, col2 = st.columns([0.9, 0.1])
         with col1:
             prev_input_format = st.session_state.get("input_format", None)
@@ -151,6 +167,7 @@ def main():
                     plugin_manager.plugin_registry[output_format].plugin_object.dump(output_file, project, output_options)
 
                     def click_callback():
+                        del st.session_state.uploaded_file_name
                         input_file.unlink()
                         output_file.unlink()
 
@@ -169,7 +186,11 @@ def main():
             st.rerun()
 
 if __name__ == "__main__":
-    main()`,
+    pg = st.navigation([
+        st.Page(main, title=_("Converter"), icon=":material/repeat:"),
+        st.Page(about, title=_("About"), icon=":material/help:"),
+    ])
+    pg.run()`,
     },
     requirements: [
       "extra-streamlit-components",
