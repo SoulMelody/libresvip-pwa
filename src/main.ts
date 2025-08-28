@@ -13,15 +13,17 @@ mount(
     files: {
       "app.py": `import base64
 import gettext
+import json
 import io
+import uuid
 from functools import partial
 from importlib.resources import as_file
-from typing import get_type_hints, override
+from typing import Any, get_type_hints, override
 
 import extra_streamlit_components as stx
 import streamlit as st
-import st_cookie
 import st_pydantic as sp
+from streamlit_js import st_js
 from pydantic._internal._core_utils import CoreSchemaOrField
 from pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue
 from upath import UPath
@@ -34,20 +36,80 @@ from libresvip.utils import translation
 
 st.set_page_config(layout="wide")
 
+class StLocalStorage:
+    KEY_PREFIX = "st_localstorage_"
+
+    def __init__(self):
+        # Keep track of a UUID for each key to enable reruns
+        if "_ls_unique_keys" not in st.session_state:
+            st.session_state["_ls_unique_keys"] = {}
+
+        # Hide the JS iframes
+        self._container = st.container(key="ls_container")
+        with self._container:
+            st.html(""" 
+                <style>
+                    .st-key-ls_container .element-container:has(iframe[height="0"]) {
+                        display: none;
+                    }
+                </style>
+            """)
+
+    def __getitem__(self, key: str) -> Any:
+        if key not in st.session_state["_ls_unique_keys"]:
+            st.session_state["_ls_unique_keys"][key] = str(uuid.uuid4())
+        code = f"""
+        return JSON.parse(localStorage.getItem('{self.KEY_PREFIX + key}'));
+        """
+        with self._container:
+            result = st_js(code, key=st.session_state["_ls_unique_keys"][key])
+        if result and result[0]:
+            return json.loads(result[0])
+        return None
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        value = json.dumps(value, ensure_ascii=False)
+        st.session_state["_ls_unique_keys"][key] = str(uuid.uuid4())
+        code = f"""
+        localStorage.setItem('{self.KEY_PREFIX + key}', JSON.stringify('{value}'));
+        """
+        with self._container:
+            return st_js(code, key=st.session_state["_ls_unique_keys"][key] + "_set")
+
+    def __delitem__(self, key: str) -> None:
+        st.session_state["_ls_unique_keys"][key] = str(uuid.uuid4())
+        code = f"localStorage.removeItem('{self.KEY_PREFIX + key}');"
+        with self._container:
+            return st_js(code, key=st.session_state["_ls_unique_keys"][key] + "_del")
+
+    def __contains__(self, key: str) -> bool:
+        return self.__getitem__(key) is not None
+
+
+st_local_storage = StLocalStorage()
+
+
 with st.sidebar:
     with as_file(res_dir / "libresvip.ico") as icon_path:
         st.logo(io.BytesIO(icon_path.read_bytes()))
+    if "default_language" not in st.session_state:
+        st.session_state.default_language = st_local_storage["language"] if "language" in st_local_storage else "en_US"
     all_languages = ["en_US", "zh_CN", "de_DE"]
-    with st_cookie.sync("language"):
-        st.selectbox('Language/语言',
-            key='language',
-            options=all_languages,
-            format_func=lambda x: {
-            "en_US": "English",
-            "zh_CN": "简体中文",
-            "de_DE": "Deutsch",
-        }[x])
-    language = st.session_state.language
+    def change_language():
+        if "language" in st.session_state:
+            st.session_state.default_language = st.session_state.language
+            st_local_storage["language"] = st.session_state.default_language
+    st.selectbox('Language/语言',
+        key='language',
+        options=all_languages,
+        index=all_languages.index(st.session_state.default_language),
+        on_change=change_language,
+        format_func=lambda x: {
+        "en_US": "English",
+        "zh_CN": "简体中文",
+        "de_DE": "Deutsch",
+    }[x])
+    language = st.session_state.default_language
 try:
     localizator = get_translation(language)
     translation.singleton_translation = localizator
@@ -204,7 +266,7 @@ if __name__ == "__main__":
       "lxml",
       "pyzipper",
       "st-cookie",
-      "st-pydantic",
+      "streamlit-js",
       "ruamel.yaml",
       "ujson",
       "universal-pathlib",
