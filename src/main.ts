@@ -265,7 +265,7 @@ if __name__ == "__main__":
       "extra-streamlit-components",
       "lxml",
       "pyzipper",
-      "st-cookie",
+      "st-pydantic",
       "streamlit-js",
       "ruamel.yaml",
       "ujson",
