@@ -35,7 +35,11 @@ from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import get_translation, plugin_manager
 from libresvip.utils import translation
 
-st.set_page_config(layout="wide")
+with as_file(res_dir / "libresvip.ico") as icon_path:
+    st.set_page_config(
+        page_title="LibreSVIP",
+        page_icon=icon_path.read_bytes(),
+    )
 
 class StLocalStorage:
     KEY_PREFIX = "st_localstorage_"
@@ -91,8 +95,6 @@ class StLocalStorage:
 st_local_storage = StLocalStorage()
 
 with st.sidebar:
-    with as_file(res_dir / "libresvip.ico") as icon_path:
-        st.logo(io.BytesIO(icon_path.read_bytes()))
     if "language" in st.session_state:
         default_language = st.session_state.language
     else:
@@ -137,8 +139,9 @@ def about():
     st.title(_("About"))
     st.write(_("Version: ") + libresvip.__version__)
     st.write(_("Author: SoulMelody"))
-    st.link_button(_("Author's Profile"), "https://space.bilibili.com/175862486", icon=":material/live_tv:")
-    st.link_button(_("Repo URL"), "https://github.com/SoulMelody/LibreSVIP", icon=":material/logo_dev:")
+    with st.container(horizontal=True):
+        st.link_button(_("Author's Profile"), "https://space.bilibili.com/175862486", icon=":material/live_tv:")
+        st.link_button(_("Repo URL"), "https://github.com/SoulMelody/LibreSVIP", icon=":material/logo_dev:")
     st.write(_("LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."))
     st.write(_("All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."))
 
@@ -157,40 +160,40 @@ def main():
         plugin_info = plugin_manager.plugin_registry[plugin_id]
         return f"{_(plugin_info.file_format)} (*.{plugin_info.suffix})"
     if step == 0 or "uploaded_file_name" not in st.session_state:
-        col1, col2 = st.columns([0.9, 0.1])
-        with col1:
+        with st.container(horizontal=True, vertical_alignment="center"):
             prev_input_format = st.session_state.get("input_format", None)
             st.session_state["input_format"] = st.selectbox(
                 _("Import format"), options=plugin_options,
                 index=plugin_options.index(prev_input_format) if prev_input_format in plugin_options else 0,
                 format_func=format_plugin_option,
             )
-        with col2:
             with st.popover("", icon=":material/info:"):
                 plugin_info = plugin_manager.plugin_registry[st.session_state["input_format"]]
-                if plugin_info.icon_base64:
-                    st.image(io.BytesIO(base64.b64decode(plugin_info.icon_base64)), width=100)
-                st.subheader(plugin_info.name)
-                st.badge(str(plugin_info.version), icon=":material/bookmark:")
-                st.link_button(_(plugin_info.author), plugin_info.website or "#", icon=":material/person:")
+                with st.container(horizontal=True):
+                    if plugin_info.icon_base64:
+                        st.image(io.BytesIO(base64.b64decode(plugin_info.icon_base64)), width=100)
+                    st.subheader(plugin_info.name)
+                with st.container(horizontal=True, vertical_alignment="center"):
+                    st.badge(str(plugin_info.version), icon=":material/bookmark:")
+                    st.link_button(_(plugin_info.author), plugin_info.website or "#", icon=":material/person:")
                 if plugin_info.description:
                     st.write(_(plugin_info.description))
-        col3, col4 = st.columns([0.9, 0.1])
-        with col3:
+        with st.container(horizontal=True, vertical_alignment="center"):
             prev_output_format = st.session_state.get("output_format", None)
             st.session_state["output_format"] = st.selectbox(
                 _("Export format"), options=plugin_options,
                 index=plugin_options.index(prev_output_format) if prev_output_format in plugin_options else 0,
                 format_func=format_plugin_option,
             )
-        with col4:
             with st.popover("", icon=":material/info:"):
                 plugin_info = plugin_manager.plugin_registry[st.session_state["output_format"]]
-                if plugin_info.icon_base64:
-                    st.image(io.BytesIO(base64.b64decode(plugin_info.icon_base64)), width=100)
-                st.subheader(plugin_info.name)
-                st.badge(str(plugin_info.version), icon=":material/bookmark:")
-                st.link_button(_(plugin_info.author), plugin_info.website or "#", icon=":material/person:")
+                with st.container(horizontal=True):
+                    if plugin_info.icon_base64:
+                        st.image(io.BytesIO(base64.b64decode(plugin_info.icon_base64)), width=100)
+                    st.subheader(plugin_info.name)
+                with st.container(horizontal=True, vertical_alignment="center"):
+                    st.badge(str(plugin_info.version), icon=":material/bookmark:")
+                    st.link_button(_(plugin_info.author), plugin_info.website or "#", icon=":material/person:")
                 if plugin_info.description:
                     st.write(_(plugin_info.description))
         st.divider()
@@ -220,7 +223,6 @@ def main():
         click_callback = None
         with st.status(_("Converting ..."), expanded=True) as status:
             try:
-                
                 with CatchWarnings() as w:
                     input_format = st.session_state["input_format"]
                     output_format = st.session_state["output_format"]
