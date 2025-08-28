@@ -23,7 +23,7 @@ from typing import Any, get_type_hints, override
 import extra_streamlit_components as stx
 import streamlit as st
 import st_pydantic as sp
-from streamlit_js import st_js
+from streamlit_js import st_js, st_js_blocking
 from pydantic._internal._core_utils import CoreSchemaOrField
 from pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue
 from upath import UPath
@@ -62,9 +62,11 @@ class StLocalStorage:
         return JSON.parse(localStorage.getItem('{self.KEY_PREFIX + key}'));
         """
         with self._container:
-            result = st_js(code, key=st.session_state["_ls_unique_keys"][key])
-        if result and result[0]:
-            return json.loads(result[0])
+            result = st_js_blocking(code, key=st.session_state["_ls_unique_keys"][key])
+        if result:
+            if isinstance(result, list):
+                result = result[0]
+            return json.loads(result)
         return None
 
     def __setitem__(self, key: str, value: Any) -> None:
@@ -80,7 +82,7 @@ class StLocalStorage:
         st.session_state["_ls_unique_keys"][key] = str(uuid.uuid4())
         code = f"localStorage.removeItem('{self.KEY_PREFIX + key}');"
         with self._container:
-            return st_js(code, key=st.session_state["_ls_unique_keys"][key] + "_del")
+            return st_js_blocking(code, key=st.session_state["_ls_unique_keys"][key] + "_del")
 
     def __contains__(self, key: str) -> bool:
         return self.__getitem__(key) is not None
@@ -90,26 +92,24 @@ st_local_storage = StLocalStorage()
 with st.sidebar:
     with as_file(res_dir / "libresvip.ico") as icon_path:
         st.logo(io.BytesIO(icon_path.read_bytes()))
-    if default_language := st_local_storage["language"]:
-        st.session_state.default_language = default_language
+    if _default_language := st_local_storage["language"]:
+        default_language = _default_language
     else:
-        st.session_state.default_language = "en_US"
+        default_language = "en_US"
     all_languages = ["en_US", "zh_CN", "de_DE"]
     def change_language():
         if "language" in st.session_state:
-            st.session_state.default_language = st.session_state.language
-            st_local_storage["language"] = st.session_state.default_language
-    st.selectbox('Language/语言',
+            st_local_storage["language"] = st.session_state.language
+    language = st.selectbox('Language/语言',
         key='language',
         options=all_languages,
-        index=all_languages.index(st.session_state.default_language),
+        index=all_languages.index(default_language),
         on_change=change_language,
         format_func=lambda x: {
         "en_US": "English",
         "zh_CN": "简体中文",
         "de_DE": "Deutsch",
     }[x])
-    language = st.session_state.default_language
 try:
     localizator = get_translation(language)
     translation.singleton_translation = localizator
