@@ -25,7 +25,6 @@ import extra_streamlit_components as stx
 import streamlit as st
 import st_pydantic as sp
 from streamlit_js import st_js, st_js_blocking
-from streamlit_plugins.components.theme_changer import st_theme_changer
 from pydantic._internal._core_utils import CoreSchemaOrField
 from pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue
 from upath import UPath
@@ -94,15 +93,15 @@ st_local_storage = StLocalStorage()
 with st.sidebar:
     with as_file(res_dir / "libresvip.ico") as icon_path:
         st.logo(io.BytesIO(icon_path.read_bytes()))
-    if _default_language := st_local_storage["language"]:
-        default_language = _default_language
+    if "language" in st.session_state:
+        default_language = st.session_state.language
     else:
-        default_language = "en_US"
+        default_language = st_local_storage["language"] or "en_US"
     all_languages = ["en_US", "zh_CN", "de_DE"]
     def change_language():
         if "language" in st.session_state:
             st_local_storage["language"] = st.session_state.language
-    language = st.selectbox('Language/语言',
+    st.selectbox('Language/语言',
         key='language',
         options=all_languages,
         index=all_languages.index(default_language),
@@ -112,14 +111,12 @@ with st.sidebar:
         "zh_CN": "简体中文",
         "de_DE": "Deutsch",
     }[x])
-    st_theme_changer(render_mode="pills")
 try:
-    localizator = get_translation(language)
+    localizator = get_translation(st.session_state.language)
     translation.singleton_translation = localizator
     _ = localizator.gettext 
 except Exception:
     _ = gettext.gettext
-
 
 class GettextGenerateJsonSchema(GenerateJsonSchema):
     @override
@@ -270,7 +267,6 @@ if __name__ == "__main__":
       "lxml",
       "pyzipper",
       "st-pydantic",
-      "streamlit-component-theme-changer",
       "streamlit-js",
       "ruamel.yaml",
       "ujson",
