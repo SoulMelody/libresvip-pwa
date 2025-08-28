@@ -25,6 +25,7 @@ import extra_streamlit_components as stx
 import streamlit as st
 import st_pydantic as sp
 from streamlit_js import st_js, st_js_blocking
+from streamlit_plugins.components.theme_changer import st_theme_changer
 from pydantic._internal._core_utils import CoreSchemaOrField
 from pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue
 from upath import UPath
@@ -111,6 +112,7 @@ with st.sidebar:
         "zh_CN": "简体中文",
         "de_DE": "Deutsch",
     }[x])
+    st_theme_changer(render_mode="pills")
 try:
     localizator = get_translation(language)
     translation.singleton_translation = localizator
@@ -268,6 +270,7 @@ if __name__ == "__main__":
       "lxml",
       "pyzipper",
       "st-pydantic",
+      "streamlit-component-theme-changer",
       "streamlit-js",
       "ruamel.yaml",
       "ujson",
