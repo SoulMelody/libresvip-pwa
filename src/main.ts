@@ -85,15 +85,15 @@ class StLocalStorage:
     def __contains__(self, key: str) -> bool:
         return self.__getitem__(key) is not None
 
-
 st_local_storage = StLocalStorage()
-
 
 with st.sidebar:
     with as_file(res_dir / "libresvip.ico") as icon_path:
         st.logo(io.BytesIO(icon_path.read_bytes()))
-    if "default_language" not in st.session_state:
-        st.session_state.default_language = st_local_storage["language"] if "language" in st_local_storage else "en_US"
+    if default_language := st_local_storage["language"]:
+        st.session_state.default_language = default_language
+    else:
+        st.session_state.default_language = "en_US"
     all_languages = ["en_US", "zh_CN", "de_DE"]
     def change_language():
         if "language" in st.session_state:
