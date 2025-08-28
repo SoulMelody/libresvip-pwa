@@ -160,14 +160,30 @@ def main():
         plugin_info = plugin_manager.plugin_registry[plugin_id]
         return f"{_(plugin_info.file_format)} (*.{plugin_info.suffix})"
     if step == 0 or "uploaded_file_name" not in st.session_state:
+        uploaded_file = st.file_uploader(_("Add task"), accept_multiple_files=False)
+        if uploaded_file is not None:
+            st.session_state["uploaded_file_name"] = uploaded_file.name
+            memfs = load_memfs()
+            input_file = memfs / uploaded_file.name
+            input_file.write_bytes(uploaded_file.read())
+        st.divider()
         with st.container(horizontal=True, vertical_alignment="center"):
-            prev_input_format = st.session_state.get("input_format", None)
-            st.session_state["input_format"] = st.selectbox(
-                _("Import format"), options=plugin_options,
-                index=plugin_options.index(prev_input_format) if prev_input_format in plugin_options else 0,
-                format_func=format_plugin_option,
+            if "uploaded_file_name" in st.session_state:
+                input_suffix = os.path.splitext(st.session_state["uploaded_file_name"])[1].lstrip(".").lower()
+                if input_suffix in plugin_options:
+                    st.session_state["input_format"] = st.session_state["_input_format"] = input_suffix
+            def input_format_changed():
+                if "input_options" in st.session_state:
+                    del st.session_state["input_options"]
+                if "_input_format" in st.session_state:
+                    st.session_state["input_format"] = st.session_state["_input_format"]
+            st.selectbox(
+                _("Import format"), options=plugin_options, key="_input_format",
+                on_change=input_format_changed, format_func=format_plugin_option,
             )
             with st.popover("", icon=":material/info:"):
+                if "input_format" not in st.session_state:
+                    st.session_state["input_format"] = st.session_state["_input_format"]
                 plugin_info = plugin_manager.plugin_registry[st.session_state["input_format"]]
                 with st.container(horizontal=True):
                     if plugin_info.icon_base64:
@@ -179,13 +195,18 @@ def main():
                 if plugin_info.description:
                     st.write(_(plugin_info.description))
         with st.container(horizontal=True, vertical_alignment="center"):
-            prev_output_format = st.session_state.get("output_format", None)
-            st.session_state["output_format"] = st.selectbox(
-                _("Export format"), options=plugin_options,
-                index=plugin_options.index(prev_output_format) if prev_output_format in plugin_options else 0,
-                format_func=format_plugin_option,
+            def output_format_changed():
+                if "output_options" in st.session_state:
+                    del st.session_state["output_options"]
+                if "_output_format" in st.session_state:
+                    st.session_state["output_format"] = st.session_state["_output_format"]
+            st.selectbox(
+                _("Export format"), options=plugin_options, key="_output_format",
+                 on_change=output_format_changed, format_func=format_plugin_option,
             )
             with st.popover("", icon=":material/info:"):
+                if "output_format" not in st.session_state:
+                    st.session_state["output_format"] = st.session_state["_output_format"]
                 plugin_info = plugin_manager.plugin_registry[st.session_state["output_format"]]
                 with st.container(horizontal=True):
                     if plugin_info.icon_base64:
@@ -196,13 +217,6 @@ def main():
                     st.link_button(_(plugin_info.author), plugin_info.website or "#", icon=":material/person:")
                 if plugin_info.description:
                     st.write(_(plugin_info.description))
-        st.divider()
-        uploaded_file = st.file_uploader(_("Add task"), accept_multiple_files=False)
-        if uploaded_file is not None:
-            st.session_state["uploaded_file_name"] = uploaded_file.name
-            memfs = load_memfs()
-            input_file = memfs / uploaded_file.name
-            input_file.write_bytes(uploaded_file.read())
     elif step == 1 and "uploaded_file_name" in st.session_state:
         input_options_tab, output_options_tab = st.tabs([_("Input Options"), _("Output Options")])
         with input_options_tab:
