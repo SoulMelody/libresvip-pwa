@@ -1,6 +1,7 @@
 import { mount } from "@stlite/browser";
 import stliteLibWheel from "@stlite/browser/wheels/stlite_lib-0.1.0-py3-none-any.whl";
 import streamlitWheel from "@stlite/browser/wheels/streamlit-1.48.0-cp313-none-any.whl";
+import streamlitLocalstorageBulkWheel from "./assets/streamlit_localstorage_bulk-0.1.0-py3-none-any.whl";
 import libresvipWheel from "./assets/libresvip-1.11.3-py3-none-any.whl";
 import constructWheel from "./assets/construct-2.10.68-py3-none-any.whl";
 import midofixWheel from "./assets/mido_fix-1.2.12-py2.py3-none-any.whl";
@@ -21,6 +22,7 @@ from typing import get_type_hints, override
 import extra_streamlit_components as stx
 import streamlit as st
 import st_pydantic as sp
+from streamlit_localstorage_bulk import StreamlitLocalstorageBulk
 from pydantic._internal._core_utils import CoreSchemaOrField
 from pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue
 from upath import UPath
@@ -34,24 +36,29 @@ from libresvip.utils import translation
 st.set_page_config(layout="wide")
 @st.fragment
 def get_manager():
-    return stx.CookieManager()
+    return StreamlitLocalstorageBulk()
 
-cookie_manager = get_manager()
+local_storage_manager = get_manager()
 
 with st.sidebar:
     with as_file(res_dir / "libresvip.ico") as icon_path:
         st.logo(io.BytesIO(icon_path.read_bytes()))
-    default_language = cookie_manager.get("language") or "en_US"
+    default_language = local_storage_manager.get_items(["language"]).get("language") or "en_US"
     all_languages = ["en_US", "zh_CN", "de_DE"]
+    def change_language():
+        if "language" in st.session_state:
+            language = st.session_state.language
+            local_storage_manager.setitems({"language": language})
     language = st.selectbox('Language/语言',
+        key='language',
         options=all_languages,
         index=all_languages.index(default_language),
+        on_change=change_language,
         format_func=lambda x: {
         "en_US": "English",
         "zh_CN": "简体中文",
         "de_DE": "Deutsch",
     }[x])
-    cookie_manager.set("language", language)
 try:
     localizator = get_translation(language)
     translation.singleton_translation = localizator
@@ -218,6 +225,7 @@ if __name__ == "__main__":
       new URL(constructWheel, import.meta.url).href,
       new URL(midofixWheel, import.meta.url).href,
       new URL(pycryptodomexWheel, import.meta.url).href,
+      new URL(streamlitLocalstorageBulkWheel, import.meta.url).href,
       new URL(wanakanaWheel, import.meta.url).href,
     ],
     pyodideUrl: "https://testingcf.jsdelivr.net/pyodide/v0.28.2/full/pyodide.mjs",
