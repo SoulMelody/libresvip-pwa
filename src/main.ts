@@ -15,6 +15,7 @@ mount(
 import gettext
 import json
 import io
+import os
 import uuid
 from functools import partial
 from importlib.resources import as_file
@@ -231,7 +232,8 @@ def main():
                     project = plugin_manager.plugin_registry[input_format].plugin_object.load(input_file, input_options)
                     output_option_cls = get_type_hints(plugin_manager.plugin_registry[output_format].plugin_object.dump)["options"]
                     output_options = output_option_cls(**st.session_state.get("output_options", {}))
-                    output_name = f"export.{output_format}"
+                    input_stem = os.path.splitext(st.session_state["uploaded_file_name"])[0]
+                    output_name = f"{input_stem}.{output_format}"
                     output_file = memfs / output_name
                     plugin_manager.plugin_registry[output_format].plugin_object.dump(output_file, project, output_options)
 
