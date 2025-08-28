@@ -32,16 +32,26 @@ from libresvip.extension.manager import get_translation, plugin_manager
 from libresvip.utils import translation
 
 st.set_page_config(layout="wide")
+@st.fragment
+def get_manager():
+    return stx.CookieManager()
+
+cookie_manager = get_manager()
+
 with st.sidebar:
     with as_file(res_dir / "libresvip.ico") as icon_path:
         st.logo(io.BytesIO(icon_path.read_bytes()))
-    language = st.selectbox('Language/语言', options=[
-        "en_US", "zh_CN", "de_DE"
-    ], format_func=lambda x: {
+    default_language = cookie_manager.get("language") or "en_US"
+    all_languages = ["en_US", "zh_CN", "de_DE"]
+    language = st.selectbox('Language/语言',
+        options=all_languages,
+        index=all_languages.index(default_language),
+        format_func=lambda x: {
         "en_US": "English",
         "zh_CN": "简体中文",
         "de_DE": "Deutsch",
     }[x])
+    cookie_manager.set("language", language)
 try:
     localizator = get_translation(language)
     translation.singleton_translation = localizator
