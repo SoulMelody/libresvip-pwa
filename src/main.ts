@@ -215,6 +215,7 @@ if __name__ == "__main__":
       "lxml",
       "pyzipper",
       "st-pydantic",
+      "streamlit-js",
       "ruamel.yaml",
       "ujson",
       "universal-pathlib",
