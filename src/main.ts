@@ -150,7 +150,7 @@ def main():
     custom_css = '''
     <style>
         [data-testid="stFileUploaderDropzoneInstructions"]:nth-child(2) span:not(:has(svg)),
-        [data-testid="stBaseButton-secondary"] {
+        [data-testid="stFileUploaderDropzone"] button {
             display: none !important;
         }
 
@@ -200,7 +200,7 @@ def main():
         plugin_info = plugin_manager.plugin_registry[plugin_id]
         return f"{_(plugin_info.file_format)} (*.{plugin_info.suffix})"
     if step == 0 or "uploaded_file_name" not in st.session_state:
-        uploaded_file = st.file_uploader("", accept_multiple_files=False, label_visibility="collapsed")
+        uploaded_file = st.file_uploader(_("Add task"), accept_multiple_files=False, label_visibility="collapsed")
         if uploaded_file is not None:
             st.session_state["uploaded_file_name"] = uploaded_file.name
             memfs = load_memfs()
