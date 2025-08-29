@@ -147,6 +147,46 @@ def about():
 
 
 def main():
+    custom_css = '''
+    <style>
+        [data-testid="stFileUploaderDropzoneInstructions"]:nth-child(2) span:not(:has(svg)),
+        [data-testid="stBaseButton-secondary"] {
+            display: none !important;
+        }
+
+        [data-testid="stFileUploader"] {
+            position: relative !important;
+            min-height: 70px !important;
+            margin: 0 auto !important;
+            border: 2px dashed #ddd !important;
+            border-radius: 8px !important;
+            background-color: #fafafa !important;
+        }
+        
+        [data-testid="stFileUploader"]::before {
+            content: "''' + _("Drag and drop files here or click to upload") + '''";
+            position: absolute !important;
+            top: 35 !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            font-size: 13px !important;
+            color: #666 !important;
+            font-weight: 500 !important;
+            z-index: 1 !important;
+            pointer-events: none !important;
+            text-align: center !important;
+            width: 100% !important;
+            padding: 0 10px !important;
+        }
+
+        [data-testid="stFileUploader"]:hover {
+            border-color: #007bff !important;
+            background-color: #f0f8ff !important;
+        }
+    </style>
+    '''
+
+    st.html(custom_css)
     step = stx.stepper_bar(
         steps=[
             _("Select File Formats"),
@@ -160,7 +200,7 @@ def main():
         plugin_info = plugin_manager.plugin_registry[plugin_id]
         return f"{_(plugin_info.file_format)} (*.{plugin_info.suffix})"
     if step == 0 or "uploaded_file_name" not in st.session_state:
-        uploaded_file = st.file_uploader(_("Add task"), accept_multiple_files=False)
+        uploaded_file = st.file_uploader("", accept_multiple_files=False, label_visibility="collapsed")
         if uploaded_file is not None:
             st.session_state["uploaded_file_name"] = uploaded_file.name
             memfs = load_memfs()
@@ -202,7 +242,7 @@ def main():
                     st.session_state["output_format"] = st.session_state["_output_format"]
             st.selectbox(
                 _("Export format"), options=plugin_options, key="_output_format",
-                 on_change=output_format_changed, format_func=format_plugin_option,
+                on_change=output_format_changed, format_func=format_plugin_option,
             )
             with st.popover("", icon=":material/info:"):
                 if "output_format" not in st.session_state:
