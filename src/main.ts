@@ -32,7 +32,7 @@ from upath import UPath
 import libresvip
 from libresvip.core.constants import res_dir
 from libresvip.core.warning_types import CatchWarnings
-from libresvip.extension.manager import get_translation, plugin_manager
+from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
 from libresvip.utils import translation
 
 with as_file(res_dir / "libresvip.ico") as icon_path:
@@ -258,7 +258,7 @@ def main():
                 if plugin_info.description:
                     st.write(_(plugin_info.description))
     elif step == 1 and "uploaded_file_name" in st.session_state:
-        input_options_tab, output_options_tab = st.tabs([_("Input Options"), _("Output Options")])
+        input_options_tab, output_options_tab, middleware_options_tab = st.tabs([_("Input Options"), _("Output Options"), _("Intermediate Processing")])
         with input_options_tab:
             plugin_info = plugin_manager.plugin_registry[st.session_state["input_format"]]
             option_cls = get_type_hints(plugin_info.plugin_object.load)["options"]
@@ -273,6 +273,19 @@ def main():
             options = sp.pydantic_form("output_options_form", option_cls, submit_label=_("OK"))
             if options:
                 st.session_state["output_options"] = options.model_dump(by_alias=False, mode="json")
+        with middleware_options_tab:
+            st.session_state["middleware_options"] = {}
+            for middleware_id, middleware_info in middleware_manager.plugin_registry.items():
+                enabled = st.toggle(_(middleware_info.name), key=f"middleware_{middleware_id}")
+                if enabled:
+                    option_cls = get_type_hints(middleware_info.plugin_object.process)["options"]
+                    option_cls.model_json_schema = partial(option_cls.model_json_schema, schema_generator=GettextGenerateJsonSchema)
+                    options = sp.pydantic_form(f"middleware_options_form_{middleware_id}", option_cls, submit_label=_("OK"))
+                    if options:
+                        st.session_state["middleware_options"][middleware_id] = options.model_dump(by_alias=False, mode="json")
+                else:
+                    if middleware_id in st.session_state["middleware_options"]:
+                        del st.session_state["middleware_options"][middleware_id]
     elif step == 2 and "uploaded_file_name" in st.session_state:
         click_callback = None
         with st.status(_("Converting ..."), expanded=True) as status:
@@ -285,6 +298,11 @@ def main():
                     memfs = load_memfs()
                     input_file = memfs / st.session_state["uploaded_file_name"]
                     project = plugin_manager.plugin_registry[input_format].plugin_object.load(input_file, input_options)
+                    for middleware_id, middleware_info in middleware_manager.plugin_registry.items():
+                        if st.session_state.get(f"middleware_{middleware_id}"):
+                            middleware_option_cls = get_type_hints(middleware_info.plugin_object.process)["options"]
+                            middleware_options = middleware_option_cls(**st.session_state["middleware_options"].get(middleware_id, {}))
+                            project = middleware_info.plugin_object.process(project, middleware_options)
                     output_option_cls = get_type_hints(plugin_manager.plugin_registry[output_format].plugin_object.dump)["options"]
                     output_options = output_option_cls(**st.session_state.get("output_options", {}))
                     input_stem = os.path.splitext(st.session_state["uploaded_file_name"])[0]
