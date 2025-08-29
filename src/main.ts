@@ -195,11 +195,16 @@ def main():
         return f"{_(plugin_info.file_format)} (*.{plugin_info.suffix})"
     if step == 0 or "uploaded_file_name" not in st.session_state:
         uploaded_file = st.file_uploader(_("Add task"), accept_multiple_files=False, label_visibility="collapsed")
+        memfs = load_memfs()
         if uploaded_file is not None:
             st.session_state["uploaded_file_name"] = uploaded_file.name
-            memfs = load_memfs()
             input_file = memfs / uploaded_file.name
             input_file.write_bytes(uploaded_file.read())
+        elif "uploaded_file_name" in st.session_state:
+            input_file = memfs / st.session_state["uploaded_file_name"]
+            if input_file.exists():
+                input_file.unlink()
+            del st.session_state["uploaded_file_name"]
         st.divider()
         with st.container(horizontal=True, vertical_alignment="center"):
             if "uploaded_file_name" in st.session_state:
