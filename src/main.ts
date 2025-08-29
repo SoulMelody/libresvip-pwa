@@ -39,6 +39,10 @@ with as_file(res_dir / "libresvip.ico") as icon_path:
     st.set_page_config(
         page_title="LibreSVIP",
         page_icon=icon_path.read_bytes(),
+        menu_items={
+            "Get Help": "https://soulmelody.github.io/LibreSVIP/",
+            "Report a bug": "https://github.com/SoulMelody/LibreSVIP/issues",
+        }
     )
 
 class StLocalStorage:
@@ -51,14 +55,13 @@ class StLocalStorage:
 
         # Hide the JS iframes
         self._container = st.container(key="ls_container")
-        with self._container:
-            st.html(""" 
-                <style>
-                    .st-key-ls_container .element-container:has(iframe[height="0"]) {
-                        display: none;
-                    }
-                </style>
-            """)
+        self._container.html("""
+            <style>
+                .st-key-ls_container .element-container:has(iframe[height="0"]) {
+                    display: none;
+                }
+            </style>
+        """)
 
     def __getitem__(self, key: str) -> Any:
         if key not in st.session_state["_ls_unique_keys"]:
@@ -193,7 +196,9 @@ def main():
     def format_plugin_option(plugin_id: str):
         plugin_info = plugin_manager.plugin_registry[plugin_id]
         return f"{_(plugin_info.file_format)} (*.{plugin_info.suffix})"
-    if step == 0 or "uploaded_file_name" not in st.session_state:
+    if "uploaded_file_name" not in st.session_state:
+        step = 0
+    if step == 0:
         uploaded_file = st.file_uploader(_("Add task"), accept_multiple_files=False, label_visibility="collapsed")
         memfs = load_memfs()
         if uploaded_file is not None:
@@ -229,9 +234,11 @@ def main():
                         st.image(io.BytesIO(base64.b64decode(plugin_info.icon_base64)), width=100)
                     st.subheader(plugin_info.name)
                 with st.container(horizontal=True, vertical_alignment="center"):
-                    st.badge(str(plugin_info.version), icon=":material/bookmark:")
-                    st.link_button(_(plugin_info.author), plugin_info.website or "#", icon=":material/person:")
+                    st.badge(_("Version: ") + str(plugin_info.version), icon=":material/bookmark:")
+                    st.link_button(_(plugin_info.author), plugin_info.website or "#", help=_("Author"), icon=":material/person:")
                 if plugin_info.description:
+                    st.divider()
+                    st.caption(_("Introduction"))
                     st.write(_(plugin_info.description))
         with st.container(horizontal=True, vertical_alignment="center"):
             def output_format_changed():
@@ -252,11 +259,13 @@ def main():
                         st.image(io.BytesIO(base64.b64decode(plugin_info.icon_base64)), width=100)
                     st.subheader(plugin_info.name)
                 with st.container(horizontal=True, vertical_alignment="center"):
-                    st.badge(str(plugin_info.version), icon=":material/bookmark:")
-                    st.link_button(_(plugin_info.author), plugin_info.website or "#", icon=":material/person:")
+                    st.badge(_("Version: ") + str(plugin_info.version), icon=":material/bookmark:")
+                    st.link_button(_(plugin_info.author), plugin_info.website or "#", help=_("Author"), icon=":material/person:")
                 if plugin_info.description:
+                    st.divider()
+                    st.caption(_("Introduction"))
                     st.write(_(plugin_info.description))
-    elif step == 1 and "uploaded_file_name" in st.session_state:
+    elif step == 1:
         input_options_tab, output_options_tab, middleware_options_tab = st.tabs([_("Input Options"), _("Output Options"), _("Intermediate Processing")])
         with input_options_tab:
             plugin_info = plugin_manager.plugin_registry[st.session_state["input_format"]]
@@ -285,7 +294,7 @@ def main():
                 else:
                     if middleware_id in st.session_state["middleware_options"]:
                         del st.session_state["middleware_options"][middleware_id]
-    elif step == 2 and "uploaded_file_name" in st.session_state:
+    elif step == 2:
         click_callback = None
         with st.status(_("Converting ..."), expanded=True) as status:
             try:
@@ -322,11 +331,12 @@ def main():
                 status.update(label=_("Conversion Failed"), state="error")
                 st.exception(e)
                 success = False
-        if success:
-            st.download_button(_("Download"), data=output_file.read_bytes(), file_name=output_name, mime="application/octet-stream", on_click=click_callback)
-        if st.button("", icon=":material/restart_alt:"):
-            st.session_state.clear()
-            st.rerun()
+        with st.container(horizontal=True):
+            if success:
+                st.download_button(_("Download"), data=output_file.read_bytes(), file_name=output_name, mime="application/octet-stream", on_click=click_callback)
+            if st.button("", icon=":material/restart_alt:"):
+                st.session_state.clear()
+                st.rerun()
 
 if __name__ == "__main__":
     pg = st.navigation([
