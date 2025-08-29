@@ -160,17 +160,15 @@ def main():
             margin: 0 auto !important;
             border: 2px dashed #ddd !important;
             border-radius: 8px !important;
-            background-color: #fafafa !important;
         }
         
         [data-testid="stFileUploader"]::before {
             content: "''' + _("Drag and drop files here or click to upload") + '''";
             position: absolute !important;
-            top: 35 !important;
+            top: min(35px, 50%) !important;
             left: 50% !important;
             transform: translate(-50%, -50%) !important;
             font-size: 13px !important;
-            color: #666 !important;
             font-weight: 500 !important;
             z-index: 1 !important;
             pointer-events: none !important;
@@ -179,10 +177,6 @@ def main():
             padding: 0 10px !important;
         }
 
-        [data-testid="stFileUploader"]:hover {
-            border-color: #007bff !important;
-            background-color: #f0f8ff !important;
-        }
     </style>
     '''
 
