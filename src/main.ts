@@ -98,11 +98,20 @@ class StLocalStorage:
 st_local_storage = StLocalStorage()
 
 with st.sidebar:
+    all_languages = ["en_US", "zh_CN", "de_DE"]
     if "language" in st.session_state:
         default_language = st.session_state.language
     else:
-        default_language = st_local_storage["language"] or "en_US"
-    all_languages = ["en_US", "zh_CN", "de_DE"]
+        default_language = st_local_storage["language"]
+        if not default_language:
+            if (
+                navigator_language := st_js_blocking("return navigator.language")
+            ):
+                navigator_language = navigator_language.replace("-", "_")
+                if navigator_language in all_languages:
+                    default_language = navigator_language
+            if not default_language:
+                default_language = "en_US"
     def change_language():
         if "language" in st.session_state:
             st_local_storage["language"] = st.session_state.language
