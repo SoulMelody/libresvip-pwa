@@ -28,6 +28,13 @@ export default defineConfig({
       manifest: {
         name: 'LibreSVIP Stlite',
         short_name: 'LibreSVIP',
+        icons: [
+          {
+            src: '/favicon.ico',
+            sizes: '256x256',
+            type: 'image/x-icon',
+          },
+        ]
       },
       workbox: {
         globPatterns: [
