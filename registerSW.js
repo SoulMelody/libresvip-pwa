@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/libresvip-pwa/sw.js', { scope: '/libresvip-pwa/' })})}
