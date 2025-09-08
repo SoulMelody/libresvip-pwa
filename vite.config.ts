@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   assetsInclude: ["**/*.whl"],  // `*.whl` files should be handled as assets
@@ -18,4 +19,23 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ["@stlite/browser"],  // The worker file must be excluded from the optimization
   },
+  plugins: [
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: [
+        '**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp,woff,woff2,ttf,otf,whl}',
+      ],
+      manifest: {
+        name: 'LibreSVIP Stlite',
+        short_name: 'LibreSVIP',
+      },
+      workbox: {
+        globPatterns: [
+          '**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp,woff,woff2,ttf,otf,whl}',
+        ],
+        globIgnores: ['**/sw.js', '**/workbox-*.js'],
+        maximumFileSizeToCacheInBytes: 20 * 1024 * 1024,
+      },
+    })
+  ]
 })
