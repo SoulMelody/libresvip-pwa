@@ -1,5 +1,15 @@
-import { defineConfig } from "vite";
-import { VitePWA } from 'vite-plugin-pwa';
+import type { PWAAssetsOptions } from 'vite-plugin-pwa'
+import { defineConfig } from "vite"
+import { VitePWA } from 'vite-plugin-pwa'
+
+const pwaAssets: PWAAssetsOptions = process.env.INLINE_PWA_ASSETS
+  ? {
+      image: 'public/source-test.png',
+    }
+  : {
+      config: true,
+      overrideManifestIcons: true,
+    }
 
 export default defineConfig({
   assetsInclude: ["**/*.whl"],  // `*.whl` files should be handled as assets
@@ -22,19 +32,10 @@ export default defineConfig({
   plugins: [
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: [
-        '**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp,woff,woff2,ttf,otf,whl}',
-      ],
+      pwaAssets,
       manifest: {
         name: 'LibreSVIP Stlite',
         short_name: 'LibreSVIP',
-        icons: [
-          {
-            src: '/favicon.ico',
-            sizes: '256x256',
-            type: 'image/x-icon',
-          },
-        ]
       },
       workbox: {
         globPatterns: [
