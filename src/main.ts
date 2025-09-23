@@ -372,7 +372,7 @@ if __name__ == "__main__":
       new URL(pycryptodomexWheel, import.meta.url).href,
       new URL(wanakanaWheel, import.meta.url).href,
     ],
-    pyodideUrl: "https://testingcf.jsdelivr.net/pyodide/v0.28.2/full/pyodide.mjs",
+    pyodideUrl: "https://testingcf.jsdelivr.net/pyodide/v0.28.3/full/pyodide.mjs",
     wheelUrls: {
       stliteLib: new URL(stliteLibWheel, import.meta.url).href,
       streamlit: new URL(streamlitWheel, import.meta.url).href,
