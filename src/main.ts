@@ -1,9 +1,8 @@
 import { mount } from "@stlite/browser";
 import stliteLibWheel from "@stlite/browser/wheels/stlite_lib-0.1.0-py3-none-any.whl";
 import streamlitWheel from "@stlite/browser/wheels/streamlit-1.48.0-cp313-none-any.whl";
-import libresvipWheel from "./assets/libresvip-1.11.3-py3-none-any.whl";
+import libresvipWheel from "./assets/libresvip-2.0.0-py3-none-any.whl";
 import constructWheel from "./assets/construct-2.10.68-py3-none-any.whl";
-import midofixWheel from "./assets/mido_fix-1.2.12-py2.py3-none-any.whl";
 import pycryptodomexWheel from "./assets/pycryptodomex-3.21.0-cp36-abi3-pyodide_2025_0_wasm32.whl";
 import wanakanaWheel from "./assets/wanakana_python-1.2.2-py3-none-any.whl";
 
@@ -19,7 +18,7 @@ import os
 import uuid
 from functools import partial
 from importlib.resources import as_file
-from typing import Any, get_type_hints, override
+from typing import Any, override
 
 import extra_streamlit_components as stx
 import streamlit as st
@@ -32,17 +31,13 @@ from upath import UPath
 import libresvip
 from libresvip.core.constants import res_dir
 from libresvip.core.warning_types import CatchWarnings
-from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
+from libresvip.extension.manager import get_translation, plugin_manager
 from libresvip.utils import translation
 
 with as_file(res_dir / "libresvip.ico") as icon_path:
     st.set_page_config(
         page_title="LibreSVIP",
         page_icon=icon_path.read_bytes(),
-        menu_items={
-            "Get Help": "https://soulmelody.github.io/LibreSVIP/",
-            "Report a bug": "https://github.com/SoulMelody/LibreSVIP/issues",
-        }
     )
 
 class StLocalStorage:
@@ -55,13 +50,14 @@ class StLocalStorage:
 
         # Hide the JS iframes
         self._container = st.container(key="ls_container")
-        self._container.html("""
-            <style>
-                .st-key-ls_container .element-container:has(iframe[height="0"]) {
-                    display: none;
-                }
-            </style>
-        """)
+        with self._container:
+            st.html(""" 
+                <style>
+                    .st-key-ls_container .element-container:has(iframe[height="0"]) {
+                        display: none;
+                    }
+                </style>
+            """)
 
     def __getitem__(self, key: str) -> Any:
         if key not in st.session_state["_ls_unique_keys"]:
@@ -98,20 +94,11 @@ class StLocalStorage:
 st_local_storage = StLocalStorage()
 
 with st.sidebar:
-    all_languages = ["en_US", "zh_CN", "de_DE"]
     if "language" in st.session_state:
         default_language = st.session_state.language
     else:
-        default_language = st_local_storage["language"]
-        if not default_language:
-            if (
-                navigator_language := st_js_blocking("return navigator.language")
-            ):
-                navigator_language = navigator_language.replace("-", "_")
-                if navigator_language in all_languages:
-                    default_language = navigator_language
-            if not default_language:
-                default_language = "en_US"
+        default_language = st_local_storage["language"] or "en_US"
+    all_languages = ["en_US", "zh_CN", "de_DE"]
     def change_language():
         if "language" in st.session_state:
             st_local_storage["language"] = st.session_state.language
@@ -159,40 +146,6 @@ def about():
 
 
 def main():
-    custom_css = '''
-    <style>
-        [data-testid="stFileUploaderDropzoneInstructions"]:nth-child(2) span:not(:has(svg)),
-        [data-testid="stFileUploaderDropzone"] button {
-            display: none !important;
-        }
-
-        [data-testid="stFileUploader"] {
-            position: relative !important;
-            min-height: 70px !important;
-            margin: 0 auto !important;
-            border: 2px dashed #ddd !important;
-            border-radius: 8px !important;
-        }
-        
-        [data-testid="stFileUploader"]::before {
-            content: "''' + _("Drag and drop files here or click to upload") + '''";
-            position: absolute !important;
-            top: min(35px, 50%) !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%) !important;
-            font-size: 13px !important;
-            font-weight: 500 !important;
-            z-index: 1 !important;
-            pointer-events: none !important;
-            text-align: center !important;
-            width: 100% !important;
-            padding: 0 10px !important;
-        }
-
-    </style>
-    '''
-
-    st.html(custom_css)
     step = stx.stepper_bar(
         steps=[
             _("Select File Formats"),
@@ -201,24 +154,18 @@ def main():
         ],
         default=0,
     )
-    plugin_options = list(plugin_manager.plugin_registry)
+    plugin_options = list(plugin_manager.plugins.get("svs", {}))
+    print(plugin_options)
     def format_plugin_option(plugin_id: str):
-        plugin_info = plugin_manager.plugin_registry[plugin_id]
-        return f"{_(plugin_info.file_format)} (*.{plugin_info.suffix})"
-    if "uploaded_file_name" not in st.session_state:
-        step = 0
-    if step == 0:
-        uploaded_file = st.file_uploader(_("Add task"), accept_multiple_files=False, label_visibility="collapsed")
-        memfs = load_memfs()
+        plugin = plugin_manager.plugins.get("svs", {})[plugin_id]
+        return f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})"
+    if step == 0 or "uploaded_file_name" not in st.session_state:
+        uploaded_file = st.file_uploader(_("Add task"), accept_multiple_files=False)
         if uploaded_file is not None:
             st.session_state["uploaded_file_name"] = uploaded_file.name
+            memfs = load_memfs()
             input_file = memfs / uploaded_file.name
             input_file.write_bytes(uploaded_file.read())
-        elif "uploaded_file_name" in st.session_state:
-            input_file = memfs / st.session_state["uploaded_file_name"]
-            if input_file.exists():
-                input_file.unlink()
-            del st.session_state["uploaded_file_name"]
         st.divider()
         with st.container(horizontal=True, vertical_alignment="center"):
             if "uploaded_file_name" in st.session_state:
@@ -237,18 +184,16 @@ def main():
             with st.popover("", icon=":material/info:"):
                 if "input_format" not in st.session_state:
                     st.session_state["input_format"] = st.session_state["_input_format"]
-                plugin_info = plugin_manager.plugin_registry[st.session_state["input_format"]]
+                plugin = plugin_manager.plugins.get("svs", {})[st.session_state["input_format"]]
                 with st.container(horizontal=True):
-                    if plugin_info.icon_base64:
-                        st.image(io.BytesIO(base64.b64decode(plugin_info.icon_base64)), width=100)
-                    st.subheader(plugin_info.name)
+                    if plugin.info.icon_base64:
+                        st.image(io.BytesIO(base64.b64decode(plugin.info.icon_base64)), width=100)
+                    st.subheader(plugin.info.name)
                 with st.container(horizontal=True, vertical_alignment="center"):
-                    st.badge(_("Version: ") + str(plugin_info.version), icon=":material/bookmark:")
-                    st.link_button(_(plugin_info.author), plugin_info.website or "#", help=_("Author"), icon=":material/person:")
-                if plugin_info.description:
-                    st.divider()
-                    st.caption(_("Introduction"))
-                    st.write(_(plugin_info.description))
+                    st.badge(str(plugin.version), icon=":material/bookmark:")
+                    st.link_button(_(plugin.info.author), plugin.info.website or "#", icon=":material/person:")
+                if plugin.info.description:
+                    st.write(_(plugin.info.description))
         with st.container(horizontal=True, vertical_alignment="center"):
             def output_format_changed():
                 if "output_options" in st.session_state:
@@ -257,75 +202,51 @@ def main():
                     st.session_state["output_format"] = st.session_state["_output_format"]
             st.selectbox(
                 _("Export format"), options=plugin_options, key="_output_format",
-                on_change=output_format_changed, format_func=format_plugin_option,
+                 on_change=output_format_changed, format_func=format_plugin_option,
             )
             with st.popover("", icon=":material/info:"):
                 if "output_format" not in st.session_state:
                     st.session_state["output_format"] = st.session_state["_output_format"]
-                plugin_info = plugin_manager.plugin_registry[st.session_state["output_format"]]
+                plugin = plugin_manager.plugins.get("svs", {})[st.session_state["output_format"]]
                 with st.container(horizontal=True):
-                    if plugin_info.icon_base64:
-                        st.image(io.BytesIO(base64.b64decode(plugin_info.icon_base64)), width=100)
-                    st.subheader(plugin_info.name)
+                    if plugin.info.icon_base64:
+                        st.image(io.BytesIO(base64.b64decode(plugin.info.icon_base64)), width=100)
+                    st.subheader(plugin.info.name)
                 with st.container(horizontal=True, vertical_alignment="center"):
-                    st.badge(_("Version: ") + str(plugin_info.version), icon=":material/bookmark:")
-                    st.link_button(_(plugin_info.author), plugin_info.website or "#", help=_("Author"), icon=":material/person:")
-                if plugin_info.description:
-                    st.divider()
-                    st.caption(_("Introduction"))
-                    st.write(_(plugin_info.description))
-    elif step == 1:
-        input_options_tab, output_options_tab, middleware_options_tab = st.tabs([_("Input Options"), _("Output Options"), _("Intermediate Processing")])
+                    st.badge(str(plugin.version), icon=":material/bookmark:")
+                    st.link_button(_(plugin.info.author), plugin.info.website or "#", icon=":material/person:")
+                if plugin.info.description:
+                    st.write(_(plugin.info.description))
+    elif step == 1 and "uploaded_file_name" in st.session_state:
+        input_options_tab, output_options_tab = st.tabs([_("Input Options"), _("Output Options")])
         with input_options_tab:
-            plugin_info = plugin_manager.plugin_registry[st.session_state["input_format"]]
-            option_cls = get_type_hints(plugin_info.plugin_object.load)["options"]
+            plugin = plugin_manager.plugins.get("svs", {})[st.session_state["input_format"]]
+            option_cls = plugin.input_option_cls
             option_cls.model_json_schema = partial(option_cls.model_json_schema, schema_generator=GettextGenerateJsonSchema)
             options = sp.pydantic_form("input_options_form", option_cls, submit_label=_("OK"))
             if options:
                 st.session_state["input_options"] = options.model_dump(by_alias=False, mode="json")
         with output_options_tab:
-            plugin_info = plugin_manager.plugin_registry[st.session_state["output_format"]]
-            option_cls = get_type_hints(plugin_info.plugin_object.dump)["options"]
+            plugin = plugin_manager.plugins.get("svs", {})[st.session_state["output_format"]]
+            option_cls = plugin.output_option_cls
             option_cls.model_json_schema = partial(option_cls.model_json_schema, schema_generator=GettextGenerateJsonSchema)
             options = sp.pydantic_form("output_options_form", option_cls, submit_label=_("OK"))
             if options:
                 st.session_state["output_options"] = options.model_dump(by_alias=False, mode="json")
-        with middleware_options_tab:
-            st.session_state["middleware_options"] = {}
-            for middleware_id, middleware_info in middleware_manager.plugin_registry.items():
-                enabled = st.toggle(_(middleware_info.name), key=f"middleware_{middleware_id}")
-                if enabled:
-                    option_cls = get_type_hints(middleware_info.plugin_object.process)["options"]
-                    option_cls.model_json_schema = partial(option_cls.model_json_schema, schema_generator=GettextGenerateJsonSchema)
-                    options = sp.pydantic_form(f"middleware_options_form_{middleware_id}", option_cls, submit_label=_("OK"))
-                    if options:
-                        st.session_state["middleware_options"][middleware_id] = options.model_dump(by_alias=False, mode="json")
-                else:
-                    if middleware_id in st.session_state["middleware_options"]:
-                        del st.session_state["middleware_options"][middleware_id]
-    elif step == 2:
+    elif step == 2 and "uploaded_file_name" in st.session_state:
         click_callback = None
         with st.status(_("Converting ..."), expanded=True) as status:
             try:
                 with CatchWarnings() as w:
                     input_format = st.session_state["input_format"]
                     output_format = st.session_state["output_format"]
-                    input_option_cls = get_type_hints(plugin_manager.plugin_registry[input_format].plugin_object.load)["options"]
-                    input_options = input_option_cls(**st.session_state.get("input_options", {}))
                     memfs = load_memfs()
                     input_file = memfs / st.session_state["uploaded_file_name"]
-                    project = plugin_manager.plugin_registry[input_format].plugin_object.load(input_file, input_options)
-                    for middleware_id, middleware_info in middleware_manager.plugin_registry.items():
-                        if st.session_state.get(f"middleware_{middleware_id}"):
-                            middleware_option_cls = get_type_hints(middleware_info.plugin_object.process)["options"]
-                            middleware_options = middleware_option_cls(**st.session_state["middleware_options"].get(middleware_id, {}))
-                            project = middleware_info.plugin_object.process(project, middleware_options)
-                    output_option_cls = get_type_hints(plugin_manager.plugin_registry[output_format].plugin_object.dump)["options"]
-                    output_options = output_option_cls(**st.session_state.get("output_options", {}))
+                    project = plugin_manager.plugins.get("svs", {})[input_format].load(input_file, st.session_state.get("input_options", {}))
                     input_stem = os.path.splitext(st.session_state["uploaded_file_name"])[0]
                     output_name = f"{input_stem}.{output_format}"
                     output_file = memfs / output_name
-                    plugin_manager.plugin_registry[output_format].plugin_object.dump(output_file, project, output_options)
+                    plugin_manager.plugins.get("svs", {})[output_format].dump(output_file, project, st.session_state.get("output_options", {}))
 
                     def click_callback():
                         del st.session_state.uploaded_file_name
@@ -340,12 +261,11 @@ def main():
                 status.update(label=_("Conversion Failed"), state="error")
                 st.exception(e)
                 success = False
-        with st.container(horizontal=True):
-            if success:
-                st.download_button(_("Download"), data=output_file.read_bytes(), file_name=output_name, mime="application/octet-stream", on_click=click_callback)
-            if st.button("", icon=":material/restart_alt:"):
-                st.session_state.clear()
-                st.rerun()
+        if success:
+            st.download_button(_("Download"), data=output_file.read_bytes(), file_name=output_name, mime="application/octet-stream", on_click=click_callback)
+        if st.button("", icon=":material/restart_alt:"):
+            st.session_state.clear()
+            st.rerun()
 
 if __name__ == "__main__":
     pg = st.navigation([
@@ -362,13 +282,11 @@ if __name__ == "__main__":
       "streamlit-js",
       "ruamel.yaml",
       "ujson",
-      "universal-pathlib",
       "zstandard",
       new URL(libresvipWheel, import.meta.url).href,
     ],
     prebuiltPackageNames: [
       new URL(constructWheel, import.meta.url).href,
-      new URL(midofixWheel, import.meta.url).href,
       new URL(pycryptodomexWheel, import.meta.url).href,
       new URL(wanakanaWheel, import.meta.url).href,
     ],
