@@ -2,7 +2,6 @@ import { mount } from "@stlite/browser";
 import stliteLibWheel from "@stlite/browser/wheels/stlite_lib-0.1.0-py3-none-any.whl";
 import streamlitWheel from "@stlite/browser/wheels/streamlit-1.48.0-cp313-none-any.whl";
 import libresvipWheel from "./assets/libresvip-2.0.1-py3-none-any.whl";
-import constructWheel from "./assets/construct-2.10.68-py3-none-any.whl";
 import pycryptodomexWheel from "./assets/pycryptodomex-3.21.0-cp36-abi3-pyodide_2025_0_wasm32.whl";
 import wanakanaWheel from "./assets/wanakana_python-1.2.2-py3-none-any.whl";
 
@@ -362,7 +361,6 @@ if __name__ == "__main__":
       new URL(libresvipWheel, import.meta.url).href,
     ],
     prebuiltPackageNames: [
-      new URL(constructWheel, import.meta.url).href,
       new URL(pycryptodomexWheel, import.meta.url).href,
       new URL(wanakanaWheel, import.meta.url).href,
     ],
