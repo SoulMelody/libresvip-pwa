@@ -1,7 +1,7 @@
 import { mount } from "@stlite/browser";
 import stliteLibWheel from "@stlite/browser/wheels/stlite_lib-0.1.0-py3-none-any.whl";
 import streamlitWheel from "@stlite/browser/wheels/streamlit-1.48.0-cp313-none-any.whl";
-import libresvipWheel from "./assets/libresvip-2.0.2-py3-none-any.whl";
+import libresvipWheel from "./assets/libresvip-2.0.6-py3-none-any.whl";
 import pycryptodomexWheel from "./assets/pycryptodomex-3.21.0-cp36-abi3-pyodide_2025_0_wasm32.whl";
 import wanakanaWheel from "./assets/wanakana_python-1.2.2-py3-none-any.whl";
 
@@ -17,7 +17,7 @@ import os
 import uuid
 from functools import partial
 from importlib.resources import as_file
-from typing import Any, get_type_hints, override
+from typing import Any, override
 
 import extra_streamlit_components as stx
 import streamlit as st
@@ -30,6 +30,7 @@ from upath import UPath
 import libresvip
 from libresvip.core.constants import res_dir
 from libresvip.core.warning_types import CatchWarnings
+from libresvip.extension.base import ReadOnlyConverterMixin, WriteOnlyConverterMixin
 from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
 from libresvip.utils import translation
 
@@ -199,7 +200,16 @@ def main():
         ],
         default=0,
     )
-    plugin_options = list(plugin_manager.plugins.get("svs", {}))
+    input_plugin_options = [
+        plugin_id
+        for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
+        if not issubclass(plugin, (WriteOnlyConverterMixin))
+    ]
+    output_plugin_options = [
+        plugin_id
+        for plugin_id, plugin in plugin_manager.plugins.get("svs", {}).items()
+        if not issubclass(plugin, (ReadOnlyConverterMixin))
+    ]
     def format_plugin_option(plugin_id: str):
         plugin = plugin_manager.plugins.get("svs", {})[plugin_id]
         return f"{_(plugin.info.file_format)} (*.{plugin.info.suffix})"
@@ -221,7 +231,7 @@ def main():
         with st.container(horizontal=True, vertical_alignment="center"):
             if "uploaded_file_name" in st.session_state:
                 input_suffix = os.path.splitext(st.session_state["uploaded_file_name"])[1].lstrip(".").lower()
-                if input_suffix in plugin_options:
+                if input_suffix in input_plugin_options:
                     st.session_state["input_format"] = st.session_state["_input_format"] = input_suffix
             def input_format_changed():
                 if "input_options" in st.session_state:
@@ -229,7 +239,7 @@ def main():
                 if "_input_format" in st.session_state:
                     st.session_state["input_format"] = st.session_state["_input_format"]
             st.selectbox(
-                _("Import format"), options=plugin_options, key="_input_format",
+                _("Import format"), options=input_plugin_options, key="_input_format",
                 on_change=input_format_changed, format_func=format_plugin_option,
             )
             with st.popover("", icon=":material/info:"):
@@ -254,7 +264,7 @@ def main():
                 if "_output_format" in st.session_state:
                     st.session_state["output_format"] = st.session_state["_output_format"]
             st.selectbox(
-                _("Export format"), options=plugin_options, key="_output_format",
+                _("Export format"), options=output_plugin_options, key="_output_format",
                 on_change=output_format_changed, format_func=format_plugin_option,
             )
             with st.popover("", icon=":material/info:"):
