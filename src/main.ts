@@ -379,7 +379,6 @@ if __name__ == "__main__":
       stliteLib: new URL(stliteLibWheel, import.meta.url).href,
       streamlit: new URL(streamlitWheel, import.meta.url).href,
     },
-    workerType: process.env.NODE_ENV === "development" ? "module" : "classic",
   },
   document.getElementById("app") as HTMLDivElement
 );
