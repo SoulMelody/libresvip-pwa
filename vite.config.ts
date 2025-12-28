@@ -14,6 +14,9 @@ const pwaAssets: PWAAssetsOptions = process.env.INLINE_PWA_ASSETS
 export default defineConfig({
   assetsInclude: ["**/*.whl"],  // `*.whl` files should be handled as assets
   base: "/libresvip-pwa/",
+  server: {
+    cors: true,
+  },
   build: {
     rollupOptions: {
       output: {
