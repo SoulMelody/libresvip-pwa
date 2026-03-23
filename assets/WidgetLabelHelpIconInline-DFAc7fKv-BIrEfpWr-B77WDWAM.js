@@ -1,0 +1,1 @@
+import{k as e,cY as c,cZ as p,c_ as m,ap as x}from"./index-CBpJgXau.js";function L({content:a,label:t,ariaLabel:n,placement:o=x.TOP_RIGHT,isLatex:l,markdownProps:r,onMouseEnterDelay:i,containerWidth:s}){return e.jsx(c,{children:e.jsx(p,{content:a,placement:o,isLatex:l,markdownProps:r,onMouseEnterDelay:i,containerWidth:s,ariaLabel:n??m(t)})})}export{L as x};
