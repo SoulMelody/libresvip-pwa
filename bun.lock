@@ -5,7 +5,7 @@
     "": {
       "name": "libresvip-pwa",
       "dependencies": {
-        "@stlite/browser": "^1.3.0",
+        "@stlite/browser": "^1.5.0",
       },
       "devDependencies": {
         "@types/node": "^24.12.0",
@@ -401,7 +401,7 @@
 
     "@rollup/rollup-win32-x64-msvc": ["@rollup/rollup-win32-x64-msvc@4.55.1", "https://registry.npmmirror.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.55.1.tgz", { "os": "win32", "cpu": "x64" }, "sha512-SPEpaL6DX4rmcXtnhdrQYgzQ5W2uW3SCJch88lB2zImhJRhIIK44fkUrgIV/Q8yUNfw5oyZ5vkeQsZLhCb06lw=="],
 
-    "@stlite/browser": ["@stlite/browser@1.3.0", "https://registry.npmmirror.com/@stlite/browser/-/browser-1.3.0.tgz", {}, "sha512-dfEZx0mVJ2tjKpvEuTjpQPGBgy4L3D2HRZr0YXCkWh0pdcTD/kbcHbqaNjCzMyQ/gbGL7k+YpTCquXsBebte+Q=="],
+    "@stlite/browser": ["@stlite/browser@1.5.0", "https://registry.npmmirror.com/@stlite/browser/-/browser-1.5.0.tgz", {}, "sha512-1qLWuCjPmlXaRbPogMnJIyiGe+KxxJVRdQCxDhTU0PI4ncv/W0rNiO3NUg4NiZUzeQjtbkSmdBMgotKTG/Xt7Q=="],
 
     "@surma/rollup-plugin-off-main-thread": ["@surma/rollup-plugin-off-main-thread@2.2.3", "https://registry.npmmirror.com/@surma/rollup-plugin-off-main-thread/-/rollup-plugin-off-main-thread-2.2.3.tgz", { "dependencies": { "ejs": "^3.1.6", "json5": "^2.2.0", "magic-string": "^0.25.0", "string.prototype.matchall": "^4.0.6" } }, "sha512-lR8q/9W7hZpMWweNiAKU7NQerBnzQQLvi8qnTDU/fxItPhtZVMbPV3lbCwjhIlNBe9Bbr5V+KHshvWmVSG9cxQ=="],
 

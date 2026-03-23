@@ -16,6 +16,6 @@
     "vite-plugin-pwa": "^1.2.0"
   },
   "dependencies": {
-    "@stlite/browser": "^1.3.0"
+    "@stlite/browser": "^1.5.0"
   }
 }
