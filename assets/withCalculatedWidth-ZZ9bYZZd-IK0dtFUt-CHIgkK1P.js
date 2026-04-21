@@ -1,1 +1,0 @@
-import{cr as o,H as r,k as a,ai as c}from"./index-CBpJgXau.js";const d=t=>{const e=i=>{const{width:s,elementRef:n}=r();return a.jsx(c,{ref:n,children:a.jsx(t,{...i,width:s})})};return e.displayName=`withCalculatedWidth(${t.displayName||t.name})`,o(e,t)};export{d as l};

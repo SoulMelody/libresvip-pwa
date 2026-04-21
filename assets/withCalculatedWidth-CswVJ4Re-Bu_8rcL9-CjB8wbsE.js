@@ -1,0 +1,1 @@
+import{cw as o,G as r,j as a,ap as c}from"./index-Cto6lVBL.js";const d=t=>{const e=s=>{const{width:i,elementRef:n}=r();return a.jsx(c,{ref:n,children:a.jsx(t,{...s,width:i})})};return e.displayName=`withCalculatedWidth(${t.displayName||t.name})`,o(e,t)};export{d as l};
