@@ -1,9 +1,9 @@
 import { mount } from "@stlite/browser";
 import stliteLibWheel from "@stlite/browser/wheels/stlite_lib-0.1.0-py3-none-any.whl";
-import streamlitWheel from "@stlite/browser/wheels/streamlit-1.53.1-cp313-none-any.whl";
-import libresvipWheel from "./assets/libresvip-2.3.1-py3-none-any.whl";
+import streamlitWheel from "@stlite/browser/wheels/streamlit-1.56.0-cp313-none-any.whl";
+import libresvipWheel from "./assets/libresvip-2.4.0-py3-none-any.whl";
 import pycryptodomexWheel from "./assets/pycryptodomex-3.21.0-cp36-abi3-pyodide_2025_0_wasm32.whl";
-import pyyaml12Wheel from "./assets/py_yaml12-0.1.0-cp310-abi3-emscripten_4_0_9_wasm32.whl";
+import yamlRsWheel from "./assets/yaml_rs-0.1.0-cp313-cp313-emscripten_4_0_9_wasm32.whl";
 import wanakanaWheel from "./assets/wanakana_python-1.2.2-py3-none-any.whl";
 
 mount(
@@ -161,7 +161,7 @@ def about():
 def main():
     custom_css = '''
     <style>
-        [data-testid="stFileUploaderDropzoneInstructions"]:nth-child(2) span:not(:has(svg)),
+        [data-testid="stFileUploaderDropzoneInstructions"] span:not(:has(svg)),
         [data-testid="stFileUploaderDropzone"] button {
             display: none !important;
         }
@@ -367,12 +367,11 @@ if __name__ == "__main__":
       "st-pydantic",
       "streamlit-js",
       "ujson",
-      "zstandard",
       new URL(libresvipWheel, import.meta.url).href,
     ],
     prebuiltPackageNames: [
       new URL(pycryptodomexWheel, import.meta.url).href,
-      new URL(pyyaml12Wheel, import.meta.url).href,
+      new URL(yamlRsWheel, import.meta.url).href,
       new URL(wanakanaWheel, import.meta.url).href,
     ],
     pyodideUrl: "https://testingcf.jsdelivr.net/pyodide/v0.29.3/full/pyodide.mjs",
