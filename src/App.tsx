@@ -68,7 +68,10 @@ import {
 } from "./platform/files";
 
 type PluginAnchorState = {
-  anchor: HTMLElement;
+  anchorPosition: {
+    top: number;
+    left: number;
+  };
   plugin: PluginMetadata;
 } | null;
 
@@ -403,7 +406,8 @@ export default function App() {
 
         <Popover
           open={Boolean(pluginAnchor)}
-          anchorEl={pluginAnchor?.anchor}
+          anchorReference="anchorPosition"
+          anchorPosition={pluginAnchor?.anchorPosition}
           onClose={() => setPluginAnchor(null)}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           transformOrigin={{ vertical: "top", horizontal: "center" }}
@@ -674,7 +678,14 @@ export default function App() {
               onClick={(event) => {
                 const plugin = props.plugins.find((item) => item.identifier === props.value);
                 if (plugin) {
-                  setPluginAnchor({ anchor: event.currentTarget, plugin });
+                  const rect = event.currentTarget.getBoundingClientRect();
+                  setPluginAnchor({
+                    anchorPosition: {
+                      top: rect.bottom,
+                      left: rect.left + rect.width / 2,
+                    },
+                    plugin,
+                  });
                 }
               }}
             >
