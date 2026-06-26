@@ -1,4 +1,6 @@
 import type { PWAAssetsOptions } from 'vite-plugin-pwa'
+import { basename } from "node:path"
+import type { PreRenderedAsset } from "rollup"
 import { defineConfig } from "vite"
 import { VitePWA } from 'vite-plugin-pwa'
 
@@ -21,23 +23,21 @@ export default defineConfig({
     rollupOptions: {
       output: {
         assetFileNames: (assetInfo) => {
-          if (assetInfo.names[0]?.endsWith('.whl')) {  // `*.whl` file names should be used as is without attributing a hash
-            return 'wheels/[name][extname]';
+          if (isWheelAsset(assetInfo)) {
+            const wheelName = getWheelName(assetInfo)
+            return wheelName ? `wheels/${wheelName}` : "wheels/[name][extname]"
           }
-          return 'assets/[name]-[hash][extname]';
-        }
+          return "assets/[name]-[hash][extname]"
+        },
       },
     },
-  },
-  optimizeDeps: {
-    exclude: ["@stlite/browser"],  // The worker file must be excluded from the optimization
   },
   plugins: [
     VitePWA({
       registerType: 'autoUpdate',
       pwaAssets,
       manifest: {
-        name: 'LibreSVIP Stlite',
+        name: 'LibreSVIP PWA',
         short_name: 'LibreSVIP',
       },
       workbox: {
@@ -50,3 +50,16 @@ export default defineConfig({
     })
   ]
 })
+
+function isWheelAsset(assetInfo: PreRenderedAsset): boolean {
+  return getWheelName(assetInfo) !== null
+}
+
+function getWheelName(assetInfo: PreRenderedAsset): string | null {
+  const sourceName = [
+    ...assetInfo.originalFileNames,
+    ...assetInfo.names,
+    assetInfo.name ?? "",
+  ].find((fileName) => fileName.endsWith(".whl"))
+  return sourceName ? basename(sourceName) : null
+}

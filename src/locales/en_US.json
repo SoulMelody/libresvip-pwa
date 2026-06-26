@@ -1,0 +1,50 @@
+{
+  "app": {
+    "title": "Browser conversion workspace",
+    "subtitle": "LibreSVIP now runs as a React PWA and delegates conversion work to a Pyodide module worker.",
+    "toggle_theme": "Toggle theme"
+  },
+  "runtime": {
+    "initializing": "Initializing Pyodide conversion worker...",
+    "ready": "Conversion runtime is ready. LibreSVIP {{version}}",
+    "retry": "Retry",
+    "unknown_version": "unknown",
+    "platform_limits_title": "Browser file model",
+    "platform_limits_body": "The PWA can read files that you choose or drop into the page. It cannot access arbitrary local paths, output folders, or system reveal actions.",
+    "download_only": "Converted files are returned as browser downloads."
+  },
+  "converter": {
+    "import_projects": "Import projects",
+    "export_config": "Export format",
+    "options": "Options",
+    "export_files": "Export files",
+    "dropzone_placeholder": "Choose files or drop them here. Unsupported files are skipped unless you select an input format manually.",
+    "choose_files": "Choose files",
+    "unsupported_file": "{{name}} is not supported. Select an input format before adding this file.",
+    "directories_not_supported": "Folders cannot be imported in the browser. Drop files instead.",
+    "conversion_mode": "Conversion mode",
+    "direct_mode": "Direct",
+    "split_mode": "Split",
+    "merge_mode": "Merge",
+    "input_format": "Input format",
+    "output_format": "Output format",
+    "input_options": "Input options",
+    "output_options": "Output options",
+    "middleware_options": "Middleware options",
+    "view_plugin_info": "View plugin information",
+    "no_middlewares": "No middleware options are available.",
+    "no_tasks": "No files have been added.",
+    "clear_tasks": "Clear files",
+    "running": "running",
+    "success": "success",
+    "failed": "failed",
+    "no_options": "This plugin does not expose configurable options.",
+    "reset": "Start over",
+    "download": "Download"
+  },
+  "nav": {
+    "back": "Back",
+    "next": "Next",
+    "start": "Start"
+  }
+}
