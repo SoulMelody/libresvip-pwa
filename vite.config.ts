@@ -1,6 +1,6 @@
 import type { PWAAssetsOptions } from 'vite-plugin-pwa'
 import { basename } from "node:path"
-import type { PreRenderedAsset } from "rollup"
+import type { PreRenderedAsset } from "rolldown"
 import { defineConfig } from "vite"
 import { VitePWA } from 'vite-plugin-pwa'
 
@@ -20,7 +20,7 @@ export default defineConfig({
     cors: true,
   },
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       output: {
         assetFileNames: (assetInfo) => {
           if (isWheelAsset(assetInfo)) {

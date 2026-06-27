@@ -19,7 +19,7 @@
     "@vite-pwa/assets-generator": "^1.0.2",
     "jsdom": "^29.1.1",
     "typescript": "~6.0.3",
-    "vite": "^7.3.6",
+    "vite": "^8.1.0",
     "vite-plugin-pwa": "^1.3.0",
     "vitest": "^4.1.9"
   },
@@ -44,5 +44,8 @@
     "react-i18next": "^17.0.8",
     "react-router": "^8.0.1",
     "zustand": "^5.0.14"
+  },
+  "patchedDependencies": {
+    "@griffel/core@1.21.2": "patches/@griffel%2Fcore@1.21.2.patch"
   }
 }
