@@ -1,11 +1,10 @@
-(function(){"use strict";var O="/libresvip-pwa/assets/libresvip-2.7.1-py3-none-any-CJTgqjlR.whl",N="/libresvip-pwa/assets/pycryptodomex-3.23.0-cp37-abi3-pyemscripten_2026_0_wasm32-eUXflYOO.whl",E="/libresvip-pwa/assets/wanakana_python-1.2.2-py3-none-any-mmo05MrR.whl";function y(t,n,e){const i=t&&t!=="Error"?`${t}: ${n}`:n;return e?`${i}
-${e}`:i}function P(t){if(typeof t=="string")return t;if(t instanceof Error)return y(t.name,t.message,t.stack);if(t&&typeof t=="object"){const n=t,e=typeof n.name=="string"?n.name:"Error",i=typeof n.message=="string"?n.message:"",a=typeof n.stack=="string"?n.stack:void 0;if(i)return y(e,i,a);try{return JSON.stringify(t,null,2)}catch{return String(t)}}return String(t)}const w="https://testingcf.jsdelivr.net/pyodide/v314.0.0/full/",F=`${w}pyodide.mjs`,m=typeof location<"u"?location.origin:"http://localhost:5173",v="/tmp/libresvip-pwa/wheels",J=[{fileName:"libresvip-2.7.1-py3-none-any.whl",url:g(O,m)},{fileName:"pycryptodomex-3.23.0-cp37-abi3-pyemscripten_2026_0_wasm32.whl",url:g(N,m)},{fileName:"wanakana_python-1.2.2-py3-none-any.whl",url:g(E,m)}];let s=null,r=null;self.onmessage=t=>{R(t.data)};async function R(t){try{switch(t.type){case"init":t.force&&(s=null,r=null),await k(),p(t.id,void 0);break;case"version":p(t.id,await W());break;case"pluginInfos":p(t.id,await C(t.language??"en_US"));break;case"convert":p(t.id,await I(t.id,t.request));break}}catch(n){z(t.id,n)}}async function k(){return s||(s=U().catch(t=>{throw r=d(t),r}),s)}async function U(){const{loadPyodide:t}=await import(F),n=await t({indexURL:w});await n.loadPackage(["micropip","lxml","ujson"]);const e=await T(n);return await n.runPythonAsync(`
+(function(){var e=`/libresvip-pwa/assets/libresvip-2.7.1-py3-none-any-CJTgqjlR.whl`,t=`/libresvip-pwa/assets/pycryptodomex-3.23.0-cp37-abi3-pyemscripten_2026_0_wasm32-Dlgyq3T6.whl`,n=`/libresvip-pwa/assets/wanakana_python-1.2.2-py3-none-any-mmo05MrR.whl`;function r(e,t,n){let r=e&&e!==`Error`?`${e}: ${t}`:t;return n?`${r}\n${n}`:r}function i(e){if(typeof e==`string`)return e;if(e instanceof Error)return r(e.name,e.message,e.stack);if(e&&typeof e==`object`){let t=e,n=typeof t.name==`string`?t.name:`Error`,i=typeof t.message==`string`?t.message:``,a=typeof t.stack==`string`?t.stack:void 0;if(i)return r(n,i,a);try{return JSON.stringify(e,null,2)}catch{return String(e)}}return String(e)}let a=`https://testingcf.jsdelivr.net/pyodide/v314.0.0/full/`,o=`${a}pyodide.mjs`,s=typeof location<`u`?location.origin:`http://localhost:5173`,c=`/tmp/libresvip-pwa/wheels`,l=[{fileName:`libresvip-2.7.1-py3-none-any.whl`,url:O(e,s)},{fileName:`pycryptodomex-3.23.0-cp37-abi3-pyemscripten_2026_0_wasm32.whl`,url:O(t,s)},{fileName:`wanakana_python-1.2.2-py3-none-any.whl`,url:O(n,s)}],u=null,d=null;self.onmessage=e=>{f(e.data)};async function f(e){try{switch(e.type){case`init`:e.force&&(u=null,d=null),await p(),y(e.id,void 0);break;case`version`:y(e.id,await h());break;case`pluginInfos`:y(e.id,await g(e.language??`en_US`));break;case`convert`:y(e.id,await _(e.id,e.request));break}}catch(t){b(e.id,t)}}async function p(){return u||(u=m().catch(e=>{throw d=S(e),d}),u)}async function m(){let{loadPyodide:e}=await import(o),t=await e({indexURL:a});await t.loadPackage([`micropip`,`lxml`,`ujson`]);let n=await D(t);return await t.runPythonAsync(`
 import micropip
-await micropip.install(${JSON.stringify([...e,"pyzipper","yaml-rs"])}, keep_going=True)
-`),n}async function W(){return(await f()).runPythonAsync(`
+await micropip.install(${JSON.stringify([...n,`pyzipper`,`yaml-rs`])}, keep_going=True)
+`),t}async function h(){return(await v()).runPythonAsync(`
 import importlib.metadata
 importlib.metadata.version("libresvip")
-`)}async function C(t){const e=await(await f()).runPythonAsync(`
+`)}async function g(e){let t=await(await v()).runPythonAsync(`
 import enum
 import gettext
 from functools import partial
@@ -18,7 +17,7 @@ from pydantic._internal._core_utils import CoreSchemaOrField
 from pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue
 from typing_extensions import override
 
-language = ${JSON.stringify(t)}
+language = ${JSON.stringify(e)}
 translator = get_translation(language)
 
 class GettextGenerateJsonSchema(GenerateJsonSchema):
@@ -106,7 +105,7 @@ payload = {
     },
 }
 json.dumps(payload)
-`);return JSON.parse(e)}async function I(t,n){const e=await f(),i=[],a=new Set;for(const o of n.tasks){l(t,{type:"task-started",taskId:o.id});const u=`/tmp/libresvip-pwa/${o.id}`,S=`${u}/${M(o.name)}`,j=L(A(o.name),n.outputFormat,a),$=`${u}/${j}`;try{e.FS.mkdirTree(u),e.FS.writeFile(S,new Uint8Array(o.data));const h=await e.runPythonAsync(`
+`);return JSON.parse(t)}async function _(e,t){let n=await v(),r=[],i=new Set;for(let a of t.tasks){x(e,{type:`task-started`,taskId:a.id});let o=`/tmp/libresvip-pwa/${a.id}`,s=`${o}/${C(a.name)}`,c=T(w(a.name),t.outputFormat,i),l=`${o}/${c}`;try{n.FS.mkdirTree(o),n.FS.writeFile(s,new Uint8Array(a.data));let i=await n.runPythonAsync(`
 import traceback
 from pathlib import Path
 
@@ -114,13 +113,13 @@ from libresvip.core.compat import json
 from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import middleware_manager, plugin_manager
 
-input_format = ${JSON.stringify(o.inputFormat)}
-output_format = ${JSON.stringify(n.outputFormat)}
-input_path = Path(${JSON.stringify(S)})
-output_path = Path(${JSON.stringify($)})
-input_options = json.loads(${_(n.inputOptions)})
-output_options = json.loads(${_(n.outputOptions)})
-middleware_options = json.loads(${_(n.middlewareOptions)})
+input_format = ${JSON.stringify(a.inputFormat)}
+output_format = ${JSON.stringify(t.outputFormat)}
+input_path = Path(${JSON.stringify(s)})
+output_path = Path(${JSON.stringify(l)})
+input_options = json.loads(${k(t.inputOptions)})
+output_options = json.loads(${k(t.outputOptions)})
+middleware_options = json.loads(${k(t.middlewareOptions)})
 
 try:
     warnings = []
@@ -145,4 +144,4 @@ try:
 except Exception:
     result = {"ok": False, "error": traceback.format_exc()}
 json.dumps(result)
-`),c=JSON.parse(h);if(!c.ok){l(t,{type:"task-failed",taskId:o.id,error:{name:"ConversionError",message:c.error}});continue}for(const B of c.warnings)l(t,{type:"task-warning",taskId:o.id,warning:B});const D=e.FS.readFile($),G=new Uint8Array(D).buffer,x={taskId:o.id,fileName:j,mime:"application/octet-stream",data:G,warnings:c.warnings};i.push(x),l(t,{type:"task-completed",taskId:o.id,output:x})}catch(h){l(t,{type:"task-failed",taskId:o.id,error:d(h)})}finally{b(e,u)}}return{outputs:i}}async function f(){if(r)throw r;return k()}function p(t,n){self.postMessage({id:t,type:"success",value:n})}function z(t,n){self.postMessage({id:t,type:"error",error:d(n)})}function l(t,n){self.postMessage({id:t,type:"event",event:n})}function d(t){if(t instanceof Error)return{name:t.name,message:t.message,stack:t.stack};if(t&&typeof t=="object"&&"message"in t){const n=t;return{name:typeof n.name=="string"?n.name:"Error",message:String(n.message),stack:typeof n.stack=="string"?n.stack:void 0}}return{name:"Error",message:P(t)}}function M(t){return t.replace(/[\\/:*?"<>|]/g,"_")}function A(t){const n=t.lastIndexOf(".");return n>0?t.slice(0,n):t}function L(t,n,e){const i=n.startsWith(".")?n:`.${n}`;let a=`${t}${i}`,o=1;for(;e.has(a);)a=`${t} (${o})${i}`,o+=1;return e.add(a),a}function b(t,n){try{for(const e of t.FS.readdir(n)){if(e==="."||e==="..")continue;const i=`${n}/${e}`;try{t.FS.unlink(i)}catch{b(t,i)}}t.FS.rmdir(n)}catch{}}async function T(t){const n=await Promise.all(J.map(async i=>{const a=await fetch(i.url);if(!a.ok)throw new Error(`Failed to fetch wheel ${i.fileName}: ${a.status} ${a.statusText}`);return{fileName:i.fileName,data:new Uint8Array(await a.arrayBuffer())}}));t.FS.mkdirTree(v);const e=[];for(const i of n){const a=`${v}/${i.fileName}`;t.FS.writeFile(a,i.data),e.push(`emfs:${a}`)}return e}function g(t,n){const e=new URL(t,n);return new URL(`${e.pathname}${e.search}${e.hash}`,n).href}function _(t){return JSON.stringify(JSON.stringify(t))}})();
+`),u=JSON.parse(i);if(!u.ok){x(e,{type:`task-failed`,taskId:a.id,error:{name:`ConversionError`,message:u.error}});continue}for(let t of u.warnings)x(e,{type:`task-warning`,taskId:a.id,warning:t});let d=n.FS.readFile(l),f=new Uint8Array(d).buffer,p={taskId:a.id,fileName:c,mime:`application/octet-stream`,data:f,warnings:u.warnings};r.push(p),x(e,{type:`task-completed`,taskId:a.id,output:p})}catch(t){x(e,{type:`task-failed`,taskId:a.id,error:S(t)})}finally{E(n,o)}}return{outputs:r}}async function v(){if(d)throw d;return p()}function y(e,t){self.postMessage({id:e,type:`success`,value:t})}function b(e,t){self.postMessage({id:e,type:`error`,error:S(t)})}function x(e,t){self.postMessage({id:e,type:`event`,event:t})}function S(e){if(e instanceof Error)return{name:e.name,message:e.message,stack:e.stack};if(e&&typeof e==`object`&&`message`in e){let t=e;return{name:typeof t.name==`string`?t.name:`Error`,message:String(t.message),stack:typeof t.stack==`string`?t.stack:void 0}}return{name:`Error`,message:i(e)}}function C(e){return e.replace(/[\\/:*?"<>|]/g,`_`)}function w(e){let t=e.lastIndexOf(`.`);return t>0?e.slice(0,t):e}function T(e,t,n){let r=t.startsWith(`.`)?t:`.${t}`,i=`${e}${r}`,a=1;for(;n.has(i);)i=`${e} (${a})${r}`,a+=1;return n.add(i),i}function E(e,t){try{for(let n of e.FS.readdir(t)){if(n===`.`||n===`..`)continue;let r=`${t}/${n}`;try{e.FS.unlink(r)}catch{E(e,r)}}e.FS.rmdir(t)}catch{}}async function D(e){let t=await Promise.all(l.map(async e=>{let t=await fetch(e.url);if(!t.ok)throw Error(`Failed to fetch wheel ${e.fileName}: ${t.status} ${t.statusText}`);return{fileName:e.fileName,data:new Uint8Array(await t.arrayBuffer())}}));e.FS.mkdirTree(c);let n=[];for(let r of t){let t=`${c}/${r.fileName}`;e.FS.writeFile(t,r.data),n.push(`emfs:${t}`)}return n}function O(e,t){let n=new URL(e,t);return new URL(`${n.pathname}${n.search}${n.hash}`,t).href}function k(e){return JSON.stringify(JSON.stringify(e))}})();
