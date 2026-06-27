@@ -9,7 +9,7 @@ import type {
   WorkerResponse,
 } from "./types";
 import { MockConversionClient } from "./mockClient";
-import { formatErrorMessage } from "./error";
+import { serializeError } from "./error";
 
 export interface ConversionClient {
   init(options?: { force?: boolean }): Promise<void>;
@@ -168,25 +168,3 @@ export const createConversionClient = (): ConversionClient =>
   typeof Worker === "undefined"
     ? new MockConversionClient()
     : new PyodideWorkerClient();
-
-export function serializeError(error: unknown): SerializedError {
-  if (error instanceof Error) {
-    return {
-      name: error.name,
-      message: error.message,
-      stack: error.stack,
-    };
-  }
-  if (error && typeof error === "object" && "message" in error) {
-    const value = error as { name?: unknown; message: unknown; stack?: unknown };
-    return {
-      name: typeof value.name === "string" ? value.name : "Error",
-      message: String(value.message),
-      stack: typeof value.stack === "string" ? value.stack : undefined,
-    };
-  }
-  return {
-    name: "Error",
-    message: formatErrorMessage(error),
-  };
-}

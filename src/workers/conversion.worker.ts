@@ -10,7 +10,8 @@ import type {
   WorkerRequest,
   WorkerResponse,
 } from "../conversion/types";
-import { formatErrorMessage } from "../conversion/error";
+import { serializeError } from "../conversion/error";
+import { makeUniqueFileName, stemOf } from "../platform/fileName";
 
 declare const self: {
   onmessage: ((event: MessageEvent<WorkerRequest>) => void) | null;
@@ -239,7 +240,7 @@ async function convert(requestId: number, request: WorkerConversionRequest): Pro
     postEvent(requestId, { type: "task-started", taskId: task.id });
     const workDir = `/tmp/libresvip-pwa/${task.id}`;
     const inputPath = `${workDir}/${sanitizePathSegment(task.name)}`;
-    const outputName = uniqueName(
+    const outputName = makeUniqueFileName(
       stemOf(task.name),
       request.outputFormat,
       usedNames,
@@ -346,47 +347,8 @@ function postEvent(id: number, event: ConversionEvent): void {
   self.postMessage({ id, type: "event", event } satisfies WorkerResponse);
 }
 
-function serializeError(error: unknown): SerializedError {
-  if (error instanceof Error) {
-    return {
-      name: error.name,
-      message: error.message,
-      stack: error.stack,
-    };
-  }
-  if (error && typeof error === "object" && "message" in error) {
-    const value = error as { name?: unknown; message: unknown; stack?: unknown };
-    return {
-      name: typeof value.name === "string" ? value.name : "Error",
-      message: String(value.message),
-      stack: typeof value.stack === "string" ? value.stack : undefined,
-    };
-  }
-  return {
-    name: "Error",
-    message: formatErrorMessage(error),
-  };
-}
-
 function sanitizePathSegment(value: string): string {
   return value.replace(/[\\/:*?"<>|]/g, "_");
-}
-
-function stemOf(fileName: string): string {
-  const dotIndex = fileName.lastIndexOf(".");
-  return dotIndex > 0 ? fileName.slice(0, dotIndex) : fileName;
-}
-
-function uniqueName(stem: string, extension: string, usedNames: Set<string>): string {
-  const suffix = extension.startsWith(".") ? extension : `.${extension}`;
-  let candidate = `${stem}${suffix}`;
-  let index = 1;
-  while (usedNames.has(candidate)) {
-    candidate = `${stem} (${index})${suffix}`;
-    index += 1;
-  }
-  usedNames.add(candidate);
-  return candidate;
 }
 
 function cleanup(pyodide: PyodideApi, path: string): void {

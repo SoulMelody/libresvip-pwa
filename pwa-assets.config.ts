@@ -4,6 +4,8 @@ import {
   minimal2023Preset,
 } from '@vite-pwa/assets-generator/config'
 
+const APP_BASE_PATH = '/libresvip-pwa/'
+
 export default defineConfig({
   headLinkOptions: {
     preset: '2023',
@@ -17,7 +19,7 @@ export default defineConfig({
       linkMediaOptions: {
         log: true,
         addMediaScreen: true,
-        basePath: '/',
+        basePath: APP_BASE_PATH,
         xhtml: true,
       },
     }, ['iPad Air 9.7"']),

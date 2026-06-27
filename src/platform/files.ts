@@ -1,6 +1,9 @@
 import { nanoid } from "nanoid";
 
 import type { BrowserConversionTask, PluginMetadata } from "../conversion/types";
+import { stemOf } from "./fileName";
+
+export { makeUniqueFileName, stemOf } from "./fileName";
 
 export interface FileRejection {
   file: File;
@@ -24,15 +27,6 @@ export function extensionOf(fileName: string): string {
     return "";
   }
   return lastSegment.slice(dotIndex + 1).toLowerCase();
-}
-
-export function stemOf(fileName: string): string {
-  const lastSegment = fileName.split(/[\\/]/).pop() ?? fileName;
-  const dotIndex = lastSegment.lastIndexOf(".");
-  if (dotIndex <= 0) {
-    return lastSegment;
-  }
-  return lastSegment.slice(0, dotIndex);
 }
 
 export function createBrowserConversionTasks(
@@ -112,19 +106,6 @@ export async function normalizeDroppedFiles(
   }
 
   return { files, rejections };
-}
-
-export function makeUniqueFileName(stem: string, extension: string, usedNames: Set<string>): string {
-  const normalizedExtension = extension.startsWith(".") ? extension.slice(1) : extension;
-  const suffix = normalizedExtension ? `.${normalizedExtension}` : "";
-  let candidate = `${stem}${suffix}`;
-  let index = 1;
-  while (usedNames.has(candidate)) {
-    candidate = `${stem} (${index})${suffix}`;
-    index += 1;
-  }
-  usedNames.add(candidate);
-  return candidate;
 }
 
 export function triggerDownload(data: BlobPart, fileName: string, mime = "application/octet-stream") {

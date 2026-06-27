@@ -32,3 +32,25 @@ export function formatErrorMessage(error: unknown): string {
   }
   return String(error);
 }
+
+export function serializeError(error: unknown): SerializedError {
+  if (error instanceof Error) {
+    return {
+      name: error.name,
+      message: error.message,
+      stack: error.stack,
+    };
+  }
+  if (error && typeof error === "object" && "message" in error) {
+    const value = error as { name?: unknown; message: unknown; stack?: unknown };
+    return {
+      name: typeof value.name === "string" ? value.name : "Error",
+      message: String(value.message),
+      stack: typeof value.stack === "string" ? value.stack : undefined,
+    };
+  }
+  return {
+    name: "Error",
+    message: formatErrorMessage(error),
+  };
+}
