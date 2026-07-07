@@ -1,4 +1,4 @@
-import libresvipWheel from "../assets/libresvip-2.7.1-py3-none-any.whl";
+import libresvipWheel from "../assets/libresvip-2.7.3-py3-none-any.whl";
 import pycryptodomexWheel from "../assets/pycryptodomex-3.23.0-cp37-abi3-pyemscripten_2026_0_wasm32.whl";
 import wanakanaWheel from "../assets/wanakana_python-1.2.2-py3-none-any.whl";
 import type {
@@ -45,7 +45,7 @@ const WORKER_ORIGIN = typeof location !== "undefined" ? location.origin : "http:
 const WHEEL_STAGE_DIR = "/tmp/libresvip-pwa/wheels";
 const WHEELS = [
   {
-    fileName: "libresvip-2.7.1-py3-none-any.whl",
+    fileName: "libresvip-2.7.3-py3-none-any.whl",
     url: sameOriginUrl(libresvipWheel, WORKER_ORIGIN),
   },
   {
