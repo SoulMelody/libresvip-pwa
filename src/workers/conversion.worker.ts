@@ -39,7 +39,7 @@ declare global {
   function loadPyodide(options: LoadPyodideOptions): Promise<PyodideApi>;
 }
 
-const PYODIDE_INDEX_URL = "https://testingcf.jsdelivr.net/pyodide/v314.0.0/full/";
+const PYODIDE_INDEX_URL = "https://testingcf.jsdelivr.net/pyodide/v314.0.2/full/";
 const PYODIDE_MODULE_URL = `${PYODIDE_INDEX_URL}pyodide.mjs`;
 const WORKER_ORIGIN = typeof location !== "undefined" ? location.origin : "http://localhost:5173";
 const WHEEL_STAGE_DIR = "/tmp/libresvip-pwa/wheels";
